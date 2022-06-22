@@ -3,10 +3,12 @@
 
 #include "raylib.h"
 #include <cstdio>
+#include <vector>
 #include "Controls.hh"
 #include "Settings.hh"
 #include "Object.hh"
 #include "Initializer.hh"
+#include "Crosshair.hh"
 
 class Program
 {
@@ -18,10 +20,12 @@ class Program
 	private:
 		void draw();
 		void events();
-		bool checkHit(Object o);
+		void updateGame();
 		Initializer initializer;
-		Object arch;
+		std::vector<Object*> objects;
 		Vector2 currenthit;
+		Vector2 mousePosition;
+		Crosshair crosshair;
 		int hitX;
 		int hitY;
 };

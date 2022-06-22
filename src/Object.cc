@@ -1,8 +1,8 @@
 #include "Object.hh"
 
 Object::Object(const char* path, int width, int height) : 	
-					posX(width),
-					posY(height)
+								x(width),
+								y(height)
 {
 	texture = LoadTexture(path);
 }
@@ -19,6 +19,6 @@ void Object::setTexture(const char* path)
 
 bool Object::checkHit(Vector2 hit)
 {
-	return hit.x >= posX && hit.x <= posX + texture.width && hit.y >= posY && hit.y <= posY + texture.height;
+	return hit.x >= x && hit.x <= x + texture.width && hit.y >= y && hit.y <= y + texture.height;
 }
 
