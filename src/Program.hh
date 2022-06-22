@@ -6,6 +6,7 @@
 #include "Controls.hh"
 #include "Settings.hh"
 #include "Player.hh"
+#include "Initializer.hh"
 
 class Program
 {
@@ -18,6 +19,7 @@ class Program
 		void draw();
 		void events();
 		void movement();
+		Initializer initializer;
 		Player player;
 };
 

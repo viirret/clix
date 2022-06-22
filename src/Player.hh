@@ -6,9 +6,10 @@
 class Player
 {
 	public:
-		Player();
+		Player(const char* path, int width, int height);
 		~Player();
 		void setTexture(const char* path);
+		
 		Texture texture;
 		int speed;
 		int posWidth;

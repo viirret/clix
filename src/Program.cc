@@ -1,14 +1,11 @@
 #include "Program.hh"
 
-Program::Program()
+Program::Program() : initializer(), player("../assets/arch.png", GetScreenWidth() / 2, GetScreenHeight() / 2)
 {
-	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "");
-	player.setTexture("../assets/arch.png");
 }
 
 Program::~Program()
 {
-	CloseWindow();
 }
 
 void Program::run()
@@ -23,14 +20,19 @@ void Program::events()
 	// default raylib closing
 	if(WindowShouldClose())
 		close = true;
+
+	//printf("X = %d\n", GetMouseX());
+	//printf("Y = %d\n", GetMouseY());
 }
 
 void Program::movement()
 {
+	/*
 	if(Controls::jump())
 	{
 		player.posHeight--;
 	}
+	*/
 }
 
 void Program::draw()
