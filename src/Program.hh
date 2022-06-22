@@ -9,6 +9,7 @@
 #include "Object.hh"
 #include "Initializer.hh"
 #include "Crosshair.hh"
+#include "Player.hh"
 
 class Program
 {
@@ -26,8 +27,7 @@ class Program
 		Vector2 currenthit;
 		Vector2 mousePosition;
 		Crosshair crosshair;
-		int hitX;
-		int hitY;
+		Player player;
 };
 
 #endif

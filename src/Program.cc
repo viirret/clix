@@ -2,10 +2,9 @@
 
 Program::Program() : 
 					initializer(), 
-					//arch("../assets/arch.png", GetScreenWidth() / 2, GetScreenHeight() / 2), 
-					crosshair()
+					crosshair(),
+					player()
 {
-
 	objects.push_back(new Object("../assets/arch.png", GetScreenWidth() / 3, GetScreenHeight() / 3));
 }
 
@@ -26,7 +25,7 @@ void Program::updateGame()
 	//crosshair.updateCrosshair(mousePosition);
 	
 	// delete elements when clicking
-	for(int i = 0; i < (int)objects.size(); i++)
+	for(size_t i = 0; i < (size_t)objects.size(); i++)
 		if(objects[i]->checkHit(currenthit))
 			objects.erase(objects.begin() + i);
 } 

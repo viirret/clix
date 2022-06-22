@@ -12,7 +12,7 @@ set(BUILD_GAMES    OFF CACHE BOOL "" FORCE) # don't build the supplied example g
 FetchContent_Declare(raylib GIT_REPOSITORY https://github.com/raysan5/raylib.git GIT_TAG master)
 FetchContent_MakeAvailable(raylib)
 
-add_executable(${PROJECT_NAME} src/Initializer.cc src/Object.cc src/Program.cc src/Controls.cc src/Crosshair.cc src/main.cc)
+add_executable(${PROJECT_NAME} src/Gun.cc src/Player.cc src/Initializer.cc src/Object.cc src/Program.cc src/Controls.cc src/Crosshair.cc src/main.cc)
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
