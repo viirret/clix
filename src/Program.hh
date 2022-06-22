@@ -5,7 +5,7 @@
 #include <cstdio>
 #include "Controls.hh"
 #include "Settings.hh"
-#include "Player.hh"
+#include "Object.hh"
 #include "Initializer.hh"
 
 class Program
@@ -18,9 +18,12 @@ class Program
 	private:
 		void draw();
 		void events();
-		void movement();
+		bool checkHit(Object o);
 		Initializer initializer;
-		Player player;
+		Object arch;
+		Vector2 currenthit;
+		int hitX;
+		int hitY;
 };
 
 #endif

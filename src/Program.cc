@@ -1,7 +1,8 @@
 #include "Program.hh"
 
-Program::Program() : initializer(), player("../assets/arch.png", GetScreenWidth() / 2, GetScreenHeight() / 2)
+Program::Program() : initializer(), arch("../assets/arch.png", GetScreenWidth() / 2, GetScreenHeight() / 2)
 {
+
 }
 
 Program::~Program()
@@ -10,9 +11,8 @@ Program::~Program()
 
 void Program::run()
 {
-	draw();
-	movement();
 	events();
+	draw();
 }
 
 void Program::events()
@@ -21,18 +21,14 @@ void Program::events()
 	if(WindowShouldClose())
 		close = true;
 
-	//printf("X = %d\n", GetMouseX());
-	//printf("Y = %d\n", GetMouseY());
-}
+	// get vector2 on mouse position when clicked
+	if(IsMouseButtonPressed(0))
+		currenthit = GetMousePosition();
 
-void Program::movement()
-{
-	/*
-	if(Controls::jump())
+	if(arch.checkHit(currenthit))
 	{
-		player.posHeight--;
+		printf("hit\n");
 	}
-	*/
 }
 
 void Program::draw()
@@ -41,6 +37,6 @@ void Program::draw()
 	ClearBackground(WHITE);
 
 	// draw player
-	DrawTexture(player.texture, player.posWidth, player.posHeight, WHITE);
+	DrawTexture(arch.texture, arch.posX, arch.posY, WHITE);
 	EndDrawing();
 }
