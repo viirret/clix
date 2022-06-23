@@ -8,7 +8,6 @@ class Player
 	public:
 		Player();
 		Gun gun;
-
 };
 
 #endif

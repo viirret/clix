@@ -7,6 +7,7 @@ class Object
 {
 	public:
 		Object(const char* path, int width, int height);
+		Object(const char* path);
 		~Object();
 
 		// possibility to reset texture

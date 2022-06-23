@@ -7,6 +7,11 @@ Object::Object(const char* path, int width, int height) :
 	texture = LoadTexture(path);
 }
 
+Object::Object(const char* path)
+{
+	texture = LoadTexture(path);
+}
+
 Object::~Object()
 {
 	UnloadTexture(texture);

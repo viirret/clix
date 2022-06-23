@@ -5,11 +5,18 @@ Program::Program() :
 					crosshair(),
 					player()
 {
-	objects.push_back(new Object("../assets/arch.png", GetScreenWidth() / 3, GetScreenHeight() / 3));
+	setVariables();
+	objects.push_back(std::make_unique<Object>("../assets/arch.png", GetScreenWidth() / 3, GetScreenHeight() / 3));
 }
 
 Program::~Program()
 {
+}
+
+void Program::setVariables()
+{
+	killedEnemies = 0;
+	killedString = std::to_string(killedEnemies);
 }
 
 void Program::run()
@@ -26,8 +33,21 @@ void Program::updateGame()
 	
 	// delete elements when clicking
 	for(size_t i = 0; i < (size_t)objects.size(); i++)
+	{
 		if(objects[i]->checkHit(currenthit))
+		{
 			objects.erase(objects.begin() + i);
+			killedEnemies++;
+			killedString = std::to_string(killedEnemies);
+		}
+	}
+
+	// update ammo
+	std::string ammoText = player.gun.capacity + " / " + player.gun.magazineSize;
+	DrawText(ammoText.c_str(), GetScreenWidth() - GetScreenWidth() / 4, GetScreenHeight() - GetScreenHeight() / 10, 30, BLUE);
+
+	// update killed enemies count
+	DrawText(killedString.c_str(), GetScreenWidth() / 20, GetScreenHeight() / 20, 30, BLACK);
 } 
 
 void Program::events() 
@@ -41,7 +61,12 @@ void Program::events()
 
 	// get vector2 on mouse position when clicked
 	if(IsMouseButtonPressed(0))
+	{
 		currenthit = mousePosition;
+
+		// update mag size
+		player.gun.fire();
+	}
 }
 
 void Program::draw()
@@ -49,6 +74,7 @@ void Program::draw()
 	BeginDrawing();
 	ClearBackground(WHITE);
 
+	// render enemies
 	for(auto& obj : objects)
 		DrawTexture(obj->texture, obj->x, obj->y, WHITE);
 

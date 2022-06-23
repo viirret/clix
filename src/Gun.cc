@@ -4,13 +4,27 @@ Gun::Gun(std::string name)
 {
 	if(name == "example")	
 	{
-		magSize = 30;
-		rateOfFire = 100;
-		currentCapacity = 30;
+		intMagazineSize = 30;
+		intRateOfFire = 100;
+		intCapacity = 30;
 	}
+
+	capacity = std::to_string(intCapacity);
+	magazineSize = std::to_string(intMagazineSize);
+	rateOfFire = std::to_string(intMagazineSize);
 }
 
 Gun::~Gun()
 {
 
 }
+
+void Gun::fire()
+{
+	if(intCapacity > 0)
+	{
+		intCapacity--;
+		capacity = std::to_string(intCapacity);
+	}
+}
+

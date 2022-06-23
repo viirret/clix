@@ -2,6 +2,7 @@
 #define PROGRAM_HH
 
 #include "raylib.h"
+#include <memory>
 #include <cstdio>
 #include <vector>
 #include "Controls.hh"
@@ -22,12 +23,15 @@ class Program
 		void draw();
 		void events();
 		void updateGame();
-		Initializer initializer;
-		std::vector<Object*> objects;
+		void setVariables();
+		std::vector<std::unique_ptr<Object>> objects;
 		Vector2 currenthit;
 		Vector2 mousePosition;
+		Initializer initializer;
 		Crosshair crosshair;
 		Player player;
+		int killedEnemies;
+		std::string killedString;
 };
 
 #endif
