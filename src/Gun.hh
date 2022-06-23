@@ -12,6 +12,9 @@ class Gun
 		std::string capacity;
 		std::string magazineSize;
 		std::string rateOfFire;
+		int getCapacity();
+		int getMagazineSize();
+		int getRateOfFire();
 	private:
 		void updateAmmo();
 		int intMagazineSize;

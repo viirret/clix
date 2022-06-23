@@ -27,15 +27,17 @@ class Program
 		void updateGame();
 		void setVariables();
 		void setSpawns();
+		void spawnEnemyRandom(std::string texture);
 		std::vector<std::unique_ptr<Object>> objects;
 		std::vector<Vec2f> spawns;
-		Vector2 currenthit;
-		Vector2 mousePosition;
+		Vec2f currenthit;
+		Vec2f mousePosition;
 		Initializer initializer;
 		Crosshair crosshair;
 		Player player;
 		int killedEnemies;
 		std::string killedString;
+		std::string assetsPath = "../assets/";
 };
 
 #endif

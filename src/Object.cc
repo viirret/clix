@@ -22,7 +22,7 @@ void Object::setTexture(const char* path)
 	texture = LoadTexture(path);
 }
 
-bool Object::checkHit(Vector2 hit)
+bool Object::checkHit(Vec2f hit)
 {
 	return hit.x >= x && hit.x <= x + texture.width && hit.y >= y && hit.y <= y + texture.height;
 }

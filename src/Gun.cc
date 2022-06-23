@@ -16,7 +16,6 @@ Gun::Gun(std::string name)
 
 Gun::~Gun()
 {
-
 }
 
 void Gun::fire()
@@ -27,4 +26,8 @@ void Gun::fire()
 		capacity = std::to_string(intCapacity);
 	}
 }
+
+int Gun::getCapacity() { return intCapacity; }
+int Gun::getRateOfFire() { return intRateOfFire; }
+int Gun::getMagazineSize() { return intMagazineSize; }
 

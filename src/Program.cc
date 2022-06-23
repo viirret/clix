@@ -54,20 +54,22 @@ void Program::updateGame()
 		// if enemy is clicked
 		if(objects[i]->checkHit(currenthit))
 		{
-			// redefine currenthit
-			currenthit.x = 0;
-			currenthit.y = 0;
+			// player has ammo
+			if(player.gun.getCapacity() > 0)
+			{
+				// redefine currenthit
+				currenthit = Vec2f();
 
-			// delete clicked element
-			objects.erase(objects.begin() + i);
+				// delete clicked element
+				objects.erase(objects.begin() + i);
 
-			// get new random spawn and add enemy there
-			int rnd = randomSpawn(0, (int)spawns.size() - 1);
-			objects.push_back(std::make_unique<Object>("../assets/arch.png", spawns.at(rnd).x, spawns.at(rnd).y));
+				// add new enemy 
+				spawnEnemyRandom("arch.png");
 
-			// update amount of killed enemies
-			killedEnemies++;
-			killedString = std::to_string(killedEnemies);
+				// update amount of killed enemies
+				killedEnemies++;
+				killedString = std::to_string(killedEnemies);
+			}
 		}
 	}
 
@@ -79,6 +81,13 @@ void Program::updateGame()
 	DrawText(killedString.c_str(), GetScreenWidth() / 20, GetScreenHeight() / 20, 30, BLACK);
 } 
 
+void Program::spawnEnemyRandom(std::string texture)
+{
+	// get new random spawn and add enemy there
+	int rnd = randomSpawn(0, (int)spawns.size() - 1);
+	objects.push_back(std::make_unique<Object>((assetsPath + texture).c_str(), spawns.at(rnd).x, spawns.at(rnd).y));
+}
+
 void Program::events() 
 {
 	// default raylib closing
@@ -86,7 +95,7 @@ void Program::events()
 		close = true;
 
 	// always track mouse position
-	mousePosition = GetMousePosition();
+	mousePosition = Vec2f(GetMousePosition().x, GetMousePosition().y);
 
 	// get vector2 on mouse position when clicked
 	if(IsMouseButtonPressed(0))
@@ -108,7 +117,7 @@ void Program::draw()
 		DrawTexture(obj->texture, obj->x, obj->y, WHITE);
 
 	// draw crosshair
-	DrawTexture(crosshair.texture, crosshair.x, crosshair.y, WHITE);
+	//DrawTexture(crosshair.texture, crosshair.x, crosshair.y, WHITE);
 	EndDrawing();
 }
 

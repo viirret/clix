@@ -2,6 +2,7 @@
 #define OBJECT_HH
 
 #include "raylib.h"
+#include "Vector2.hh"
 
 class Object
 {
@@ -14,7 +15,7 @@ class Object
 		void setTexture(const char* path);
 
 		// check if texture is clicked with mouse
-		bool checkHit(Vector2 hit);
+		bool checkHit(Vec2f hit);
 
 		// raylib texture attached to the object
 		Texture texture;
