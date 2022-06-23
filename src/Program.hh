@@ -5,12 +5,14 @@
 #include <memory>
 #include <cstdio>
 #include <vector>
+#include <random>
 #include "Controls.hh"
 #include "Settings.hh"
 #include "Object.hh"
 #include "Initializer.hh"
 #include "Crosshair.hh"
 #include "Player.hh"
+#include "Vector2.hh"
 
 class Program
 {
@@ -24,7 +26,9 @@ class Program
 		void events();
 		void updateGame();
 		void setVariables();
+		void setSpawns();
 		std::vector<std::unique_ptr<Object>> objects;
+		std::vector<Vec2f> spawns;
 		Vector2 currenthit;
 		Vector2 mousePosition;
 		Initializer initializer;

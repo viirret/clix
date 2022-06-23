@@ -1,5 +1,13 @@
 #include "Program.hh"
 
+template<typename T> T randomSpawn(T from, T to)
+{
+	std::random_device rand_dev;
+	std::mt19937 generator(rand_dev());
+	std::uniform_int_distribution<T> dist(from, to);
+	return dist(generator);
+}
+
 Program::Program() : 
 					initializer(), 
 					crosshair(),
@@ -17,6 +25,15 @@ void Program::setVariables()
 {
 	killedEnemies = 0;
 	killedString = std::to_string(killedEnemies);
+	setSpawns();
+}
+
+void Program::setSpawns()
+{
+	// set a few example spawnpoints
+	spawns.push_back(Vec2f((float)GetScreenWidth() / 2, (float)GetScreenWidth()) / 2);
+	spawns.push_back(Vec2f((float)GetScreenWidth() / 3, (float)GetScreenWidth()) / 3);
+	spawns.push_back(Vec2f((float)GetScreenWidth() / 4, (float)GetScreenWidth()) / 4);
 }
 
 void Program::run()
@@ -30,13 +47,25 @@ void Program::updateGame()
 {
 	// update crosshair
 	//crosshair.updateCrosshair(mousePosition);
-	
-	// delete elements when clicking
+
+	// loop all existing enemies
 	for(size_t i = 0; i < (size_t)objects.size(); i++)
 	{
+		// if enemy is clicked
 		if(objects[i]->checkHit(currenthit))
 		{
+			// redefine currenthit
+			currenthit.x = 0;
+			currenthit.y = 0;
+
+			// delete clicked element
 			objects.erase(objects.begin() + i);
+
+			// get new random spawn and add enemy there
+			int rnd = randomSpawn(0, (int)spawns.size() - 1);
+			objects.push_back(std::make_unique<Object>("../assets/arch.png", spawns.at(rnd).x, spawns.at(rnd).y));
+
+			// update amount of killed enemies
 			killedEnemies++;
 			killedString = std::to_string(killedEnemies);
 		}
