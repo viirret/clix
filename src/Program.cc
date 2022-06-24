@@ -11,10 +11,11 @@ template<typename T> T randomSpawn(T from, T to)
 Program::Program() : 
 					initializer(), 
 					crosshair(),
-					player()
+					player(),
+					audio()
 {
 	setVariables();
-	objects.push_back(std::make_unique<Object>("../assets/arch.png", GetScreenWidth() / 3, GetScreenHeight() / 3));
+	spawnEnemyRandom("arch.png");
 }
 
 Program::~Program()
@@ -46,7 +47,7 @@ void Program::run()
 void Program::updateGame()
 {
 	// update crosshair
-	//crosshair.updateCrosshair(mousePosition);
+	crosshair.updateCrosshair(mousePosition);
 
 	// loop all existing enemies
 	for(size_t i = 0; i < (size_t)objects.size(); i++)
@@ -85,7 +86,12 @@ void Program::spawnEnemyRandom(std::string texture)
 {
 	// get new random spawn and add enemy there
 	int rnd = randomSpawn(0, (int)spawns.size() - 1);
-	objects.push_back(std::make_unique<Object>((assetsPath + texture).c_str(), spawns.at(rnd).x, spawns.at(rnd).y));
+	objects.push_back(std::make_unique<Object>((glb::assetsPath + texture).c_str(), spawns.at(rnd).x, spawns.at(rnd).y));
+}
+
+void Program::spawnEnemy(std::string texture, int index)
+{
+	objects.push_back(std::make_unique<Object>((glb::assetsPath + texture).c_str(), spawns.at(index).x, spawns.at(index).y));
 }
 
 void Program::events() 
@@ -100,6 +106,8 @@ void Program::events()
 	// get vector2 on mouse position when clicked
 	if(IsMouseButtonPressed(0))
 	{
+		audio.playSound("gunshow.mp3");
+
 		currenthit = mousePosition;
 
 		// update mag size
@@ -117,7 +125,7 @@ void Program::draw()
 		DrawTexture(obj->texture, obj->x, obj->y, WHITE);
 
 	// draw crosshair
-	//DrawTexture(crosshair.texture, crosshair.x, crosshair.y, WHITE);
+	DrawTexture(crosshair.texture, crosshair.x, crosshair.y, WHITE);
 	EndDrawing();
 }
 

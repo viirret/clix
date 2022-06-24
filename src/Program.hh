@@ -9,9 +9,11 @@
 #include "Controls.hh"
 #include "Settings.hh"
 #include "Object.hh"
+#include "Global.hh"
 #include "Initializer.hh"
 #include "Crosshair.hh"
 #include "Player.hh"
+#include "Audio.hh"
 #include "Vector2.hh"
 
 class Program
@@ -28,6 +30,7 @@ class Program
 		void setVariables();
 		void setSpawns();
 		void spawnEnemyRandom(std::string texture);
+		void spawnEnemy(std::string texture, int index);
 		std::vector<std::unique_ptr<Object>> objects;
 		std::vector<Vec2f> spawns;
 		Vec2f currenthit;
@@ -35,9 +38,9 @@ class Program
 		Initializer initializer;
 		Crosshair crosshair;
 		Player player;
+		Audio audio;
 		int killedEnemies;
 		std::string killedString;
-		std::string assetsPath = "../assets/";
 };
 
 #endif

@@ -10,7 +10,7 @@ Crosshair::~Crosshair()
 	UnloadTexture(texture);
 }
 
-void Crosshair::updateCrosshair(Vector2 pos)
+void Crosshair::updateCrosshair(Vec2f pos)
 {
 	x = pos.x - (float)texture.width / 2;
 	y = pos.y - (float)texture.height / 2;

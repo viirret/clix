@@ -2,13 +2,14 @@
 #define CROSSHAIR_HH
 
 #include "raylib.h"
+#include "Vector2.hh"
 
 class Crosshair
 {
 	public:
 		Crosshair();
 		~Crosshair();
-		void updateCrosshair(Vector2 pos);
+		void updateCrosshair(Vec2f pos);
 		Texture texture;
 		int x;
 		int y;
