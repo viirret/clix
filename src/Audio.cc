@@ -6,7 +6,7 @@ Audio::Audio()
 
 	if(IsAudioDeviceReady())
 	{
-		SetMasterVolume(0.5f);
+		SetMasterVolume((float)MASTER_VOLUME / 10);
 		
 		soundFiles.push_back(glb::assetsPath + "gunshow.mp3");
 

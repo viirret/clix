@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include "Global.hh"
+#include "Settings.hh"
 
 class Audio
 {

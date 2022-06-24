@@ -3,8 +3,6 @@
 
 #include "raylib.h"
 #include <memory>
-#include <cstdio>
-#include <vector>
 #include <random>
 #include "Controls.hh"
 #include "Settings.hh"

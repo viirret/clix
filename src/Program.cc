@@ -106,12 +106,15 @@ void Program::events()
 	// get vector2 on mouse position when clicked
 	if(IsMouseButtonPressed(0))
 	{
-		audio.playSound("gunshow.mp3");
+		if(player.gun.getCapacity() > 0)
+		{
+			audio.playSound("gunshow.mp3");
 
-		currenthit = mousePosition;
+			currenthit = mousePosition;
 
-		// update mag size
-		player.gun.fire();
+			// update mag size
+			player.gun.fire();
+		}
 	}
 }
 
