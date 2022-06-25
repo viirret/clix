@@ -16,6 +16,7 @@ Program::Program() :
 {
 	setVariables();
 	spawnEnemyRandom("arch.png");
+	spawnAmmo("ammo.png", 1);
 }
 
 Program::~Program()
@@ -49,7 +50,7 @@ void Program::updateGame()
 	// update crosshair
 	crosshair.updateCrosshair(mousePosition);
 
-	// loop all existing enemies
+	// loop all existing objects
 	for(size_t i = 0; i < (size_t)objects.size(); i++)
 	{
 		// if enemy is clicked
@@ -61,15 +62,25 @@ void Program::updateGame()
 				// redefine currenthit
 				currenthit = Vec2f();
 
+				switch(objects[i]->type)
+				{
+					case Object::Type::enemy: 
+						printf("Clicked enemy\n");
+						// update amount of killed enemies
+						killedEnemies++;
+						killedString = std::to_string(killedEnemies);
+						break;
+					case Object::Type::ammo:
+						printf("Clicked ammo");
+						break;
+					case Object::Type::object: break;
+				}
+				
 				// delete clicked element
 				objects.erase(objects.begin() + i);
 
 				// add new enemy 
 				spawnEnemyRandom("arch.png");
-
-				// update amount of killed enemies
-				killedEnemies++;
-				killedString = std::to_string(killedEnemies);
 			}
 		}
 	}
@@ -86,12 +97,17 @@ void Program::spawnEnemyRandom(std::string texture)
 {
 	// get new random spawn and add enemy there
 	int rnd = randomSpawn(0, (int)spawns.size() - 1);
-	objects.push_back(std::make_unique<Object>((glb::assetsPath + texture).c_str(), spawns.at(rnd).x, spawns.at(rnd).y));
+	objects.push_back(std::make_unique<Enemy>((glb::assetsPath + texture).c_str(), spawns.at(rnd).x, spawns.at(rnd).y));
 }
 
 void Program::spawnEnemy(std::string texture, int index)
 {
-	objects.push_back(std::make_unique<Object>((glb::assetsPath + texture).c_str(), spawns.at(index).x, spawns.at(index).y));
+	objects.push_back(std::make_unique<Enemy>((glb::assetsPath + texture).c_str(), spawns.at(index).x, spawns.at(index).y));
+}
+
+void Program::spawnAmmo(std::string texture, int index)
+{
+	objects.push_back(std::make_unique<Ammo>((glb::assetsPath + texture).c_str(), spawns.at(index).x, spawns.at(index).y));
 }
 
 void Program::events() 
@@ -125,7 +141,7 @@ void Program::draw()
 
 	// render enemies
 	for(auto& obj : objects)
-		DrawTexture(obj->texture, obj->x, obj->y, WHITE);
+		obj->draw(WHITE);
 
 	// draw crosshair
 	DrawTexture(crosshair.texture, crosshair.x, crosshair.y, WHITE);

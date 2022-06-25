@@ -13,6 +13,8 @@
 #include "Player.hh"
 #include "Audio.hh"
 #include "Vector2.hh"
+#include "Ammo.hh"
+#include "Enemy.hh"
 
 class Program
 {
@@ -27,8 +29,14 @@ class Program
 		void updateGame();
 		void setVariables();
 		void setSpawns();
+		void hits();
+
+		// object spawning functions
 		void spawnEnemyRandom(std::string texture);
 		void spawnEnemy(std::string texture, int index);
+		void spawnAmmo(std::string texture, int index);
+
+		// items currently existing on screen
 		std::vector<std::unique_ptr<Object>> objects;
 		std::vector<Vec2f> spawns;
 		Vec2f currenthit;

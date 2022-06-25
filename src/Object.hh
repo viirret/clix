@@ -7,23 +7,35 @@
 class Object
 {
 	public:
+		enum class Type
+		{
+			object,
+			ammo,
+			enemy
+		};
+
 		Object(const char* path, int width, int height);
 		Object(const char* path);
 		~Object();
-
-		// possibility to reset texture
-		void setTexture(const char* path);
+		
+		Type type;
 
 		// check if texture is clicked with mouse
 		bool checkHit(Vec2f hit);
 
+		// possibility to reset texture
+		void setTexture(const char* path);
+
+		void draw(Color color);
+
+	protected:
 		// raylib texture attached to the object
 		Texture texture;
 
 		// position coordinates
 		int x;
 		int y;
-	private:
+
 		int speed;
 };
 

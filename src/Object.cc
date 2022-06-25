@@ -1,15 +1,17 @@
 #include "Object.hh"
 
 Object::Object(const char* path, int width, int height) : 	
+								type(Object::Type::object),
 								x(width),
 								y(height)
 {
-	texture = LoadTexture(path);
+	setTexture(path);
 }
 
-Object::Object(const char* path)
+Object::Object(const char* path) :
+			type(Object::Type::object)
 {
-	texture = LoadTexture(path);
+	setTexture(path);
 }
 
 Object::~Object()
@@ -20,6 +22,11 @@ Object::~Object()
 void Object::setTexture(const char* path)
 {
 	texture = LoadTexture(path);
+}
+
+void Object::draw(Color color)
+{
+	DrawTexture(texture, x, y, color);
 }
 
 bool Object::checkHit(Vec2f hit)
