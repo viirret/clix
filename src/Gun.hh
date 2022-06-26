@@ -9,6 +9,7 @@ class Gun
 		Gun(std::string name);
 		~Gun();
 		void fire();
+		void restock();
 		std::string capacity;
 		std::string magazineSize;
 		std::string rateOfFire;

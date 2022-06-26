@@ -13,13 +13,12 @@ class Object
 			ammo,
 			enemy
 		};
+		Type type;
 
 		Object(const char* path, int width, int height);
 		Object(const char* path);
 		~Object();
 		
-		Type type;
-
 		// check if texture is clicked with mouse
 		bool checkHit(Vec2f hit);
 

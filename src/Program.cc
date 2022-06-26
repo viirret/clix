@@ -15,6 +15,7 @@ Program::Program() :
 					audio()
 {
 	setVariables();
+	setSpawns();
 	spawnEnemyRandom("arch.png");
 	spawnAmmo("ammo.png", 1);
 }
@@ -27,7 +28,6 @@ void Program::setVariables()
 {
 	killedEnemies = 0;
 	killedString = std::to_string(killedEnemies);
-	setSpawns();
 }
 
 void Program::setSpawns()
@@ -56,32 +56,27 @@ void Program::updateGame()
 		// if enemy is clicked
 		if(objects[i]->checkHit(currenthit))
 		{
-			// player has ammo
-			if(player.gun.getCapacity() > 0)
+			// redefine currenthit
+			currenthit = Vec2f();
+
+			switch(objects[i]->type)
 			{
-				// redefine currenthit
-				currenthit = Vec2f();
-
-				switch(objects[i]->type)
-				{
-					case Object::Type::enemy: 
-						printf("Clicked enemy\n");
-						// update amount of killed enemies
-						killedEnemies++;
-						killedString = std::to_string(killedEnemies);
-						break;
-					case Object::Type::ammo:
-						printf("Clicked ammo");
-						break;
-					case Object::Type::object: break;
-				}
-				
-				// delete clicked element
-				objects.erase(objects.begin() + i);
-
-				// add new enemy 
-				spawnEnemyRandom("arch.png");
+				case Object::Type::enemy: 
+					// update amount of killed enemies
+					killedEnemies++;
+					killedString = std::to_string(killedEnemies);
+					break;
+				case Object::Type::ammo:
+					player.gun.restock();
+					break;
+				case Object::Type::object: break;
 			}
+			
+			// delete clicked element
+			objects.erase(objects.begin() + i);
+
+			// add new enemy 
+			spawnEnemyRandom("arch.png");
 		}
 	}
 
@@ -131,7 +126,18 @@ void Program::events()
 			// update mag size
 			player.gun.fire();
 		}
+		else
+			gameIsOver = true;
 	}
+
+	if(gameIsOver)
+		gameOver();
+}
+
+void Program::gameOver()
+{
+	DrawText("Game Over!", GetScreenWidth() / 3, GetScreenHeight() / 3, 40, BLACK);
+	setVariables();
 }
 
 void Program::draw()

@@ -29,7 +29,7 @@ class Program
 		void updateGame();
 		void setVariables();
 		void setSpawns();
-		void hits();
+		void gameOver();
 
 		// object spawning functions
 		void spawnEnemyRandom(std::string texture);
@@ -47,6 +47,7 @@ class Program
 		Audio audio;
 		int killedEnemies;
 		std::string killedString;
+		bool gameIsOver = false;
 };
 
 #endif

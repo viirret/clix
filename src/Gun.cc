@@ -27,6 +27,12 @@ void Gun::fire()
 	}
 }
 
+void Gun::restock() 
+{ 
+	intCapacity = intMagazineSize; 
+	capacity = std::to_string(intCapacity);
+}
+
 int Gun::getCapacity() { return intCapacity; }
 int Gun::getRateOfFire() { return intRateOfFire; }
 int Gun::getMagazineSize() { return intMagazineSize; }
