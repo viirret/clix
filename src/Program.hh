@@ -27,7 +27,7 @@ class Program
 		void draw();
 		void events();
 		void updateGame();
-		void setVariables();
+		void resetGame();
 		void setSpawns();
 		void gameOver();
 
@@ -48,6 +48,8 @@ class Program
 		int killedEnemies;
 		std::string killedString;
 		bool gameIsOver = false;
+		bool currentHitChanged = false;
+		Object resetButton;
 };
 
 #endif

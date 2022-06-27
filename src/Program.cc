@@ -12,9 +12,11 @@ Program::Program() :
 					initializer(), 
 					crosshair(),
 					player(),
-					audio()
+					audio(),
+					resetButton((glb::assetsPath + "playagain.png").c_str(), 1, 1)
+					// has to be at least 1, 1 because Vec2f(); is x = 0, y = 0
 {
-	setVariables();
+	resetGame();
 	setSpawns();
 	spawnEnemyRandom("arch.png");
 	spawnAmmo("ammo.png", 1);
@@ -24,10 +26,12 @@ Program::~Program()
 {
 }
 
-void Program::setVariables()
+// set variables for new game
+void Program::resetGame()
 {
 	killedEnemies = 0;
 	killedString = std::to_string(killedEnemies);
+	player.gun.restock();
 }
 
 void Program::setSpawns()
@@ -47,6 +51,13 @@ void Program::run()
 
 void Program::updateGame()
 {
+	// setup for game over
+	if(player.gun.getCapacity() <= 0)
+		gameIsOver = true;
+
+	if(gameIsOver)
+		gameOver();
+	
 	// update crosshair
 	crosshair.updateCrosshair(mousePosition);
 
@@ -117,27 +128,37 @@ void Program::events()
 	// get vector2 on mouse position when clicked
 	if(IsMouseButtonPressed(0))
 	{
+		currenthit = mousePosition;
+
 		if(player.gun.getCapacity() > 0)
 		{
 			audio.playSound("gunshow.mp3");
 
-			currenthit = mousePosition;
-
 			// update mag size
 			player.gun.fire();
 		}
-		else
-			gameIsOver = true;
 	}
-
-	if(gameIsOver)
-		gameOver();
 }
 
 void Program::gameOver()
 {
+	// reset current click to (0, 0) to avoid instant hit
+	if(!currentHitChanged)
+	{
+		currenthit = Vec2f();
+		currentHitChanged = true;
+	}
+
+	// render things
 	DrawText("Game Over!", GetScreenWidth() / 3, GetScreenHeight() / 3, 40, BLACK);
-	setVariables();
+	resetButton.draw(WHITE);
+
+	// is resetbutton is clicked start a new game
+	if(resetButton.checkHit(currenthit))
+	{
+		resetGame();
+		gameIsOver = false;
+	}
 }
 
 void Program::draw()

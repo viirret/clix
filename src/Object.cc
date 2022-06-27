@@ -19,10 +19,9 @@ Object::~Object()
 	UnloadTexture(texture);
 }
 
-void Object::setTexture(const char* path)
-{
-	texture = LoadTexture(path);
-}
+void Object::setTexture(const char* path) { texture = LoadTexture(path); }
+void Object::setX(int x) { this->x = x; }
+void Object::setY(int y) { this->y = y; }
 
 void Object::draw(Color color)
 {

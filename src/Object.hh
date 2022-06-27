@@ -15,6 +15,7 @@ class Object
 		};
 		Type type;
 
+		Object() {};
 		Object(const char* path, int width, int height);
 		Object(const char* path);
 		~Object();
@@ -24,6 +25,9 @@ class Object
 
 		// possibility to reset texture
 		void setTexture(const char* path);
+
+		void setX(int x);
+		void setY(int y);
 
 		void draw(Color color);
 

@@ -6,7 +6,7 @@ Gun::Gun(std::string name)
 	{
 		intMagazineSize = 30;
 		intRateOfFire = 100;
-		intCapacity = 30;
+		intCapacity = 3;
 	}
 
 	capacity = std::to_string(intCapacity);
