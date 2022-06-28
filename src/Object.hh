@@ -24,23 +24,28 @@ class Object
 		// check if texture is clicked with mouse
 		bool checkHit(Vec2f hit);
 
-		// possibility to reset texture
+		// final rendering function
+		void draw(Color color);
+
+		void moveTowardsTarget();
+
+		// setters
 		void setTexture(const char* path);
-
 		void setTarget(Vec2f target);
+		void setTargetX(float x);
+		void setTargetY(float y);
 		void setSpeed(Vec2f speed);
-
-		bool changePosition(Vec2f pos);
-
+		void setSpeedX(float x);
+		void setSpeedY(float y);
 		void setX(float x);
 		void setY(float y);
 
-		void draw(Color color);
-
-		void move();
-
-		int getX();
-		int getY();
+		// getters
+		Texture getTexture();
+		Vec2f getTarget();
+		Vec2f getSpeed();
+		float getX();
+		float getY();
 
 	protected:
 		// raylib texture attached to the object
@@ -50,6 +55,7 @@ class Object
 		float x;
 		float y;
 
+		// movement speed
 		Vec2f speed = Vec2f(0.01f, 0.01f);
 
 		Vec2f target;

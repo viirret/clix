@@ -54,7 +54,7 @@ void Program::run()
 
 void Program::objectMovement()
 {
-	objects[0]->move();
+	objects[0]->moveTowardsTarget();
 }
 
 void Program::updateGame()
@@ -96,7 +96,7 @@ void Program::updateGame()
 
 			// add new enemy 
 			spawnEnemyRandom("arch.png");
-			objects[0]->setTarget(Vec2f(100.0f, 100.0f));
+			objects[0]->setTarget(Vec2f((float)GetScreenWidth() / 3, (float)GetScreenHeight() / 2));
 		}
 	}
 
