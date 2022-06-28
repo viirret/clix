@@ -39,23 +39,17 @@ void Program::resetGame()
 void Program::setSpawns()
 {
 	// set a few example spawnpoints
-
-
-	/*
-	for(size_t i = 0; i < 3; i++)
+	for(size_t i = 0; i < 20; i++)
 	{
-		float a = glb::randomFloat(0.0f, objects[0]->getWidth());
-		float b = glb::randomFloat(0.0f, objects[0]->getHeight());
+		//TODO
+		// in order for this to correctly work we need float a to be
+		//float a = glb::randomFloat(0.0f, GetScreenWidth() - WIDTH_OF_TEXTURE);
+		// however the that is not currently possible but can be fixed
+		float a = glb::randomFloat(0.0f, GetScreenWidth());
+		float b = glb::randomFloat(0.0f, GetScreenHeight());
 
-		printf("a: %f\nb: %f", a, b);
-		
 		spawns.push_back(Vec2f(a, b));
 	}
-	*/
-
-	spawns.push_back(Vec2f((float)GetScreenWidth() / 2, (float)GetScreenWidth()) / 2);
-	spawns.push_back(Vec2f((float)GetScreenWidth() / 3, (float)GetScreenWidth()) / 3);
-	spawns.push_back(Vec2f((float)GetScreenWidth() / 4, (float)GetScreenWidth()) / 4);
 }
 
 void Program::run()
