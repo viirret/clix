@@ -27,18 +27,10 @@ Object::Object(const char* path, float width, float height)
 	setTexture(path);
 }
 
-float Object::randomFloat(float begin, float end)
-{
-	float random = ((float) rand() / (float) RAND_MAX);
-	float diff = end - begin;
-	float r = random * diff;
-	return begin + r;
-}
-
 void Object::setRandomTarget()
 {
-	float randomX = randomFloat(0.0f, GetScreenWidth() - getWidth());
-	float randomY = randomFloat(0.0f, GetScreenHeight() - getHeight());
+	float randomX = glb::randomFloat(0.0f, GetScreenWidth() - getWidth());
+	float randomY = glb::randomFloat(0.0f, GetScreenHeight() - getHeight());
 	setTarget(Vec2f(randomX, randomY));	
 }
 

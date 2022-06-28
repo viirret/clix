@@ -7,6 +7,7 @@ class glb
 {
 	public:
 		const static std::string assetsPath;
+		static float randomFloat(float begin, float end);
 };
 
 #endif

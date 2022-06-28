@@ -3,6 +3,7 @@
 
 #include "raylib.h"
 #include "Vector2.hh"
+#include "Global.hh"
 #include <cstdio>
 
 class Object
@@ -63,9 +64,6 @@ class Object
 		Vec2f speed = Vec2f(0.01f, 0.01f);
 
 		Vec2f target;
-
-	private:
-		float randomFloat(float begin, float end);
 };
 
 #endif

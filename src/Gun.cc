@@ -2,11 +2,12 @@
 
 Gun::Gun(std::string name)
 {
-	if(name == "example")	
-	{
+	//if(name == "example")	
+	//{
 		intMagazineSize = 30;
 		intRateOfFire = 100;
-	}
+		intCapacity = 30;
+	//}
 
 	capacity = std::to_string(intCapacity);
 	magazineSize = std::to_string(intMagazineSize);
