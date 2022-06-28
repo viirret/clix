@@ -30,6 +30,7 @@ class Program
 		void resetGame();
 		void setSpawns();
 		void gameOver();
+		void objectMovement();
 
 		// object spawning functions
 		void spawnEnemyRandom(std::string texture);

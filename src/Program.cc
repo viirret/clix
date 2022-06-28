@@ -19,7 +19,8 @@ Program::Program() :
 	resetGame();
 	setSpawns();
 	spawnEnemyRandom("arch.png");
-	spawnAmmo("ammo.png", 1);
+	//spawnAmmo("ammo.png", 1);
+	objects[0]->setTarget(Vec2f(100.0f, 100.0f));
 }
 
 Program::~Program()
@@ -31,6 +32,7 @@ void Program::resetGame()
 {
 	killedEnemies = 0;
 	killedString = std::to_string(killedEnemies);
+	currentHitChanged = false;
 	player.gun.restock();
 }
 
@@ -45,8 +47,14 @@ void Program::setSpawns()
 void Program::run()
 {
 	updateGame();
+	objectMovement();
 	events();
 	draw();
+}
+
+void Program::objectMovement()
+{
+	objects[0]->move();
 }
 
 void Program::updateGame()
@@ -57,7 +65,7 @@ void Program::updateGame()
 
 	if(gameIsOver)
 		gameOver();
-	
+
 	// update crosshair
 	crosshair.updateCrosshair(mousePosition);
 
@@ -88,6 +96,7 @@ void Program::updateGame()
 
 			// add new enemy 
 			spawnEnemyRandom("arch.png");
+			objects[0]->setTarget(Vec2f(100.0f, 100.0f));
 		}
 	}
 

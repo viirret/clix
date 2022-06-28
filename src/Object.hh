@@ -3,6 +3,7 @@
 
 #include "raylib.h"
 #include "Vector2.hh"
+#include <cstdio>
 
 class Object
 {
@@ -16,7 +17,7 @@ class Object
 		Type type;
 
 		Object() {};
-		Object(const char* path, int width, int height);
+		Object(const char* path, float width, float height);
 		Object(const char* path);
 		~Object();
 		
@@ -26,20 +27,32 @@ class Object
 		// possibility to reset texture
 		void setTexture(const char* path);
 
-		void setX(int x);
-		void setY(int y);
+		void setTarget(Vec2f target);
+		void setSpeed(Vec2f speed);
+
+		bool changePosition(Vec2f pos);
+
+		void setX(float x);
+		void setY(float y);
 
 		void draw(Color color);
+
+		void move();
+
+		int getX();
+		int getY();
 
 	protected:
 		// raylib texture attached to the object
 		Texture texture;
 
 		// position coordinates
-		int x;
-		int y;
+		float x;
+		float y;
 
-		int speed;
+		Vec2f speed = Vec2f(0.01f, 0.01f);
+
+		Vec2f target;
 };
 
 #endif
