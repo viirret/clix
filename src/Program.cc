@@ -17,8 +17,8 @@ Program::Program() :
 					// has to be at least 1, 1 because Vec2f(); is x = 0, y = 0
 {
 	resetGame();
-	spawnEnemyRandom("arch.png");
 	setSpawns();
+	spawnEnemyRandom("arch.png");
 	//spawnAmmo("ammo.png", 1);
 	objects[0]->setTarget(Vec2f(100.0f, 100.0f));
 }
@@ -42,17 +42,20 @@ void Program::setSpawns()
 
 
 	/*
-	for(size_t i = 0; i < 20; i++)
+	for(size_t i = 0; i < 3; i++)
 	{
 		float a = glb::randomFloat(0.0f, objects[0]->getWidth());
 		float b = glb::randomFloat(0.0f, objects[0]->getHeight());
+
+		printf("a: %f\nb: %f", a, b);
+		
 		spawns.push_back(Vec2f(a, b));
 	}
 	*/
 
-	//spawns.push_back(Vec2f((float)GetScreenWidth() / 2, (float)GetScreenWidth()) / 2);
-	//spawns.push_back(Vec2f((float)GetScreenWidth() / 3, (float)GetScreenWidth()) / 3);
-	//spawns.push_back(Vec2f((float)GetScreenWidth() / 4, (float)GetScreenWidth()) / 4);
+	spawns.push_back(Vec2f((float)GetScreenWidth() / 2, (float)GetScreenWidth()) / 2);
+	spawns.push_back(Vec2f((float)GetScreenWidth() / 3, (float)GetScreenWidth()) / 3);
+	spawns.push_back(Vec2f((float)GetScreenWidth() / 4, (float)GetScreenWidth()) / 4);
 }
 
 void Program::run()
