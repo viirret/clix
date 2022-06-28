@@ -17,8 +17,9 @@ class Object
 		Type type;
 
 		Object() {};
+		Object(const char* path, float width, float height, Vec2f speed, Vec2f target);
+		Object(const char* path, float width, float height, Vec2f speed);
 		Object(const char* path, float width, float height);
-		Object(const char* path);
 		~Object();
 		
 		// check if texture is clicked with mouse

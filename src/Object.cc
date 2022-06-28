@@ -1,15 +1,28 @@
 #include "Object.hh"
 
-Object::Object(const char* path, float width, float height) : 	
-								type(Object::Type::object),
-								x(width),
-								y(height)
+Object::Object(const char* path, float width, float height, Vec2f speed, Vec2f target)
+						: 	type(Object::Type::object),
+							x(width),
+							y(height),
+							speed(speed),
+							target(target)
 {
 	setTexture(path);
 }
 
-Object::Object(const char* path) :
-			type(Object::Type::object)
+Object::Object(const char* path, float width, float height, Vec2f speed)
+						:	type(Object::Type::object),
+							x(width),
+							y(height),
+							speed(speed)
+{
+	setTexture(path);
+}
+
+Object::Object(const char* path, float width, float height) 
+						: 	type(Object::Type::object),
+							x(width),
+							y(height)
 {
 	setTexture(path);
 }
