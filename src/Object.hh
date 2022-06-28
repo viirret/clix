@@ -33,6 +33,7 @@ class Object
 		// setters
 		void setTexture(const char* path);
 		void setTarget(Vec2f target);
+		void setRandomTarget();
 		void setTargetX(float x);
 		void setTargetY(float y);
 		void setSpeed(Vec2f speed);
@@ -47,6 +48,8 @@ class Object
 		Vec2f getSpeed();
 		float getX();
 		float getY();
+		float getWidth();
+		float getHeight();
 
 	protected:
 		// raylib texture attached to the object
@@ -60,6 +63,9 @@ class Object
 		Vec2f speed = Vec2f(0.01f, 0.01f);
 
 		Vec2f target;
+
+	private:
+		float randomFloat(float begin, float end);
 };
 
 #endif
