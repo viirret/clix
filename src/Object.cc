@@ -30,16 +30,16 @@ Object::Object(const char* path)
 	setTexture(path);
 }
 
-void Object::setRandomTarget()
-{
-	float randomX = rnd<float>::randomValue(0.0f, GetScreenWidth() - getWidth());
-	float randomY = rnd<float>::randomValue(0.0f, (float)GetScreenHeight() - getHeight());
-	setTarget(Vec2f(randomX, randomY));	
-}
-
 Object::~Object()
 {
 	UnloadTexture(texture);
+}
+
+Vec2f Object::randomPositionOnScreen()
+{
+	float x = rnd<float>::randomValue(0.f, GetScreenWidth() - getWidth());
+	float y = rnd<float>::randomValue(0.f, GetScreenHeight() - getHeight());
+	return Vec2f(x, y);
 }
 
 void Object::moveTowardsTarget()
@@ -68,6 +68,7 @@ bool Object::checkHit(Vec2f hit)
 }
 
 // setters
+void Object::setType(Object::Type type) { this->type = type; }
 void Object::setTexture(const char* path) { texture = LoadTexture(path); }
 void Object::setTarget(Vec2f target) { this->target = target; }
 void Object::setTargetX(float x) { target.x = x; }
@@ -78,6 +79,21 @@ void Object::setSpeedY(float y) { speed.y = y; }
 void Object::setPosition(Vec2f position) { this->position = position; };
 void Object::setX(float x) { position.x = x; }
 void Object::setY(float y) { position.y = y; }
+
+void Object::setRandomTarget()
+{
+	setTarget(randomPositionOnScreen());	
+}
+
+void Object::setRandomSpeed()
+{
+	setSpeed(randomPositionOnScreen());
+}
+
+void Object::setRandomPosition()
+{
+	setPosition(randomPositionOnScreen());
+}
 
 // getters
 Texture Object::getTexture() { return texture; }

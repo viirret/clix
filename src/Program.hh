@@ -31,6 +31,7 @@ class Program
 		void resetGame();
 		void gameOver();
 		void objectMovement();
+		void gameLogic();
 
 		// add new enemy to random location on screen
 		void spawnEnemyRandom(std::string texture);

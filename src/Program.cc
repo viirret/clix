@@ -29,29 +29,21 @@ void Program::resetGame()
 
 void Program::run()
 {
+	// updating main game logic
 	updateGame();
+
+	// updating objects movement
 	objectMovement();
+
+	// event handling
 	events();
+
+	// updating raylib drawing
 	draw();
 }
 
-void Program::objectMovement()
+void Program::gameLogic()
 {
-	objects[0]->moveTowardsTarget();
-}
-
-void Program::updateGame()
-{
-	// setup for game over
-	if(player.gun.getCapacity() <= 0)
-		gameIsOver = true;
-
-	if(gameIsOver)
-		gameOver();
-
-	// update crosshair
-	crosshair.updateCrosshair(mousePosition);
-
 	// loop all existing objects
 	for(size_t i = 0; i < (size_t)objects.size(); i++)
 	{
@@ -84,6 +76,39 @@ void Program::updateGame()
 		}
 	}
 
+
+}
+
+void Program::objectMovement()
+{
+	for(auto& obj : objects)
+	{
+		switch(obj->type)
+		{
+			case Object::Type::enemy: 
+				obj->moveTowardsTarget();
+				break;
+
+			case Object::Type::ammo: break;
+			case Object::Type::object: break;
+		}
+	}
+}
+
+void Program::updateGame()
+{
+	// setup for game over
+	if(player.gun.getCapacity() <= 0)
+		gameIsOver = true;
+
+	if(gameIsOver)
+		gameOver();
+
+	// update crosshair
+	crosshair.updateCrosshair(mousePosition);
+
+	gameLogic();
+
 	// update ammo
 	std::string ammoText = player.gun.capacity + " / " + player.gun.magazineSize;
 	DrawText(ammoText.c_str(), GetScreenWidth() - GetScreenWidth() / 4, GetScreenHeight() - GetScreenHeight() / 10, 30, BLUE);
@@ -105,6 +130,7 @@ void Program::spawnEnemyRandom(std::string texture)
 
 	// we need textures size for random position
 	obj->setPosition(getRandomSpawn(obj->getTexture()));
+	obj->setType(Object::Type::enemy);
 	objects.push_back(std::move(obj));
 }
 
@@ -164,6 +190,7 @@ void Program::draw()
 
 	// draw crosshair
 	DrawTexture(crosshair.texture, crosshair.x, crosshair.y, WHITE);
+
 	EndDrawing();
 }
 

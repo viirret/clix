@@ -21,14 +21,8 @@ class Object
 		Object(const char* path, Vec2f position, Vec2f speed, Vec2f target);
 		Object(const char* path, Vec2f position, Vec2f speed);
 		Object(const char* path, Vec2f position);
-
-		/*
-		Object(const char* path, float width, float height, Vec2f speed, Vec2f target);
-		Object(const char* path, float width, float height, Vec2f speed);
-		Object(const char* path, float width, float height);
-		*/
-		
 		Object(const char* path);
+
 		~Object();
 		
 		// check if texture is clicked with mouse
@@ -40,9 +34,9 @@ class Object
 		void moveTowardsTarget();
 
 		// setters
+		void setType(Object::Type type);
 		void setTexture(const char* path);
 		void setTarget(Vec2f target);
-		void setRandomTarget();
 		void setTargetX(float x);
 		void setTargetY(float y);
 		void setSpeed(Vec2f speed);
@@ -51,6 +45,11 @@ class Object
 		void setPosition(Vec2f position);
 		void setX(float x);
 		void setY(float y);
+
+		// randomized setters
+		void setRandomTarget();
+		void setRandomPosition();
+		void setRandomSpeed();
 
 		// getters
 		Texture getTexture();
@@ -72,6 +71,9 @@ class Object
 		Vec2f speed = Vec2f(0.01f, 0.01f);
 
 		Vec2f target;
+	private:
+		Vec2f randomPositionOnScreen();
+
 };
 
 #endif
