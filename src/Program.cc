@@ -1,13 +1,5 @@
 #include "Program.hh"
 
-template<typename T> T randomSpawn(T from, T to)
-{
-	std::random_device rand_dev;
-	std::mt19937 generator(rand_dev());
-	std::uniform_int_distribution<T> dist(from, to);
-	return dist(generator);
-}
-
 Program::Program() : 
 					initializer(), 
 					crosshair(),
@@ -17,7 +9,6 @@ Program::Program() :
 					// has to be at least 1, 1 because Vec2f(); is x = 0, y = 0
 {
 	resetGame();
-	setSpawns();
 	spawnEnemyRandom("arch.png");
 	//spawnAmmo("ammo.png", 1);
 	objects[0]->setTarget(Vec2f(100.0f, 100.0f));
@@ -100,6 +91,13 @@ void Program::updateGame()
 	// update killed enemies count
 	DrawText(killedString.c_str(), GetScreenWidth() / 20, GetScreenHeight() / 20, 30, BLACK);
 } 
+
+Vec2f Program::getRandomSpawn(Texture texture)
+{
+	float a = rnd<float>::randomValue(0.0f, (float)GetScreenWidth() - texture.width);
+	float b = rnd<float>::randomValue(0.0f, (float)GetScreenHeight() - texture.height);
+	return Vec2f(a, b);
+}
 
 void Program::spawnEnemyRandom(std::string texture)
 {

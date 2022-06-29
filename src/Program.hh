@@ -16,6 +16,7 @@
 #include "Ammo.hh"
 #include "Enemy.hh"
 
+
 class Program
 {
 	public:
@@ -33,6 +34,8 @@ class Program
 
 		// add new enemy to random location on screen
 		void spawnEnemyRandom(std::string texture);
+
+		Vec2f getRandomSpawn(Texture texture);
 
 		// items currently existing on screen
 		std::vector<std::unique_ptr<Object>> objects;

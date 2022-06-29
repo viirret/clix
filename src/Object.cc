@@ -32,8 +32,8 @@ Object::Object(const char* path)
 
 void Object::setRandomTarget()
 {
-	float randomX = glb::randomFloat(0.0f, GetScreenWidth() - getWidth());
-	float randomY = glb::randomFloat(0.0f, GetScreenHeight() - getHeight());
+	float randomX = rnd<float>::randomValue(0.0f, GetScreenWidth() - getWidth());
+	float randomY = rnd<float>::randomValue(0.0f, (float)GetScreenHeight() - getHeight());
 	setTarget(Vec2f(randomX, randomY));	
 }
 
