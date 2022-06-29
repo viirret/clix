@@ -1,6 +1,6 @@
 #include "Ammo.hh"
 
-Ammo::Ammo(const char* path, int width, int height) : Object(path, width, height)
+Ammo::Ammo(const char* path, Vec2f position) : Object(path, position)
 {
 	type = Object::Type::ammo;
 }

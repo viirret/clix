@@ -1,6 +1,6 @@
 #include "Enemy.hh"
 
-Enemy::Enemy(const char* path, int width, int height) : Object(path, width, height)
+Enemy::Enemy(const char* path, Vec2f position) : Object(path, position)
 {
 	type = Object::Type::enemy;
 }

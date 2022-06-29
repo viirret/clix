@@ -28,29 +28,32 @@ class Program
 		void events();
 		void updateGame();
 		void resetGame();
-		void setSpawns();
 		void gameOver();
 		void objectMovement();
 
-		// object spawning functions
+		// add new enemy to random location on screen
 		void spawnEnemyRandom(std::string texture);
-		void spawnEnemy(std::string texture, int index);
-		void spawnAmmo(std::string texture, int index);
 
 		// items currently existing on screen
 		std::vector<std::unique_ptr<Object>> objects;
-		std::vector<Vec2f> spawns;
-		Vec2f currenthit;
-		Vec2f mousePosition;
+
+		// instances of other classes in Program
 		Initializer initializer;
 		Crosshair crosshair;
 		Player player;
 		Audio audio;
+		Object resetButton;
+
+		// mouse tracking
+		Vec2f currenthit;
+		Vec2f mousePosition;
+
+		// trackers
 		int killedEnemies;
 		std::string killedString;
 		bool gameIsOver = false;
 		bool currentHitChanged = false;
-		Object resetButton;
+
 };
 
 #endif

@@ -18,9 +18,17 @@ class Object
 		Type type;
 
 		Object() {};
+		Object(const char* path, Vec2f position, Vec2f speed, Vec2f target);
+		Object(const char* path, Vec2f position, Vec2f speed);
+		Object(const char* path, Vec2f position);
+
+		/*
 		Object(const char* path, float width, float height, Vec2f speed, Vec2f target);
 		Object(const char* path, float width, float height, Vec2f speed);
 		Object(const char* path, float width, float height);
+		*/
+		
+		Object(const char* path);
 		~Object();
 		
 		// check if texture is clicked with mouse
@@ -40,6 +48,7 @@ class Object
 		void setSpeed(Vec2f speed);
 		void setSpeedX(float x);
 		void setSpeedY(float y);
+		void setPosition(Vec2f position);
 		void setX(float x);
 		void setY(float y);
 
@@ -57,8 +66,7 @@ class Object
 		Texture texture;
 
 		// position coordinates
-		float x;
-		float y;
+		Vec2f position;
 
 		// movement speed
 		Vec2f speed = Vec2f(0.01f, 0.01f);

@@ -6,7 +6,7 @@
 class Ammo : public Object
 {
 	public:
-		Ammo(const char* path, int width, int height);
+		Ammo(const char* path, Vec2f position);
 };
 
 #endif

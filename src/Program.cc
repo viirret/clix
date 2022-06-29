@@ -13,7 +13,7 @@ Program::Program() :
 					crosshair(),
 					player(),
 					audio(),
-					resetButton((glb::assetsPath + "playagain.png").c_str(), 1, 1)
+					resetButton((glb::assetsPath + "playagain.png").c_str(), Vec2f(1, 1))
 					// has to be at least 1, 1 because Vec2f(); is x = 0, y = 0
 {
 	resetGame();
@@ -34,22 +34,6 @@ void Program::resetGame()
 	killedString = std::to_string(killedEnemies);
 	currentHitChanged = false;
 	player.gun.restock();
-}
-
-void Program::setSpawns()
-{
-	// set a few example spawnpoints
-	for(size_t i = 0; i < 20; i++)
-	{
-		//TODO
-		// in order for this to correctly work we need float a to be
-		//float a = glb::randomFloat(0.0f, GetScreenWidth() - WIDTH_OF_TEXTURE);
-		// however the that is not currently possible but can be fixed
-		float a = glb::randomFloat(0.0f, GetScreenWidth());
-		float b = glb::randomFloat(0.0f, GetScreenHeight());
-
-		spawns.push_back(Vec2f(a, b));
-	}
 }
 
 void Program::run()
@@ -119,19 +103,11 @@ void Program::updateGame()
 
 void Program::spawnEnemyRandom(std::string texture)
 {
-	// get new random spawn and add enemy there
-	int rnd = randomSpawn(0, (int)spawns.size() - 1);
-	objects.push_back(std::make_unique<Enemy>((glb::assetsPath + texture).c_str(), spawns.at(rnd).x, spawns.at(rnd).y));
-}
+	auto obj = std::make_unique<Object>((glb::assetsPath + texture).c_str());
 
-void Program::spawnEnemy(std::string texture, int index)
-{
-	objects.push_back(std::make_unique<Enemy>((glb::assetsPath + texture).c_str(), spawns.at(index).x, spawns.at(index).y));
-}
-
-void Program::spawnAmmo(std::string texture, int index)
-{
-	objects.push_back(std::make_unique<Ammo>((glb::assetsPath + texture).c_str(), spawns.at(index).x, spawns.at(index).y));
+	// we need textures size for random position
+	obj->setPosition(getRandomSpawn(obj->getTexture()));
+	objects.push_back(std::move(obj));
 }
 
 void Program::events() 

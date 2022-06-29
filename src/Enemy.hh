@@ -6,7 +6,7 @@
 class Enemy : public Object
 {
 	public:
-		Enemy(const char* path, int width, int height);
+		Enemy(const char* path, Vec2f position);
 };
 
 #endif
