@@ -1,11 +1,11 @@
-#include "Program.hh"
+#include "Builder.hh"
 
 int main(int argc, char** argv)
 {
-	Program p;
+	Builder b;
 
-	while(!p.close)
-		p.run();
+	while(!b.close)
+		b.update();
 
 	return 0;
 }

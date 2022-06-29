@@ -18,6 +18,7 @@ Program::~Program()
 {
 }
 
+
 // set variables for new game
 void Program::resetGame()
 {

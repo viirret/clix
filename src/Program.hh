@@ -24,6 +24,7 @@ class Program
 		~Program();
 		void run();
 		bool close;
+
 	private:
 		void draw();
 		void events();
@@ -57,7 +58,6 @@ class Program
 		std::string killedString;
 		bool gameIsOver = false;
 		bool currentHitChanged = false;
-
 };
 
 #endif
