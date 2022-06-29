@@ -1,9 +1,9 @@
 #ifndef PLAYGROUND_HH
 #define PLAYGROUND_HH
 
-#include <cstdio>
+#include "Core.hh"
 
-class PlayGround
+class PlayGround : public Core
 {
 	public:
 		PlayGround();

@@ -16,7 +16,6 @@
 #include "Ammo.hh"
 #include "Enemy.hh"
 
-
 class Program
 {
 	public:
