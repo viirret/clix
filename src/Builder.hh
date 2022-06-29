@@ -2,7 +2,7 @@
 #define BUILDER_HH
 
 #include "Program.hh"
-#include "PlayGround.hh"
+#include "Game.hh"
 
 class Builder
 {
@@ -11,7 +11,7 @@ class Builder
 		bool close = false;
 		void update();
 		Program program;
-		PlayGround playGround;
+		Game game;
 };
 
 #endif

@@ -1,6 +1,6 @@
 #include "Builder.hh"
 
-Builder::Builder(): program(), playGround() {}
+Builder::Builder(): program(), game() {}
 
 void Builder::update()
 {
@@ -9,6 +9,6 @@ void Builder::update()
 	else
 	{
 		program.run();
-		playGround.update();
+		game.update();
 	}
 }
