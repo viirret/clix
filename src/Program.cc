@@ -1,8 +1,6 @@
 #include "Program.hh"
 
 Program::Program() : 
-					initializer(), 
-					crosshair(),
 					player(),
 					audio(),
 					resetButton((glb::assetsPath + "playagain.png").c_str(), Vec2f(1, 1))
@@ -105,7 +103,7 @@ void Program::updateGame()
 		gameOver();
 
 	// update crosshair
-	crosshair.updateCrosshair(mousePosition);
+	//crosshair.updateCrosshair(mousePosition);
 
 	gameLogic();
 
@@ -189,7 +187,7 @@ void Program::draw()
 		obj->draw(WHITE);
 
 	// draw crosshair
-	DrawTexture(crosshair.texture, crosshair.x, crosshair.y, WHITE);
+	//DrawTexture(crosshair.texture, crosshair.x, crosshair.y, WHITE);
 
 	EndDrawing();
 }

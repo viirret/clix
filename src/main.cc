@@ -1,11 +1,11 @@
-#include "Builder.hh"
+#include "Game.hh"
 
 int main(int argc, char** argv)
 {
-	Builder b;
+	Game g;
 
-	while(!b.close)
-		b.update();
+	while(!g.close)
+		g.update();
 
 	return 0;
 }

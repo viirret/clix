@@ -2,14 +2,19 @@
 #define CROSSHAIR_HH
 
 #include "raylib.h"
+#include <string>
+#include "Global.hh"
 #include "Vector2.hh"
 
 class Crosshair
 {
 	public:
 		Crosshair();
+		Crosshair(std::string path);
 		~Crosshair();
 		void updateCrosshair(Vec2f pos);
+		void draw(Color color);
+	private:
 		Texture texture;
 		int x;
 		int y;

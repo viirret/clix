@@ -7,6 +7,7 @@ class Enemy : public Object
 {
 	public:
 		Enemy(const char* path, Vec2f position);
+		Enemy(const char* path);
 };
 
 #endif

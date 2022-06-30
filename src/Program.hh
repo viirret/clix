@@ -8,7 +8,6 @@
 #include "Settings.hh"
 #include "Object.hh"
 #include "Global.hh"
-#include "Initializer.hh"
 #include "Crosshair.hh"
 #include "Player.hh"
 #include "Audio.hh"
@@ -42,8 +41,6 @@ class Program
 		std::vector<std::unique_ptr<Object>> objects;
 
 		// instances of other classes in Program
-		Initializer initializer;
-		Crosshair crosshair;
 		Player player;
 		Audio audio;
 		Object resetButton;
