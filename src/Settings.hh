@@ -5,3 +5,6 @@
 // master volume between 1-10
 #define MASTER_VOLUME 5
 
+// path for assets
+#define ASSETSPATH "../assets/"
+

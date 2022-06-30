@@ -3,6 +3,7 @@
 
 #include <string>
 #include <random>
+#include "Settings.hh"
 #include "Vector2.hh"
 
 template<typename T>

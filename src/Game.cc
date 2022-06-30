@@ -87,7 +87,7 @@ void Game::updateGame()
 	}
 }
 
-void Game::gameOver()
+void Game::gameOver() 
 {
 	// reset current click to (0, 0) to avoid instant hit
 	if(!currentHitChanged)
@@ -112,7 +112,6 @@ void Game::resetGame()
 {
 	killedEnemies = 0;
 	killedString = std::to_string(killedEnemies);
-	//currentHitChanged = false;
 	player.gun.restock();
 }
 
@@ -127,6 +126,7 @@ void Game::draw()
 	for(auto& obj : objects)
 		obj->draw(WHITE);
 
+	// update ammo count
 	std::string ammoText = player.gun.capacity + " / " + player.gun.magazineSize;
 	DrawText(ammoText.c_str(), GetScreenWidth() - GetScreenWidth() / 4, GetScreenHeight() - GetScreenHeight() / 10, 30, BLUE);
 
@@ -134,6 +134,16 @@ void Game::draw()
 	DrawText(killedString.c_str(), GetScreenWidth() / 20, GetScreenHeight() / 20, 30, BLACK);
 
 	EndDrawing();
+}
+
+int main(int argc, char** argv)
+{
+	Game g;
+
+	while(!g.close)
+		g.update();
+
+	return 0;
 }
 
 
