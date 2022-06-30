@@ -1,6 +1,6 @@
 #include "Core.hh"
 
-Core::Core()
+Core::Core() : audio()
 {
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "");
 	HideCursor();
@@ -29,6 +29,7 @@ void Core::events()
 	if(IsMouseButtonPressed(0))
 	{
 		currentClick = mousePosition;
+	}
 
 		/*
 		if(player.gun.getCapacity() > 0)
@@ -39,7 +40,6 @@ void Core::events()
 			player.gun.fire();
 		}
 		*/
-	}
 }
 
 void Core::spawnEnemyRandom(std::string texture)
@@ -52,13 +52,10 @@ void Core::spawnEnemyRandom(std::string texture)
 	objects.push_back(std::move(obj));
 }
 
-Vec2f Core::getRandomSpawn(Texture texture)
+const Vec2f Core::getRandomSpawn(Texture texture)
 {
 	float a = rnd<float>::randomValue(0.0f, (float)GetScreenWidth() - texture.width);
 	float b = rnd<float>::randomValue(0.0f, (float)GetScreenHeight() - texture.height);
 	return Vec2f(a, b);
 }
-
-const Vec2f Core::getMousePosition() { return mousePosition; }
-const Vec2f Core::getCurrentClickPosition() { return currentClick; }
 

@@ -18,8 +18,10 @@ Audio::Audio()
 void Audio::playSound(std::string name)
 {
 	for(size_t i = 0; i < (size_t)soundFiles.size(); i++)
+	{
 		if(soundFiles[i] == glb::assetsPath + name)
 			PlaySound(sounds.at(i));	
+	}
 }
 
 Audio::~Audio()
