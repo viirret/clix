@@ -85,7 +85,6 @@ void Game::updateGame()
 			case Object::Type::object: break;
 		}
 	}
-
 }
 
 void Game::gameOver()

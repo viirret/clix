@@ -13,6 +13,7 @@ class Audio
 		Audio();
 		~Audio();
 		void playSound(std::string name);
+		void addSound(std::string name);
 	private:
 		std::vector<std::string> soundFiles;
 		std::vector<Sound> sounds;
