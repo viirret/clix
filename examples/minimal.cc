@@ -1,4 +1,4 @@
-#include "Core.hh"
+#include "../clix/Core.hh"
 
 class A : public Core
 {

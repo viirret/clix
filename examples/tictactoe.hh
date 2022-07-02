@@ -1,7 +1,7 @@
 #ifndef TICTACTOE_HH
 #define TICTACTOE_HH
 
-#include "Core.hh"
+#include "../clix/Core.hh"
 
 class tictactoe : public Core
 {

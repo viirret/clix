@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(arcadeShooter)
+project(clix)
 
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD 17)
@@ -12,9 +12,14 @@ set(BUILD_GAMES    OFF CACHE BOOL "" FORCE) # don't build the supplied example g
 FetchContent_Declare(raylib GIT_REPOSITORY https://github.com/raysan5/raylib.git GIT_TAG master)
 FetchContent_MakeAvailable(raylib)
 
-# main program src/clickerGame.cc
 
-add_executable(${PROJECT_NAME} examples/clickerGame.cc src/Core.cc src/Enemy.cc src/Ammo.cc src/Gun.cc src/Global.cc src/Audio.cc src/Player.cc src/Object.cc src/Controls.cc src/Crosshair.cc)
+# TODO there has to be a smarter way to do this.
+
+# for other programs substitute, first .cc file
+# clix/clickerGame.cc
+# clix/tictactoe.cc
+
+add_executable(${PROJECT_NAME} examples/clickerGame.cc clix/Core.cc clix/Enemy.cc clix/Ammo.cc clix/Gun.cc clix/Global.cc clix/Audio.cc clix/Player.cc clix/Object.cc clix/Controls.cc clix/Crosshair.cc)
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")

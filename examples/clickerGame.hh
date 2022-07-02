@@ -1,9 +1,9 @@
 #ifndef CLICKERGAME_HH
 #define CLICKERGAME_HH
 
-#include "../src/Core.hh"
-#include "../src/Player.hh"
-#include "../src/Crosshair.hh"
+#include "../clix/Core.hh"
+#include "../clix/Player.hh"
+#include "../clix/Crosshair.hh"
 
 class clickerGame : public Core
 {
