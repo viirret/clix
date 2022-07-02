@@ -1,6 +1,6 @@
-#include "Game.hh"
+#include "clickerGame.hh"
 
-Game::Game() 
+clickerGame::clickerGame() 
 	: 	Core(),			// start core
 		crosshair(),	// implement default crosshair
 		player(),		// add player
@@ -10,14 +10,14 @@ Game::Game()
 	spawnEnemyRandom("arch.png");
 }
 
-void Game::update()
+void clickerGame::update()
 {
 	Core::update();
 	updateGame();
 	draw();
 }
 
-void Game::updateGame()
+void clickerGame::updateGame()
 {
 	// setup for game over
 	if(player.gun.getCapacity() <= 0)
@@ -87,7 +87,7 @@ void Game::updateGame()
 	}
 }
 
-void Game::gameOver() 
+void clickerGame::gameOver() 
 {
 	// reset current click to (0, 0) to avoid instant hit
 	if(!currentHitChanged)
@@ -97,7 +97,7 @@ void Game::gameOver()
 	}
 
 	// render things
-	DrawText("Game Over!", GetScreenWidth() / 3, GetScreenHeight() / 3, 40, BLACK);
+	DrawText("clickerGame Over!", GetScreenWidth() / 3, GetScreenHeight() / 3, 40, BLACK);
 	resetButton.draw(WHITE);
 
 	// is resetbutton is clicked start a new game
@@ -108,14 +108,14 @@ void Game::gameOver()
 	}
 }
 
-void Game::resetGame()
+void clickerGame::resetGame()
 {
 	killedEnemies = 0;
 	killedString = std::to_string(killedEnemies);
 	player.gun.restock();
 }
 
-void Game::draw()
+void clickerGame::draw()
 {
 	BeginDrawing();
 	ClearBackground(WHITE);
@@ -138,7 +138,7 @@ void Game::draw()
 
 int main(int argc, char** argv)
 {
-	Game g;
+	clickerGame g;
 
 	while(!g.close)
 		g.update();

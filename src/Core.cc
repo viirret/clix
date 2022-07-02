@@ -30,16 +30,6 @@ void Core::events()
 	{
 		currentClick = mousePosition;
 	}
-
-		/*
-		if(player.gun.getCapacity() > 0)
-		{
-			audio.playSound("gunshow.mp3");
-
-			// update mag size
-			player.gun.fire();
-		}
-		*/
 }
 
 void Core::spawnEnemyRandom(std::string texture)

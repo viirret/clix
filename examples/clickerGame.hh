@@ -1,14 +1,14 @@
-#ifndef GAME_HH
-#define GAME_HH
+#ifndef CLICKERGAME_HH
+#define CLICKERGAME_HH
 
-#include "Core.hh"
-#include "Player.hh"
-#include "Crosshair.hh"
+#include "../src/Core.hh"
+#include "../src/Player.hh"
+#include "../src/Crosshair.hh"
 
-class Game : public Core
+class clickerGame : public Core
 {
 	public:
-		Game();
+		clickerGame();
 		void update();
 	private:
 		void draw();
