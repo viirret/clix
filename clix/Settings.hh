@@ -8,3 +8,6 @@
 // path for assets
 #define ASSETSPATH "../assets/"
 
+// hide cursor
+#define HIDECURSOR false
+

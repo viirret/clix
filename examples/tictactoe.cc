@@ -1,31 +1,47 @@
-#include "tictactoe.hh"
+#include "../clix/Core.hh"
 
-tictactoe::tictactoe() : Core()
+class tictactoe : public Core
 {
-	std::vector<Vec2f> squares;
+	public:
+		tictactoe() : Core()
+		{
+			squareSize = Vec2f((float)GetScreenWidth() / 3 - spacex, (float)GetScreenHeight() / 3 - spacey);
 
-	float space = 10.f;
+			for(size_t i = 0; i < 3; ++i)
+			{
+				for(size_t j = 0; j < 3; ++j)
+				{
+					squares.push_back(Vec2f(squareSize.x * line + spacex, squareSize.y * column + spacey));
+					column++;
+				}
+				column = 0;
+				line++;
+			}
+		}
 
-	Vec2f squareSize = Vec2f((float)GetScreenWidth() / 3 - space, (float)GetScreenHeight() / 3 - space);
+		void update()
+		{
+			Core::update();
 
-	int line = 0;
-	int column = 0;
-	for(size_t i = 0; i < 9; ++i)
-	{
-		squares.push_back(Vec2f(1, 1));
-	}
-}
+			BeginDrawing();
 
-void tictactoe::update()
-{
-	Core::update();
+			for(auto& sqr : squares)
+			{
+				drawRectangle(Vec2f(sqr.x + spacex, sqr.y + spacey), Vec2f(squareSize.x - spacex, squareSize.y - spacey), BLUE);
+			}
 
-	BeginDrawing();
+			EndDrawing();
+		}
 
-	DrawRectangle(10, 20, 20, 20, BLUE); 
-
-	EndDrawing();
-}
+	private:
+	
+		Vec2f squareSize;
+		std::vector<Vec2f> squares;
+		float spacex = (float)GetScreenWidth() / 30;
+		float spacey = (float)GetScreenHeight() / 30;
+		int line = 0;
+		int column = 0;
+};
 
 int main(int argc, char** argv)
 {

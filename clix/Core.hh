@@ -34,6 +34,8 @@ class Core
 		// currently existing enemies
 		std::vector<std::unique_ptr<Object>> objects;
 
+		// drawing functions
+		void drawRectangle(Vec2f position, Vec2f size, Color color);
 		Audio audio;
 
 	private:

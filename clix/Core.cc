@@ -3,7 +3,9 @@
 Core::Core() : audio()
 {
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "");
-	HideCursor();
+
+	if(HIDECURSOR)
+		HideCursor();
 }
 
 Core::~Core()
@@ -49,3 +51,9 @@ const Vec2f Core::getRandomSpawn(Texture texture)
 	return Vec2f(a, b);
 }
 
+
+
+void Core::drawRectangle(Vec2f position, Vec2f size, Color color)
+{
+	DrawRectangleV((Vector2){position.x, position.y}, (Vector2){size.x, size.y}, color);	
+}
