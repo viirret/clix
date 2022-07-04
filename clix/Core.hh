@@ -31,6 +31,9 @@ class Core
 		const Vec2f getRandomSpawn(Texture texture);
 		void spawnEnemyRandom(std::string texture);
 
+		bool isClicked(Vec2f position, Vec2f max);
+		bool isClickedSize(Vec2f position, Vec2f size);
+
 		// currently existing enemies
 		std::vector<std::unique_ptr<Object>> objects;
 

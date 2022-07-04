@@ -51,9 +51,21 @@ const Vec2f Core::getRandomSpawn(Texture texture)
 	return Vec2f(a, b);
 }
 
-
-
 void Core::drawRectangle(Vec2f position, Vec2f size, Color color)
 {
 	DrawRectangleV((Vector2){position.x, position.y}, (Vector2){size.x, size.y}, color);	
 }
+
+bool Core::isClicked(Vec2f position, Vec2f max)
+{
+	return currentClick.x >= position.x && currentClick.y >= position.y && currentClick.x && currentClick.x <= max.x && currentClick.y <= max.y;
+}
+
+bool Core::isClickedSize(Vec2f position, Vec2f size)
+{
+	bool x = currentClick.x >= position.x && currentClick.y >= position.y && currentClick.x && currentClick.x <= position.x + size.x && currentClick.y <= position.y + size.y;
+	currentClick = Vec2f(0, 0);
+	return x;
+}
+
+
