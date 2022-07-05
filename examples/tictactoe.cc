@@ -20,6 +20,11 @@ class Square
 			owner = Owner::free;
 		}
 
+		Square(Vec2f location, Vec2f size) : location(location)
+		{
+			max = Vec2f(location.x + size.x, location.y + size.y);
+		}
+
 		int x, y;
 		Vec2f location;
 		Vec2f max;
@@ -32,17 +37,20 @@ class tictactoe : public Core
 		tictactoe() : Core()
 		{
 			squareSize = Vec2f((float)GetScreenWidth() / 3 - spacex, (float)GetScreenHeight() / 3 - spacey);
+			createSquares();
+		}
 
-			// create squares
+		void createSquares()
+		{
 			for(size_t i = 0; i < 3; ++i)
 			{
 				for(size_t j = 0; j < 3; ++j)
 				{
 					squares.push_back(Square(i, j, Vec2f(squareSize.x * line + spacex, squareSize.y * column + spacey)));
-					column++;
+					line++;
 				}
-				column = 0;
-				line++;
+				line = 0;
+				column++;
 			}
 		}
 
@@ -58,15 +66,31 @@ class tictactoe : public Core
 			// main game logic
 			for(auto& sqr : squares)
 			{
-				if(isClicked(sqr.location, sqr.max))
+				// only allow clicks on unclicked squares
+				if(sqr.owner == Square::Owner::free)
 				{
-					// TODO somehow get rid of this sentence
-					currentClick = Vec2f(0, 0);
-					
-					sqr.owner = p1Turn ? Square::Owner::p1 : Square::Owner::p2;
-					p1Turn = !p1Turn;
+					if(isClicked(sqr.location, sqr.max))
+					{
+						// TODO somehow get rid of this sentence
+						currentClick = Vec2f(0, 0);
+						
+						sqr.owner = p1Turn ? Square::Owner::p1 : Square::Owner::p2;
+						p1Turn = !p1Turn;
+					}
 				}
 			}
+		}
+
+		Square::Owner checkRow(Square s1, Square s2, Square s3)
+		{
+			if(s1.owner == s2.owner && s2.owner == s3.owner)
+				return s1.owner;
+			return Square::Owner::free;
+		}
+
+		void announceWinner(Square square)
+		{
+			square.owner == Square::Owner::p1 ? printf("p1 won\n") : printf("p2 won\n");
 		}
 
 		void update()
@@ -77,14 +101,24 @@ class tictactoe : public Core
 
 			updateGame();
 
+			// determine winner
+			determineWinner();
+
+			if(isClicked(updateButton.location, updateButton.max))
+			{
+				currentClick = Vec2f(0, 0);
+				printf("updateButton clicked\n");
+				createSquares();
+			}
+			
 			// determine square colors
 			for(auto& sqr : squares)
 			{
 				switch(sqr.owner)
 				{
-					case Square::Owner::free: sqr.color = BLUE; break;
 					case Square::Owner::p1: sqr.color = RED; break;
-					case Square::Owner::p2: sqr.color = WHITE; break;
+					case Square::Owner::p2: sqr.color = BLUE; break;
+					case Square::Owner::free: sqr.color = BROWN; break;
 				}
 			}
 
@@ -93,18 +127,40 @@ class tictactoe : public Core
 			{
 				drawRectangle(Vec2f(sqr.location.x + spacex, sqr.location.y + spacey), Vec2f(squareSize.x - spacex, squareSize.y - spacey), sqr.color);
 			}
+			
+			// draw updateButton
+			drawRectangle(updateButton.location, Vec2f(20, 20), GREEN);
 
 			EndDrawing();
 		}
 
-	private:
+		void determineWinner()
+		{
+			for(size_t i = 0; i < (size_t)squares.size(); i++)
+			{
+				if(i == 0 || i == 3 || i == 6)
+					if(checkRow(squares[i], squares[i + 1], squares[i + 2]) != Square::Owner::free)
+						announceWinner(squares[i]);
 
+				if(i == 0 || i == 1 || i == 2)
+					if(checkRow(squares[i], squares[i + 3], squares[i + 6]) != Square::Owner::free)
+						announceWinner(squares[i]);
+			}
+
+			if(checkRow(squares[0], squares[4], squares[8]) != Square::Owner::free)
+				announceWinner(squares[0]);
+			if(checkRow(squares[2], squares[4], squares[6]) != Square::Owner::free)
+				announceWinner(squares[2]);
+		}
+
+	private:
 		bool p1Turn = true;
 		float spacex = (float)GetScreenWidth() / 30;
 		float spacey = (float)GetScreenHeight() / 30;
 		int line = 0;
 		int column = 0;
 		std::vector<Square> squares;
+		Square updateButton = Square(Vec2f((float)GetScreenWidth() / 2 - 10, 3), Vec2f(20, 20));
 };
 
 int main(int argc, char** argv)
