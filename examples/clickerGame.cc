@@ -139,9 +139,7 @@ void clickerGame::draw()
 int main(int argc, char** argv)
 {
 	clickerGame g;
-
-	while(!g.close)
-		g.update();
+	g.start();
 
 	return 0;
 }

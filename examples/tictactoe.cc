@@ -59,30 +59,6 @@ class tictactoe : public Core
 			}
 		}
 
-		// start the program, TODO implement in base class
-		void start()
-		{
-			while(!close)
-				update();
-		}
-
-		void updateGame()
-		{
-			// main game logic
-			for(auto& sqr : squares)
-			{
-				// only allow clicks on unclicked squares
-				if(sqr.owner == Square::Owner::free && !gameOver)
-				{
-					if(isClicked(sqr.location, sqr.max))
-					{
-						sqr.owner = p1Turn ? Square::Owner::p1 : Square::Owner::p2;
-						p1Turn = !p1Turn;
-					}
-				}
-			}
-		}
-
 		Square::Owner checkRow(Square s1, Square s2, Square s3)
 		{
 			if(s1.owner == s2.owner && s2.owner == s3.owner)
@@ -99,7 +75,7 @@ class tictactoe : public Core
 			}
 		}
 
-		void update()
+		void update() override
 		{
 			Core::update();
 
@@ -116,7 +92,6 @@ class tictactoe : public Core
 					}
 				}
 			}
-
 
 			// determine winner
 			determineWinner();

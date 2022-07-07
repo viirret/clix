@@ -18,6 +18,12 @@ void Core::update()
 	events();
 }
 
+void Core::start()
+{
+	while(!close)
+		update();
+}
+
 void Core::events()
 {
 	// default raylib closing

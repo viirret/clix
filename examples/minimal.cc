@@ -5,7 +5,7 @@ class A : public Core
 	public:
 		A() : Core() {};
 		
-		void update() 
+		void update() override
 		{
 			Core::update(); 
 		}
@@ -14,9 +14,7 @@ class A : public Core
 int main(int argc, char** agrv)
 {
 	A a;
-
-	while(!a.close)
-		a.update();
+	a.start();
 
 	return 0;
 }

@@ -19,9 +19,10 @@ class Core
 	public:
 		Core();
 		virtual ~Core();
-		void update();
-		bool close = false;
+		void start();
 	protected:
+		bool close = false;
+		virtual void update();
 		// last clicked position
 		Vec2f currentClick;
 		// current mouse position

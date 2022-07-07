@@ -9,7 +9,7 @@ class clickerGame : public Core
 {
 	public:
 		clickerGame();
-		void update();
+		void update() override; 
 	private:
 		void draw();
 		void updateGame();
