@@ -42,6 +42,10 @@ class tictactoe : public Core
 
 		void createSquares()
 		{
+			squares.clear();
+			line = 0;
+			column = 0;
+
 			for(size_t i = 0; i < 3; ++i)
 			{
 				for(size_t j = 0; j < 3; ++j)
@@ -97,8 +101,6 @@ class tictactoe : public Core
 		{
 			Core::update();
 
-			BeginDrawing();
-
 			updateGame();
 
 			// determine winner
@@ -107,7 +109,6 @@ class tictactoe : public Core
 			if(isClicked(updateButton.location, updateButton.max))
 			{
 				currentClick = Vec2f(0, 0);
-				printf("updateButton clicked\n");
 				createSquares();
 			}
 			
@@ -121,6 +122,8 @@ class tictactoe : public Core
 					case Square::Owner::free: sqr.color = BROWN; break;
 				}
 			}
+
+			BeginDrawing();
 
 			// render squares
 			for(auto& sqr : squares)
@@ -138,6 +141,7 @@ class tictactoe : public Core
 		{
 			for(size_t i = 0; i < (size_t)squares.size(); i++)
 			{
+				// check straight lines
 				if(i == 0 || i == 3 || i == 6)
 					if(checkRow(squares[i], squares[i + 1], squares[i + 2]) != Square::Owner::free)
 						announceWinner(squares[i]);
@@ -147,6 +151,7 @@ class tictactoe : public Core
 						announceWinner(squares[i]);
 			}
 
+			// check crossing lines
 			if(checkRow(squares[0], squares[4], squares[8]) != Square::Owner::free)
 				announceWinner(squares[0]);
 			if(checkRow(squares[2], squares[4], squares[6]) != Square::Owner::free)
@@ -157,8 +162,7 @@ class tictactoe : public Core
 		bool p1Turn = true;
 		float spacex = (float)GetScreenWidth() / 30;
 		float spacey = (float)GetScreenHeight() / 30;
-		int line = 0;
-		int column = 0;
+		int line, column;
 		std::vector<Square> squares;
 		Square updateButton = Square(Vec2f((float)GetScreenWidth() / 2 - 10, 3), Vec2f(20, 20));
 };
