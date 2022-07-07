@@ -13,15 +13,13 @@ class Square
 		};
 
 		Owner owner;
-		
-		// constructor for normal squares
+
 		Square(int x, int y, Vec2f location) : x(x), y(y), location(location) 
 		{
 			max = Vec2f(location.x + squareSize.x, location.y + squareSize.y);	
 			owner = Owner::free;
 		}
 
-		// constructor for update button
 		Square(Vec2f location, Vec2f size) : location(location)
 		{
 			max = Vec2f(location.x + size.x, location.y + size.y);
@@ -44,10 +42,6 @@ class tictactoe : public Core
 
 		void createSquares()
 		{
-			squares.clear();
-			line = 0;
-			column = 0;
-
 			for(size_t i = 0; i < 3; ++i)
 			{
 				for(size_t j = 0; j < 3; ++j)
@@ -67,6 +61,26 @@ class tictactoe : public Core
 				update();
 		}
 
+		void updateGame()
+		{
+			// main game logic
+			for(auto& sqr : squares)
+			{
+				// only allow clicks on unclicked squares
+				if(sqr.owner == Square::Owner::free)
+				{
+					if(isClicked(sqr.location, sqr.max))
+					{
+						// TODO somehow get rid of this sentence
+						currentClick = Vec2f(0, 0);
+						
+						sqr.owner = p1Turn ? Square::Owner::p1 : Square::Owner::p2;
+						p1Turn = !p1Turn;
+					}
+				}
+			}
+		}
+
 		Square::Owner checkRow(Square s1, Square s2, Square s3)
 		{
 			if(s1.owner == s2.owner && s2.owner == s3.owner)
@@ -83,26 +97,19 @@ class tictactoe : public Core
 		{
 			Core::update();
 
-			// check clicks for each square
-			for(auto& sqr : squares)
-			{
-				// only allow clicks on unclicked squares
-				if(sqr.owner == Square::Owner::free)
-				{
-					if(isClicked(sqr.location, sqr.max))
-					{
-						sqr.owner = p1Turn ? Square::Owner::p1 : Square::Owner::p2;
-						p1Turn = !p1Turn;
-					}
-				}
-			}
+			BeginDrawing();
 
-			// check if either player has won the game
+			updateGame();
+
+			// determine winner
 			determineWinner();
 
-			// check if updatebutton is pressed
 			if(isClicked(updateButton.location, updateButton.max))
+			{
+				currentClick = Vec2f(0, 0);
+				printf("updateButton clicked\n");
 				createSquares();
+			}
 			
 			// determine square colors
 			for(auto& sqr : squares)
@@ -114,8 +121,6 @@ class tictactoe : public Core
 					case Square::Owner::free: sqr.color = BROWN; break;
 				}
 			}
-
-			BeginDrawing();
 
 			// render squares
 			for(auto& sqr : squares)
@@ -131,7 +136,6 @@ class tictactoe : public Core
 
 		void determineWinner()
 		{
-			// check straight lines
 			for(size_t i = 0; i < (size_t)squares.size(); i++)
 			{
 				if(i == 0 || i == 3 || i == 6)
@@ -143,7 +147,6 @@ class tictactoe : public Core
 						announceWinner(squares[i]);
 			}
 
-			// check crossing lines
 			if(checkRow(squares[0], squares[4], squares[8]) != Square::Owner::free)
 				announceWinner(squares[0]);
 			if(checkRow(squares[2], squares[4], squares[6]) != Square::Owner::free)
@@ -154,7 +157,8 @@ class tictactoe : public Core
 		bool p1Turn = true;
 		float spacex = (float)GetScreenWidth() / 30;
 		float spacey = (float)GetScreenHeight() / 30;
-		int line, column;
+		int line = 0;
+		int column = 0;
 		std::vector<Square> squares;
 		Square updateButton = Square(Vec2f((float)GetScreenWidth() / 2 - 10, 3), Vec2f(20, 20));
 };

@@ -58,11 +58,7 @@ void Core::drawRectangle(Vec2f position, Vec2f size, Color color)
 
 bool Core::isClicked(Vec2f position, Vec2f max)
 {
-	bool x = currentClick.x >= position.x && currentClick.y >= position.y && currentClick.x && currentClick.x <= max.x && currentClick.y <= max.y;
-	
-	// keep this in mind
-	currentClick = Vec2f(0, 0);
-	return x;
+	return currentClick.x >= position.x && currentClick.y >= position.y && currentClick.x && currentClick.x <= max.x && currentClick.y <= max.y;
 }
 
 bool Core::isClickedSize(Vec2f position, Vec2f size)
