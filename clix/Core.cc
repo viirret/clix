@@ -29,9 +29,10 @@ void Core::events()
 
 	// get vector2 on mouse position when clicked
 	if(IsMouseButtonPressed(0))
-	{
 		currentClick = mousePosition;
-	}
+
+	if(IsMouseButtonReleased(0))
+		currentClick = Vec2f(0, 0);
 }
 
 void Core::spawnEnemyRandom(std::string texture)

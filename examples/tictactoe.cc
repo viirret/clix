@@ -42,6 +42,7 @@ class tictactoe : public Core
 
 		void createSquares()
 		{
+			gameOver = false;
 			squares.clear();
 			line = 0;
 			column = 0;
@@ -71,13 +72,10 @@ class tictactoe : public Core
 			for(auto& sqr : squares)
 			{
 				// only allow clicks on unclicked squares
-				if(sqr.owner == Square::Owner::free)
+				if(sqr.owner == Square::Owner::free && !gameOver)
 				{
 					if(isClicked(sqr.location, sqr.max))
 					{
-						// TODO somehow get rid of this sentence
-						currentClick = Vec2f(0, 0);
-						
 						sqr.owner = p1Turn ? Square::Owner::p1 : Square::Owner::p2;
 						p1Turn = !p1Turn;
 					}
@@ -94,23 +92,38 @@ class tictactoe : public Core
 
 		void announceWinner(Square square)
 		{
-			square.owner == Square::Owner::p1 ? printf("p1 won\n") : printf("p2 won\n");
+			if(!gameOver)
+			{
+				square.owner == Square::Owner::p1 ? printf("p1 won\n") : printf("p2 won\n");
+				gameOver = true;
+			}
 		}
 
 		void update()
 		{
 			Core::update();
 
-			updateGame();
+			// update clicks for squares
+			for(auto& sqr : squares)
+			{
+				// only allow clicks on unclicked squares
+				if(sqr.owner == Square::Owner::free && !gameOver)
+				{
+					if(isClicked(sqr.location, sqr.max))
+					{
+						sqr.owner = p1Turn ? Square::Owner::p1 : Square::Owner::p2;
+						p1Turn = !p1Turn;
+					}
+				}
+			}
+
 
 			// determine winner
 			determineWinner();
 
+			// start new game by pressing the green button
 			if(isClicked(updateButton.location, updateButton.max))
-			{
-				currentClick = Vec2f(0, 0);
 				createSquares();
-			}
 			
 			// determine square colors
 			for(auto& sqr : squares)
@@ -159,6 +172,7 @@ class tictactoe : public Core
 		}
 
 	private:
+		bool gameOver = false;
 		bool p1Turn = true;
 		float spacex = (float)GetScreenWidth() / 30;
 		float spacey = (float)GetScreenHeight() / 30;
