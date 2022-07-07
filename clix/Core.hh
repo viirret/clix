@@ -30,7 +30,8 @@ class Core
 		// helper functions
 		const Vec2f getRandomSpawn(Texture texture);
 		void spawnEnemyRandom(std::string texture);
-
+		
+		// clicking functions, same kinds stuff is in Object
 		bool isClicked(Vec2f position, Vec2f max);
 		bool isClickedSize(Vec2f position, Vec2f size);
 
