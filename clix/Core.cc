@@ -16,6 +16,7 @@ Core::~Core()
 void Core::update()
 {
 	events();
+	raylibDrawing();
 }
 
 void Core::start()
@@ -38,7 +39,13 @@ void Core::events()
 		currentClick = mousePosition;
 
 	if(IsMouseButtonReleased(0))
-		currentClick = Vec2f(0, 0);
+		currentClick = Vec2f(-1, -1);
+}
+
+void Core::raylibDrawing()
+{
+	BeginDrawing();
+	EndDrawing();
 }
 
 void Core::spawnEnemyRandom(std::string texture)

@@ -15,7 +15,7 @@ class clickerGame : public Core
 			spawnEnemyRandom("arch.png");
 		}
 
-		void update()
+		void update() override
 		{
 			Core::update();
 			updateGame();
@@ -52,7 +52,7 @@ class clickerGame : public Core
 				if(objects[i]->checkHit(currentClick))
 				{
 					// redefine currenthit
-					 currentClick = Vec2f();
+					//currentClick = Vec2f();
 
 					switch(objects[i]->type)
 					{
@@ -108,8 +108,9 @@ class clickerGame : public Core
 			// is resetbutton is clicked start a new game
 			if(resetButton.checkHit(currentClick))
 			{
-				resetGame();
+				currentHitChanged = false;
 				isGameOver = false;
+				resetGame();
 			}
 		}
 
@@ -122,7 +123,6 @@ class clickerGame : public Core
 
 		void draw()
 		{
-			BeginDrawing();
 			ClearBackground(WHITE);
 
 			crosshair.draw(WHITE);
@@ -137,8 +137,6 @@ class clickerGame : public Core
 
 			// update killed enemies count
 			DrawText(killedString.c_str(), GetScreenWidth() / 20, GetScreenHeight() / 20, 30, BLACK);
-
-			EndDrawing();
 		}
 
 	private:

@@ -111,8 +111,6 @@ class tictactoe : public Core
 				}
 			}
 
-			BeginDrawing();
-
 			// render squares
 			for(auto& sqr : squares)
 			{
@@ -121,8 +119,6 @@ class tictactoe : public Core
 			
 			// draw updateButton
 			drawRectangle(updateButton.location, Vec2f(20, 20), GREEN);
-
-			EndDrawing();
 		}
 
 		void determineWinner()

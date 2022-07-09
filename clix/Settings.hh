@@ -9,5 +9,5 @@
 #define ASSETSPATH "../assets/"
 
 // hide cursor
-#define HIDECURSOR false
+#define HIDECURSOR true
 

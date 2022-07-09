@@ -21,8 +21,11 @@ class Core
 		virtual ~Core();
 		void start();
 	protected:
-		bool close = false;
+		// main update function for this framework
 		virtual void update();
+
+		// close program
+		bool close = false;
 		// last clicked position
 		Vec2f currentClick;
 		// current mouse position
@@ -45,6 +48,7 @@ class Core
 	private:
 		// functions running in main loop
 		void events();
+		void raylibDrawing();
 };
 
 #endif
