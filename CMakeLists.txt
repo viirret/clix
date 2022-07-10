@@ -18,8 +18,9 @@ FetchContent_MakeAvailable(raylib)
 # for other programs substitute, first .cc file
 # clix/clickerGame.cc
 # clix/tictactoe.cc
+# clix/hunter.cc
 
-add_executable(${PROJECT_NAME} examples/clickerGame.cc clix/Core.cc clix/Enemy.cc clix/Ammo.cc clix/Gun.cc clix/Global.cc clix/Audio.cc clix/Player.cc clix/Object.cc clix/Controls.cc clix/Crosshair.cc)
+add_executable(${PROJECT_NAME} examples/hunter.cc clix/Image.cc clix/Core.cc clix/Enemy.cc clix/Ammo.cc clix/Gun.cc clix/Audio.cc clix/Player.cc clix/Object.cc clix/Controls.cc clix/Crosshair.cc clix/Config.cc)
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")

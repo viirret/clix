@@ -99,7 +99,7 @@ class tictactoe : public Core
 			// start new game by pressing the green button
 			if(isClicked(updateButton.location, updateButton.max))
 				createSquares();
-			
+
 			// determine square colors
 			for(auto& sqr : squares)
 			{

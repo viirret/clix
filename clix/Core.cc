@@ -1,10 +1,14 @@
 #include "Core.hh"
 
+#include <iostream>
+
 Core::Core() : audio()
 {
-	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "");
+	SetConfigFlags(Config::CONFIGFLAGS);
+	
+	InitWindow(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT, "");
 
-	if(HIDECURSOR)
+	if(Config::HIDECURSOR)
 		HideCursor();
 }
 
@@ -40,17 +44,24 @@ void Core::events()
 
 	if(IsMouseButtonReleased(0))
 		currentClick = Vec2f(-1, -1);
+
+	if(IsWindowResized() && !IsWindowFullscreen())
+	{
+		Config::WINDOW_WIDTH = GetScreenWidth();
+		Config::WINDOW_WIDTH = GetScreenHeight();
+	}
 }
 
 void Core::raylibDrawing()
 {
+	ClearBackground(Config::BACKGROUND);
 	BeginDrawing();
 	EndDrawing();
 }
 
 void Core::spawnEnemyRandom(std::string texture)
 {
-	auto obj = std::make_unique<Object>((glb::assetsPath + texture).c_str());
+	auto obj = std::make_unique<Object>((Config::ASSETSPATH + texture).c_str());
 	
 	// we need textures size for random position
 	obj->setPosition(getRandomSpawn(obj->getTexture()));
@@ -77,9 +88,7 @@ bool Core::isClicked(Vec2f position, Vec2f max)
 
 bool Core::isClickedSize(Vec2f position, Vec2f size)
 {
-	bool x = currentClick.x >= position.x && currentClick.y >= position.y && currentClick.x && currentClick.x <= position.x + size.x && currentClick.y <= position.y + size.y;
-	currentClick = Vec2f(0, 0);
-	return x;
+	return currentClick.x >= position.x && currentClick.y >= position.y && currentClick.x && currentClick.x <= position.x + size.x && currentClick.y <= position.y + size.y;
 }
 
 

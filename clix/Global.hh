@@ -1,10 +1,7 @@
 #ifndef GLOBAL_HH
 #define GLOBAL_HH
 
-#include <string>
 #include <random>
-#include "Settings.hh"
-#include "Vector2.hh"
 
 template<typename T>
 class rnd
@@ -17,12 +14,6 @@ class rnd
 			std::uniform_real_distribution<T> dist(from, to);
 			return dist(generator);
 		}
-};
-
-class glb
-{
-	public:
-		const static std::string assetsPath;
 };
 
 #endif

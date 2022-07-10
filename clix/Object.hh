@@ -29,9 +29,12 @@ class Object
 		bool checkHit(Vec2f hit);
 
 		// final rendering function
-		void draw(Color color);
+		virtual void draw(Color color);
 
 		void moveTowardsTarget();
+
+		// image functions
+		void resizeImage(Vec2f size);
 
 		// setters
 		void setType(Object::Type type);
@@ -71,6 +74,8 @@ class Object
 		Vec2f speed = Vec2f(0.01f, 0.01f);
 
 		Vec2f target;
+
+		Image image;
 	private:
 		Vec2f randomPositionOnScreen();
 

@@ -3,7 +3,7 @@
 
 #include "raylib.h"
 #include <string>
-#include "Global.hh"
+#include "Config.hh"
 #include "Vector2.hh"
 
 class Crosshair

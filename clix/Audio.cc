@@ -5,7 +5,7 @@ Audio::Audio()
 	InitAudioDevice();
 
 	if(IsAudioDeviceReady())
-		SetMasterVolume((float)MASTER_VOLUME / 10);
+		SetMasterVolume((float)Config::MASTER_VOLUME / 10);
 }
 
 void Audio::addSound(std::string name)
@@ -18,7 +18,7 @@ void Audio::addSound(std::string name)
 
 void Audio::playSound(std::string name)
 {
-	std::string p = glb::assetsPath + name;
+	std::string p = Config::ASSETSPATH + name;
 
 	if(soundFiles.empty())
 		addSound(p);

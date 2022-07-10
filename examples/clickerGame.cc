@@ -9,7 +9,7 @@ class clickerGame : public Core
 		 	Core(),			// start core
 			crosshair(),	// implement default crosshair
 			player(),		// add player
-			resetButton((glb::assetsPath + "playagain.png").c_str(), Vec2f(1, 1)) // add resetbutton for game over
+			resetButton((Config::ASSETSPATH + "playagain.png").c_str(), Vec2f(1, 1)) // add resetbutton for game over
 		{
 			resetGame();
 			spawnEnemyRandom("arch.png");
@@ -51,9 +51,6 @@ class clickerGame : public Core
 				// if enemy is clicked
 				if(objects[i]->checkHit(currentClick))
 				{
-					// redefine currenthit
-					//currentClick = Vec2f();
-
 					switch(objects[i]->type)
 					{
 						case Object::Type::enemy: 
@@ -123,8 +120,6 @@ class clickerGame : public Core
 
 		void draw()
 		{
-			ClearBackground(WHITE);
-
 			crosshair.draw(WHITE);
 
 			// render enemies

@@ -7,7 +7,7 @@ Crosshair::Crosshair()
 
 Crosshair::Crosshair(std::string path)
 {
-	texture = LoadTexture((glb::assetsPath + path).c_str());
+	texture = LoadTexture((Config::ASSETSPATH + path).c_str());
 }
 
 Crosshair::~Crosshair()

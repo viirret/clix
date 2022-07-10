@@ -4,8 +4,7 @@
 #include "raylib.h"
 #include <string>
 #include <vector>
-#include "Global.hh"
-#include "Settings.hh"
+#include "Config.hh"
 
 class Audio
 {

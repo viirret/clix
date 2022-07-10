@@ -7,7 +7,6 @@
 #include "Object.hh"
 #include "Global.hh"
 #include "Enemy.hh"
-#include "Settings.hh"
 #include "Audio.hh"
 #include <memory>
 #include <cstdio>
