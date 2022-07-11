@@ -5,21 +5,34 @@
 class Hunter : public Core
 {
 	public:
-		Hunter() : Core(), background(Config::ASSETSPATH + "hunter/village.png", Vec2f(0, 0))
+		Hunter() 
+			: 	Core(), 
+				background(Config::ASSETSPATH + "hunter/village.png"), 
+				car(Config::ASSETSPATH + "hunter/car.png", Vec2f((float)GetScreenWidth() / 2, (float)GetScreenHeight() / 3))
 		{
+			resizeImages();
 		}
 
 		void update() override
 		{
 			Core::update();
 
-			//background.resizeImage(Vec2f(GetScreenWidth(), GetScreenHeight()));
+			if(screenResized)
+			{
+				resizeImages();
+			}
+			background.draw();
+			car.draw();
+		}
 
-			background.draw(WHITE);
+		void resizeImages()
+		{
+			background.resizeImage(Vec2f(GetScreenWidth(), GetScreenHeight()));
+			car.resizeImage(Vec2f((float)GetScreenWidth() / 5, (float)GetScreenHeight() / 5));
 		}
 
 	private:
-		Img background;
+		Img background, car;
 };
 
 int main(int argc, char** agrv)

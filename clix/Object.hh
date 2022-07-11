@@ -30,11 +30,9 @@ class Object
 
 		// final rendering function
 		virtual void draw(Color color);
+		virtual void draw();
 
 		void moveTowardsTarget();
-
-		// image functions
-		void resizeImage(Vec2f size);
 
 		// setters
 		void setType(Object::Type type);

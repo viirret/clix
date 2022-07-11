@@ -17,6 +17,7 @@ class Core
 {
 	public:
 		Core();
+		Core(std::string name);
 		virtual ~Core();
 		void start();
 	protected:
@@ -43,6 +44,8 @@ class Core
 		// drawing functions
 		void drawRectangle(Vec2f position, Vec2f size, Color color);
 		Audio audio;
+
+		bool screenResized = false;
 
 	private:
 		// functions running in main loop

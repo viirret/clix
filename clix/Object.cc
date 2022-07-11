@@ -57,15 +57,14 @@ void Object::moveTowardsTarget()
 		position.y -= speed.y;
 }
 
-void Object::resizeImage(Vec2f size)
-{
-	ImageResize(&image, size.x, size.y);
-	texture = LoadTextureFromImage(image);
-}
-
 void Object::draw(Color color)
 {
 	DrawTexture(texture, position.x, position.y, color);
+}
+
+void Object::draw()
+{
+	DrawTexture(texture, position.x, position.y, WHITE);
 }
 
 bool Object::checkHit(Vec2f hit)

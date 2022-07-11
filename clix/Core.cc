@@ -1,12 +1,20 @@
 #include "Core.hh"
 
-#include <iostream>
-
 Core::Core() : audio()
 {
 	SetConfigFlags(Config::CONFIGFLAGS);
 	
 	InitWindow(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT, "");
+
+	if(Config::HIDECURSOR)
+		HideCursor();
+}
+
+Core::Core(std::string name) : audio()
+{
+	SetConfigFlags(Config::CONFIGFLAGS);
+	
+	InitWindow(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT, name.c_str());
 
 	if(Config::HIDECURSOR)
 		HideCursor();
@@ -49,7 +57,10 @@ void Core::events()
 	{
 		Config::WINDOW_WIDTH = GetScreenWidth();
 		Config::WINDOW_WIDTH = GetScreenHeight();
+		screenResized = true;
 	}
+	else
+		screenResized = false;
 }
 
 void Core::raylibDrawing()

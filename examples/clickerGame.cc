@@ -1,6 +1,7 @@
 #include "../clix/Core.hh"
 #include "../clix/Player.hh"
 #include "../clix/Crosshair.hh"
+#include "../clix/Image.hh"
 
 class clickerGame : public Core
 {
