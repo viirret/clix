@@ -9,6 +9,8 @@
 class Object
 {
 	public:
+
+		// TODO this has to be rewritten
 		enum class Type
 		{
 			object,

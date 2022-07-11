@@ -2,13 +2,13 @@
 
 Img::Img(std::string path, Vec2f position) : position(position)
 {
-	image = LoadImage(path.c_str());
+	image = LoadImage((Config::ASSETSPATH + path).c_str());
 	updateTexture();
 }
 
 Img::Img(std::string path)
 {
-	image = LoadImage(path.c_str());
+	image = LoadImage((Config::ASSETSPATH + path).c_str());
 	position = Vec2f(0, 0);
 	updateTexture();
 }

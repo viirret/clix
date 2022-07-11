@@ -4,6 +4,7 @@
 #include "raylib.h"
 #include <string>
 #include "Object.hh"
+#include "Config.hh"
 
 class Img : public Object
 {

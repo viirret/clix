@@ -72,7 +72,7 @@ void Core::raylibDrawing()
 
 void Core::spawnEnemyRandom(std::string texture)
 {
-	auto obj = std::make_unique<Object>((Config::ASSETSPATH + texture).c_str());
+	auto obj = std::make_unique<Img>((Config::ASSETSPATH + texture).c_str());
 	
 	// we need textures size for random position
 	obj->setPosition(getRandomSpawn(obj->getTexture()));

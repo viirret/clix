@@ -14,6 +14,7 @@ class Crosshair
 		~Crosshair();
 		void updateCrosshair(Vec2f pos);
 		void draw(Color color);
+		void draw();
 	private:
 		Texture texture;
 		int x;

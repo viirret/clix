@@ -3,6 +3,24 @@
 #include "../clix/Crosshair.hh"
 #include "../clix/Image.hh"
 
+class Enemy : public Img
+{
+	public:
+		Enemy(std::string path, Vec2f position) : Img(path, position)
+		{
+			type = Object::Type::enemy;
+		}
+};
+
+class Ammo : public Img
+{
+	public:
+		Ammo(std::string path, Vec2f position) : Img(path, position)
+		{
+			type = Object::Type::ammo;
+		}
+};
+
 class clickerGame : public Core
 {
 	public:
@@ -52,6 +70,7 @@ class clickerGame : public Core
 				// if enemy is clicked
 				if(objects[i]->checkHit(currentClick))
 				{
+					printf("object hit\n");
 					switch(objects[i]->type)
 					{
 						case Object::Type::enemy: 
@@ -121,7 +140,7 @@ class clickerGame : public Core
 
 		void draw()
 		{
-			crosshair.draw(WHITE);
+			crosshair.draw();
 
 			// render enemies
 			for(auto& obj : objects)

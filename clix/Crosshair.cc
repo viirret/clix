@@ -20,6 +20,11 @@ void Crosshair::draw(Color color)
 	DrawTexture(texture, x, y, color);
 }
 
+void Crosshair::draw()
+{
+	DrawTexture(texture, x, y, WHITE);
+}
+
 void Crosshair::updateCrosshair(Vec2f pos)
 {
 	x = pos.x - (float)texture.width / 2;

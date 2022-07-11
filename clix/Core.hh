@@ -8,6 +8,7 @@
 #include "Global.hh"
 #include "Enemy.hh"
 #include "Audio.hh"
+#include "Image.hh"
 #include <memory>
 #include <cstdio>
 #include <vector>
@@ -38,8 +39,11 @@ class Core
 		bool isClicked(Vec2f position, Vec2f max);
 		bool isClickedSize(Vec2f position, Vec2f size);
 
-		// currently existing enemies
+		// currently existing objects
 		std::vector<std::unique_ptr<Object>> objects;
+
+		// currently existing images
+		std::vector<std::unique_ptr<Img>> images;
 
 		// drawing functions
 		void drawRectangle(Vec2f position, Vec2f size, Color color);

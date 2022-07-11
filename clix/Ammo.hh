@@ -1,3 +1,4 @@
+/*
 #ifndef AMMO_HH
 #define AMMO_HH
 
@@ -10,3 +11,4 @@ class Ammo : public Object
 };
 
 #endif
+*/
