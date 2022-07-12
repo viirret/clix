@@ -20,11 +20,9 @@ class Object
 		Type type;
 
 		Object() {};
-		Object(const char* path, Vec2f position, Vec2f speed, Vec2f target);
-		Object(const char* path, Vec2f position, Vec2f speed);
-		Object(const char* path, Vec2f position);
-		Object(const char* path);
-
+		Object(Vec2f position, Vec2f speed, Vec2f target);
+		Object(Vec2f position, Vec2f speed);
+		Object(Vec2f position);
 		~Object();
 		
 		// check if texture is clicked with mouse
@@ -73,9 +71,9 @@ class Object
 		// movement speed
 		Vec2f speed = Vec2f(0.01f, 0.01f);
 
+		// target position for object
 		Vec2f target;
 
-		Image image;
 	private:
 		Vec2f randomPositionOnScreen();
 

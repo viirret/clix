@@ -59,14 +59,14 @@ class clickerGame2 : public Core
 				}
 			}
 
-			/*
 			// GAMEPLAY LOGIC	
 			for(size_t i = 0; i < (size_t)images.size(); i++)
 			{
 				// if enemy is clicked
 				if(images[i]->checkHit(currentClick))
 				{
-					printf("object hit\n");
+					printf("currenthit X: %f, Y:%f\n", currentClick.x, currentClick.y);
+
 					switch(images[i]->type)
 					{
 						case Object::Type::enemy: 
@@ -90,6 +90,7 @@ class clickerGame2 : public Core
 				}
 			}
 
+			/*
 			// OBJECT MOVEMENT LOGIC
 			for(auto& obj : images)
 			{
@@ -154,7 +155,7 @@ class clickerGame2 : public Core
 		// instances of other classes
 		Crosshair crosshair;
 		Player player;
-		Object resetButton;
+		Img resetButton;
 
 		// variables for gameplay
 		int killedEnemies;

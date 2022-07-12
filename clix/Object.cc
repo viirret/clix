@@ -1,33 +1,24 @@
 #include "Object.hh"
 
-Object::Object(const char* path, Vec2f position, Vec2f speed, Vec2f target)
+Object::Object(Vec2f position, Vec2f speed, Vec2f target)
 						: 	type(Object::Type::object),
 							position(position),
 							speed(speed),
 							target(target)
 {
-	setTexture(path);
 }
 
-Object::Object(const char* path, Vec2f position, Vec2f speed)
+Object::Object(Vec2f position, Vec2f speed)
 						:	type(Object::Type::object),
 							position(position),
 							speed(speed)
 {
-	setTexture(path);
 }
 
-Object::Object(const char* path, Vec2f position) 
+Object::Object(Vec2f position) 
 						: 	type(Object::Type::object),
 							position(position)
 {
-	setTexture(path);
-}
-
-Object::Object(const char* path)
-						: type(Object::Type::object)
-{
-	setTexture(path);
 }
 
 Object::~Object()

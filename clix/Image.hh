@@ -17,8 +17,6 @@ class Img : public Object
 	private:
 		void updateTexture();
 		Image image;
-		Texture texture;
-		Vec2f position;
 };
 
 #endif

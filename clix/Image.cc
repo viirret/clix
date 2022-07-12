@@ -1,6 +1,6 @@
 #include "Image.hh"
 
-Img::Img(std::string path, Vec2f position) : position(position)
+Img::Img(std::string path, Vec2f position) : Object(position)
 {
 	image = LoadImage((Config::ASSETSPATH + path).c_str());
 	updateTexture();
