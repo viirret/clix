@@ -77,7 +77,7 @@ void Core::spawnEnemyRandom(std::string texture)
 	// we need textures size for random position
 	obj->setPosition(getRandomSpawn(obj->getTexture()));
 	obj->setType(Object::Type::enemy);
-	objects.push_back(std::move(obj));
+	images.push_back(std::move(obj));
 }
 
 const Vec2f Core::getRandomSpawn(Texture texture)
