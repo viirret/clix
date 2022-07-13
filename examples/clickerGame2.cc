@@ -7,7 +7,7 @@ class Enemy : public Img
 	public:
 		Enemy(std::string path, Vec2f position) : Img(path, position)
 		{
-			type = Object::Type::enemy;
+			id = "enemy";
 		}
 };
 
@@ -16,7 +16,7 @@ class Ammo : public Img
 	public:
 		Ammo(std::string path, Vec2f position) : Img(path, position)
 		{
-			type = Object::Type::ammo;
+			id = "ammo";
 		}
 };
 
@@ -67,19 +67,16 @@ class clickerGame2 : public Core
 				{
 					printf("currenthit X: %f, Y:%f\n", currentClick.x, currentClick.y);
 
-					switch(images[i]->type)
+					if(images[i]->id == "enemy")
 					{
-						case Object::Type::enemy: 
-							// update amount of killed enemies
-							killedEnemies++;
-							killedString = std::to_string(killedEnemies);
-							break;
-						case Object::Type::ammo:
-							player.gun.restock();
-							break;
-						case Object::Type::object: break;
+						killedEnemies++;
+						killedString = std::to_string(killedEnemies);
 					}
-					
+					if(images[i]->id == "ammo")
+					{
+						player.gun.restock();
+					}
+
 					// delete clicked element
 					//images.erase(images.begin() + i);
 

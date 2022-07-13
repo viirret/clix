@@ -11,6 +11,7 @@ class Img : public Object
 	public:
 		Img(std::string path, Vec2f position);
 		Img(std::string path);
+		// TODO check this
 		void draw(Color color) override;
 		void draw() override;
 		void resizeImage(Vec2f size);

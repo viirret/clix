@@ -76,7 +76,7 @@ void Core::spawnEnemyRandom(std::string texture)
 	
 	// we need textures size for random position
 	obj->setPosition(getRandomSpawn(obj->getTexture()));
-	obj->setType(Object::Type::enemy);
+	obj->setId("enemy");
 	images.push_back(std::move(obj));
 }
 

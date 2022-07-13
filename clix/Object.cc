@@ -1,23 +1,20 @@
 #include "Object.hh"
 
 Object::Object(Vec2f position, Vec2f speed, Vec2f target)
-						: 	type(Object::Type::object),
-							position(position),
+						: 	position(position),
 							speed(speed),
 							target(target)
 {
 }
 
 Object::Object(Vec2f position, Vec2f speed)
-						:	type(Object::Type::object),
-							position(position),
+						:	position(position),
 							speed(speed)
 {
 }
 
 Object::Object(Vec2f position) 
-						: 	type(Object::Type::object),
-							position(position)
+						: position(position)
 {
 }
 
@@ -64,7 +61,7 @@ bool Object::checkHit(Vec2f hit)
 }
 
 // setters
-void Object::setType(Object::Type type) { this->type = type; }
+void Object::setId(std::string id) { this->id = id; }
 void Object::setTexture(const char* path) { texture = LoadTexture(path); }
 void Object::setTarget(Vec2f target) { this->target = target; }
 void Object::setTargetX(float x) { target.x = x; }

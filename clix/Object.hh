@@ -9,16 +9,10 @@
 class Object
 {
 	public:
+		// identifier for custom groups
+		std::string id;
 
-		// TODO this has to be rewritten
-		enum class Type
-		{
-			object,
-			ammo,
-			enemy
-		};
-		Type type;
-
+		// some constructors to be called from derived classed
 		Object() {};
 		Object(Vec2f position, Vec2f speed, Vec2f target);
 		Object(Vec2f position, Vec2f speed);
@@ -35,7 +29,7 @@ class Object
 		void moveTowardsTarget();
 
 		// setters
-		void setType(Object::Type type);
+		void setId(std::string id);
 		void setTexture(const char* path);
 		void setTarget(Vec2f target);
 		void setTargetX(float x);
