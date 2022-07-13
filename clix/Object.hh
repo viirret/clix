@@ -13,6 +13,7 @@ class Object
 		std::string id;
 
 		// some constructors to be called from derived classed
+		// TODO flip position and id arguments
 		Object() {};
 		Object(std::string id);
 		Object(Vec2f position);
@@ -29,14 +30,6 @@ class Object
 		// setters
 		void setId(std::string id);
 		void setTexture(const char* path);
-		/*
-		void setTarget(Vec2f target);
-		void setTargetX(float x);
-		void setTargetY(float y);
-		void setSpeed(Vec2f speed);
-		void setSpeedX(float x);
-		void setSpeedY(float y);
-		*/
 		void setPosition(Vec2f position);
 		void setX(float x);
 		void setY(float y);

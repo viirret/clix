@@ -31,7 +31,10 @@ class clickerGame2 : public Core
 				  	player(),
 					resetButton((Config::ASSETSPATH + "playagain.png").c_str(), Vec2f(1, 1)) // add resetbutton for game over
 		{
-			enemies.push_back(std::make_unique<Enemy>("arch.png", Vec2f(1000, 1000), Vec2f(100, 100), Vec2f(600, 600)));
+			enemies.push_back(std::make_unique<Enemy>("arch.png", Vec2f(500, 500), Vec2f(1.1f, 0.1f), Vec2f(600, 600)));
+			enemies.push_back(std::make_unique<Ammo>("ammo.png", Vec2f(100, 100), Vec2f(1.f, 1.f), Vec2f(100, 100)));
+
+			printf("TYPE: %s\n", enemies[0]->id.c_str());
 		}
 
 		void update() override
@@ -61,53 +64,25 @@ class clickerGame2 : public Core
 				}
 			}
 
-			// GAMEPLAY LOGIC	
-			for(size_t i = 0; i < (size_t)images.size(); i++)
+			for(auto& obj : enemies)
 			{
-				// if enemy is clicked
-				if(images[i]->checkHit(currentClick))
-				{
-					printf("currenthit X: %f, Y:%f\n", currentClick.x, currentClick.y);
+				obj->moveTowardsTarget();
+			}
 
-					if(images[i]->id == "enemy")
+			for(auto& obj : enemies)
+			{
+				if(obj->checkHit(currentClick))
+				{
+					if(obj->id == "enemy")
 					{
 						killedEnemies++;
 						killedString = std::to_string(killedEnemies);
 					}
-					if(images[i]->id == "ammo")
+					if(obj->id == "ammo")
 					{
 						player.gun.restock();
 					}
-
-					// delete clicked element
-					//images.erase(images.begin() + i);
-
-					// add new enemy 
-					//spawnEnemyRandom("arch.png");
-
-					//images[0]->setRandomTarget();
 				}
-			}
-
-			/*
-			// OBJECT MOVEMENT LOGIC
-			for(auto& obj : images)
-			{
-				switch(obj->type)
-				{
-					case Object::Type::enemy: 
-						obj->moveTowardsTarget();
-						break;
-
-					case Object::Type::ammo: break;
-					case Object::Type::object: break;
-				}
-			}
-			*/
-
-			for(auto& obj : enemies)
-			{
-				obj->moveTowardsTarget();
 			}
 	
 			crosshair.draw();
@@ -162,8 +137,7 @@ class clickerGame2 : public Core
 		bool isGameOver = false;
 		bool currentHitChanged = false;
 
-		std::vector<std::unique_ptr<Enemy>> enemies;
-
+		std::vector<std::unique_ptr<Entity>> enemies;
 };
 
 int main(int argc, char** argv)
