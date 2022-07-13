@@ -21,7 +21,7 @@ FetchContent_MakeAvailable(raylib)
 # clix/tictactoe.cc
 # clix/hunter.cc
 
-add_executable(${PROJECT_NAME} examples/clickerGame2.cc clix/Image.cc clix/Core.cc clix/Gun.cc clix/Audio.cc clix/Player.cc clix/Object.cc clix/Controls.cc clix/Crosshair.cc clix/Config.cc)
+add_executable(${PROJECT_NAME} examples/clickerGame2.cc clix/Entity.cc clix/Image.cc clix/Core.cc clix/Gun.cc clix/Audio.cc clix/Player.cc clix/Object.cc clix/Controls.cc clix/Crosshair.cc clix/Config.cc)
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")

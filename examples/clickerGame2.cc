@@ -1,22 +1,24 @@
 #include "../clix/Core.hh"
 #include "../clix/Crosshair.hh"
 #include "../clix/Player.hh"
+#include "../clix/Entity.hh"
 
-class Enemy : public Img
+class Enemy : public Entity
 {
 	public:
-		Enemy(std::string path, Vec2f position) : Img(path, position)
+		Enemy(std::string path, Vec2f position, Vec2f speed, Vec2f target) : Entity(path, position, speed, target)
 		{
-			id = "enemy";
+			this->id = "enemy";
 		}
+
 };
 
-class Ammo : public Img
+class Ammo : public Entity
 {
 	public:
-		Ammo(std::string path, Vec2f position) : Img(path, position)
+		Ammo(std::string path, Vec2f position, Vec2f speed, Vec2f target) : Entity(path, position, speed, target)
 		{
-			id = "ammo";
+			this->id = "ammo";
 		}
 };
 
@@ -29,7 +31,7 @@ class clickerGame2 : public Core
 				  	player(),
 					resetButton((Config::ASSETSPATH + "playagain.png").c_str(), Vec2f(1, 1)) // add resetbutton for game over
 		{
-			images.push_back(std::make_unique<Enemy>("arch.png", Vec2f(500, 500)));
+			enemies.push_back(std::make_unique<Enemy>("arch.png", Vec2f(1000, 1000), Vec2f(100, 100), Vec2f(600, 600)));
 		}
 
 		void update() override
@@ -45,7 +47,7 @@ class clickerGame2 : public Core
 				gameOver();
 
 			// render images
-			for(auto& obj : images)
+			for(auto& obj : enemies)
 				obj->draw();
 
 			if(IsMouseButtonPressed(0))
@@ -103,7 +105,7 @@ class clickerGame2 : public Core
 			}
 			*/
 
-			for(auto& obj : images)
+			for(auto& obj : enemies)
 			{
 				obj->moveTowardsTarget();
 			}
@@ -159,6 +161,9 @@ class clickerGame2 : public Core
 		std::string killedString;
 		bool isGameOver = false;
 		bool currentHitChanged = false;
+
+		std::vector<std::unique_ptr<Enemy>> enemies;
+
 };
 
 int main(int argc, char** argv)

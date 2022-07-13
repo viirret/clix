@@ -1,20 +1,17 @@
 #include "Object.hh"
 
-Object::Object(Vec2f position, Vec2f speed, Vec2f target)
-						: 	position(position),
-							speed(speed),
-							target(target)
-{
-}
-
-Object::Object(Vec2f position, Vec2f speed)
-						:	position(position),
-							speed(speed)
-{
-}
-
 Object::Object(Vec2f position) 
 						: position(position)
+{
+}
+
+Object::Object(std::string id)
+						: id(id)
+{
+}
+
+Object::Object(Vec2f position, std::string id)
+						: id(id), position(position)
 {
 }
 
@@ -28,21 +25,6 @@ Vec2f Object::randomPositionOnScreen()
 	float x = rnd<float>::randomValue(0.f, GetScreenWidth() - getWidth());
 	float y = rnd<float>::randomValue(0.f, GetScreenHeight() - getHeight());
 	return Vec2f(x, y);
-}
-
-void Object::moveTowardsTarget()
-{
-	if(position.x < target.x)
-		position.x += speed.x;
-
-	if(position.x > target.x)
-		position.x -= speed.x; 
-
-	if(position.y < target.y)
-		position.y += speed.y;
-
-	if(position.y > target.y)
-		position.y -= speed.y;
 }
 
 void Object::draw(Color color)
@@ -63,16 +45,11 @@ bool Object::checkHit(Vec2f hit)
 // setters
 void Object::setId(std::string id) { this->id = id; }
 void Object::setTexture(const char* path) { texture = LoadTexture(path); }
-void Object::setTarget(Vec2f target) { this->target = target; }
-void Object::setTargetX(float x) { target.x = x; }
-void Object::setTargetY(float y) { target.y = y; }
-void Object::setSpeed(Vec2f speed) { this->speed = speed; }
-void Object::setSpeedX(float x) { speed.x = x; }
-void Object::setSpeedY(float y) { speed.y = y; }
 void Object::setPosition(Vec2f position) { this->position = position; };
 void Object::setX(float x) { position.x = x; }
 void Object::setY(float y) { position.y = y; }
 
+/*
 void Object::setRandomTarget()
 {
 	setTarget(randomPositionOnScreen());	
@@ -82,6 +59,7 @@ void Object::setRandomSpeed()
 {
 	setSpeed(randomPositionOnScreen());
 }
+*/
 
 void Object::setRandomPosition()
 {
@@ -90,8 +68,6 @@ void Object::setRandomPosition()
 
 // getters
 Texture Object::getTexture() { return texture; }
-Vec2f Object::getTarget() { return target; }
-Vec2f Object::getSpeed() { return speed; }
 float Object::getX() { return position.x; }
 float Object::getY() { return position.y; }
 float Object::getWidth() { return texture.width; }
