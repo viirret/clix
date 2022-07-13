@@ -6,7 +6,6 @@
 #include "Crosshair.hh"
 #include "Object.hh"
 #include "Global.hh"
-#include "Enemy.hh"
 #include "Audio.hh"
 #include "Image.hh"
 #include <memory>
