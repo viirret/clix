@@ -3,6 +3,7 @@
 Object::Object(Vec2f position) 
 						: position(position)
 {
+	id = "No ID!";
 }
 
 Object::Object(std::string id)
@@ -48,18 +49,6 @@ void Object::setTexture(const char* path) { texture = LoadTexture(path); }
 void Object::setPosition(Vec2f position) { this->position = position; };
 void Object::setX(float x) { position.x = x; }
 void Object::setY(float y) { position.y = y; }
-
-/*
-void Object::setRandomTarget()
-{
-	setTarget(randomPositionOnScreen());	
-}
-
-void Object::setRandomSpeed()
-{
-	setSpeed(randomPositionOnScreen());
-}
-*/
 
 void Object::setRandomPosition()
 {
