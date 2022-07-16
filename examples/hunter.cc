@@ -6,13 +6,21 @@
 class Enemy : public Entity
 {
 	public:
-		Enemy(std::string path, Vec2f position, Vec2f target) : Entity(path, position, target)
+		Enemy(std::string path, Vec2f position, Vec2f target, std::string sound) : Entity(path, position, target), sound(sound)
 		{
 			// speed of Entity
 			speed = Vec2f(1.0f, 1.0f);
 
 			// id of the Object
 			id = "enemy";
+		}
+
+		std::string sound;
+
+		void move()
+		{
+			target = Vec2f(0, 200);
+			moveTowardsTarget();
 		}
 };
 
@@ -31,10 +39,18 @@ class Hunter : public Core
 			{
 				switch(i)
 				{
-					case 0: enemies.push_back(Enemy("hunter/d1.png", Vec2f(0, 0), Vec2f(1, 0))); break;
-					case 1: enemies.push_back(Enemy("hunter/d2.png", Vec2f(100, 100), Vec2f(500, 500))); break;
+					// TODO add all enemies
+					case 0: enemies.push_back(Enemy("hunter/d1.png", Vec2f(0, 0), Vec2f(1, 0), "hunter/1.mp3")); break;
+					case 1: enemies.push_back(Enemy("hunter/d2.png", Vec2f(100, 100), Vec2f(500, 500), "hunter/2.mp3")); break;
 				}
 			}
+		}
+
+		void spawnEnemy(int index)
+		{
+			//FIXME
+			Enemy n = enemies.at(index);
+			n.move();
 		}
 
 		void update() override
@@ -43,6 +59,18 @@ class Hunter : public Core
 
 			if(screenResized)
 				resizeImages();
+
+			// sound effect for current enemy killed
+			for(auto& obj : enemies)
+			{
+				if(obj.checkHit(currentClick))
+				{
+					audio.playSound(obj.sound);
+
+
+					// right here kill the enemy
+				}
+			}
 
 
 			background.draw();
