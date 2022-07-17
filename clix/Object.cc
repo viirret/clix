@@ -9,6 +9,7 @@ Object::Object(Vec2f position)
 Object::Object(std::string id)
 						: id(id)
 {
+	position = Vec2f();
 }
 
 Object::Object(Vec2f position, std::string id)
