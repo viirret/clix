@@ -22,11 +22,6 @@ class Enemy : public Entity
 			resizeImage(Vec2f((float)GetScreenWidth() / 20, (float)GetScreenWidth() / 20));
 		}
 
-		void move()
-		{
-			target = Vec2f(0, 200);
-			moveTowardsTarget();
-		}
 };
 
 class Hunter : public Core
@@ -37,28 +32,40 @@ class Hunter : public Core
 				background("hunter/village.png"), 
 				car("hunter/car.png", Vec2f((float)GetScreenWidth() / 0.8f, (float)GetScreenHeight() / 0.5f))
 		{
-			resizeImages();
+			createSpawns();
 
-			// creating enemies
-			for(size_t i = 0; i < 5; i++)
+			for(int i = 0; i < 5; i++)
 			{
-				switch(i)
-				{
-					// TODO add all enemies
-					case 0: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", Vec2f(0, 0), Vec2f(1, 0), "hunter/1.mp3")); break;
-					case 1: enemies.push_back(std::make_unique<Enemy>("hunter/d2.png", Vec2f(100, 100), Vec2f(500, 500), "hunter/2.mp3")); break;
-				}
+				spawnEnemy(i);
 			}
 
-			spawnEnemy(0);
+			resizeImages();
+		}
+
+
+		void createSpawns()
+		{
+			// TODO set target
+			coords.emplace_back(Vec2f((float)GetScreenWidth() / 10, GetScreenHeight() / 0.9), Vec2f(1.0f, 1.0f));
+			coords.emplace_back(Vec2f((float)GetScreenWidth() / 1.3, GetScreenHeight() / 1.2), Vec2f(1.f, 1.f));
+			coords.emplace_back(Vec2f((float)GetScreenWidth() / 0.7, GetScreenHeight() / 1), Vec2f(1.0f, 1.0f));
+			coords.emplace_back(Vec2f((float)GetScreenWidth() / 0.47, GetScreenHeight() / 1.15), Vec2f(1.f, 1.f));
+			coords.emplace_back(Vec2f((float)GetScreenWidth() / 0.35, GetScreenWidth() / 1.3), Vec2f(1.0f, 1.0f));
 		}
 
 		void spawnEnemy(int index)
 		{
-			//FIXME
-			//Enemy n = enemies.at(index); n.move();
-			
-			enemies.at(index)->move();
+			switch(index)
+			{
+				case 0: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", coords[0].first, coords[0].second, "hunter/1.mp3")); break;
+				case 1: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", coords[1].first, coords[1].second, "hunter/2.mp3")); break;
+				case 2: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", coords[2].first, coords[2].second, "hunter/3.mp3")); break;
+				case 3: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", coords[3].first, coords[3].second, "hunter/4.mp3")); break;
+				case 4: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", coords[4].first, coords[4].second, "hunter/5.mp3")); break;
+			}
+
+			enemies.back()->resize();
+			enemies.back()->moveTowardsTarget();
 		}
 
 		void update() override
@@ -111,6 +118,9 @@ class Hunter : public Core
 	private:
 		Img background, car;
 		std::vector<std::unique_ptr<Enemy>> enemies;
+
+		// pair of position and target
+		std::vector<std::pair<Vec2f, Vec2f>> coords;
 
 };
 
