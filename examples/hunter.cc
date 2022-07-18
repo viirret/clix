@@ -9,7 +9,7 @@ class Enemy : public Entity
 		Enemy(std::string path, Vec2f position, Vec2f target, std::string sound) : Entity(path, position, target), sound(sound)
 		{
 			// speed of Entity
-			speed = Vec2f(1.0f, 1.0f);
+			speed = Vec2f(0.f, 0.1f);
 
 			// id of the Object
 			id = "enemy";
@@ -45,12 +45,11 @@ class Hunter : public Core
 
 		void createSpawns()
 		{
-			// TODO set target
-			coords.emplace_back(Vec2f((float)GetScreenWidth() / 10, GetScreenHeight() / 0.9), Vec2f(1.0f, 1.0f));
-			coords.emplace_back(Vec2f((float)GetScreenWidth() / 1.3, GetScreenHeight() / 1.2), Vec2f(1.f, 1.f));
-			coords.emplace_back(Vec2f((float)GetScreenWidth() / 0.7, GetScreenHeight() / 1), Vec2f(1.0f, 1.0f));
-			coords.emplace_back(Vec2f((float)GetScreenWidth() / 0.47, GetScreenHeight() / 1.15), Vec2f(1.f, 1.f));
-			coords.emplace_back(Vec2f((float)GetScreenWidth() / 0.35, GetScreenWidth() / 1.3), Vec2f(1.0f, 1.0f));
+			coords.emplace_back(Vec2f((float)GetScreenWidth() / 10, GetScreenHeight() / 0.9), Vec2f(0.f, GetScreenHeight() / 0.1));
+			coords.emplace_back(Vec2f((float)GetScreenWidth() / 1.3, GetScreenHeight() / 1.2), Vec2f(0.f, GetScreenHeight() / 0.1));
+			coords.emplace_back(Vec2f((float)GetScreenWidth() / 0.7, GetScreenHeight() / 1), Vec2f(0.f, GetScreenHeight() / 0.1));
+			coords.emplace_back(Vec2f((float)GetScreenWidth() / 0.47, GetScreenHeight() / 1.15), Vec2f(0.f, GetScreenHeight() / 0.1));
+			coords.emplace_back(Vec2f((float)GetScreenWidth() / 0.35, GetScreenWidth() / 1.3), Vec2f(0.f, GetScreenHeight() / 0.1));
 		}
 
 		void spawnEnemy(int index)
@@ -87,6 +86,10 @@ class Hunter : public Core
 				}
 			}
 
+			for(auto& enemy : enemies)
+			{
+				enemy->moveTowardsTarget();
+			}
 
 			background.draw();
 			car.draw();
@@ -96,11 +99,6 @@ class Hunter : public Core
 				enemy->draw();
 			}
 
-		}
-
-		void resizeEnemy(int index)
-		{
-			enemies[index]->resizeImage(Vec2f((float)GetScreenWidth() / 20, (float)GetScreenWidth() / 20));
 		}
 
 		void resizeImages()

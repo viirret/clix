@@ -7,6 +7,8 @@ namespace Controls
 {
 	bool left();
 	bool right();
+	bool up();
+	bool down();
 	bool jump();
 };
 
