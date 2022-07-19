@@ -20,7 +20,7 @@ bool Controls::down()
 	return IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_K);
 }
 
-bool Controls::jump()
+bool Controls::space()
 {
 	return IsKeyDown(KEY_SPACE);
 }

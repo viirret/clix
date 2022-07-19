@@ -9,7 +9,7 @@ namespace Controls
 	bool right();
 	bool up();
 	bool down();
-	bool jump();
+	bool space();
 };
 
 #endif

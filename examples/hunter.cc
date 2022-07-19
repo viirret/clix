@@ -31,39 +31,43 @@ class Enemy : public Entity
 class Gun : public Img
 {
 	public:
-		Gun() : Img("hunter/shooter3.png", Vec2f((float)GetScreenWidth() / 0.75, (float)GetScreenHeight() / 0.5)), currentTexture("hunter/shooter3.png")
+		Gun() : Img("hunter/shooter3.png", Vec2f((float)GetScreenWidth() / 0.79, (float)GetScreenHeight() / 0.54))
 		{
 		}
 
-		std::string currentTexture;
+		int state;
 
 		void update()
 		{
-			std::string newTexture;
-
-			if(Controls::up())
-				newTexture = "hunter/shooter3.png";
-
-			else if(Controls::up() && Controls::left())
-				newTexture = "hunter/shooter2.png";
-
-			else if(Controls::left())
-				newTexture = "hunter/shooter1.png";
-
-			// this isn't needed but helps to explain logic
+			// gun controller logic
+			if(Controls::up() && !Controls::down() && !Controls::left() && !Controls::right())
+				state = 0;
+			else if(Controls::left() && !Controls::down() && !Controls::right() && !Controls::up())
+				state = 1;
+			else if(Controls::right() && !Controls::down() && !Controls::up() && !Controls::left())
+				state = 2;
+			else if(Controls::up() && Controls::left() && !Controls::right() && !Controls::down())
+				state = 3;
+			else if(Controls::up() && Controls::right() && !Controls::left() && !Controls::down())
+				state = 4;
 			else
-				newTexture = currentTexture;
+				state = -1;
 
-			if(newTexture != currentTexture)
+			switch(state)
 			{
-				changeTexture(newTexture);
-				resize();
+				case 0: changeTexture("hunter/shooter3.png"); break;
+				case 1: changeTexture("hunter/shooter1.png"); break;
+				case 2: changeTexture("hunter/shooter5.png"); break;
+				case 3: changeTexture("hunter/shooter2.png"); break;
+				case 4: changeTexture("hunter/shooter4.png"); break;
+				case -1: return;
 			}
+			resize();
 		}
 
 		void resize()
 		{
-			resizeImage(Vec2f((float)GetScreenWidth() / 20, (float)GetScreenWidth() / 20));
+			resizeImage(Vec2f((float)GetScreenWidth() / 16, (float)GetScreenWidth() / 16));
 		}
 
 };
@@ -110,6 +114,14 @@ class Hunter : public Core
 
 			enemies.back()->resize();
 			enemies.back()->moveTowardsTarget();
+		}
+
+		void shooting()
+		{
+			if(Controls::space())
+			{
+
+			}
 		}
 
 		void update() override
