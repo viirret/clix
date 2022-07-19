@@ -10,6 +10,11 @@ Entity::Entity(std::string path, Vec2f position, Vec2f target)
 {
 }
 
+Entity::Entity(std::string path, Vec2f position)
+	: Img(path, position)
+{
+}
+
 void Entity::moveTowardsTarget()
 {
 	if(position.x < target.x)

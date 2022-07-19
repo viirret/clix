@@ -18,6 +18,8 @@ class Img : public Object
 		void draw(Color color) override;
 		void draw() override;
 		void resizeImage(Vec2f size);
+
+		void changeTexture(std::string path);
 	private:
 		void updateTexture();
 		Image image;
