@@ -3,6 +3,7 @@
 
 #include "raylib.h"
 #include <string>
+#include <vector>
 #include "Object.hh"
 #include "Config.hh"
 
@@ -13,8 +14,8 @@ class Img : public Object
 		Img(std::string path, Vec2f position);
 		Img(std::string path, std::string id);
 		Img(std::string path);
+		Img() {};
 
-		// TODO check this
 		void draw(Color color) override;
 		void draw() override;
 		void resizeImage(Vec2f size);
@@ -23,6 +24,8 @@ class Img : public Object
 	private:
 		void updateTexture();
 		Image image;
+		std::vector<std::string> paths;
+		std::vector<Image> images;
 };
 
 #endif

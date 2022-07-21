@@ -38,7 +38,20 @@ void Img::resizeImage(Vec2f size)
 
 void Img::changeTexture(std::string path)
 {
-	image = LoadImage((Config::ASSETSPATH + path).c_str());
+	for(size_t i = 0; i < paths.size(); i++)
+	{
+		if(paths[i] == path)
+		{
+			image = images[i];
+			updateTexture();
+			return;
+		}
+	}
+
+	paths.push_back(Config::ASSETSPATH + path);
+	images.push_back(LoadImage(paths.back().c_str()));
+
+	image = images.back();
 	updateTexture();
 }
 

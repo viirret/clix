@@ -33,6 +33,7 @@ class Gun : public Img
 	public:
 		Gun() : Img("hunter/shooter3.png", Vec2f((float)GetScreenWidth() / 0.79, (float)GetScreenHeight() / 0.54))
 		{
+			state = 0;
 		}
 
 		int state;
@@ -50,8 +51,6 @@ class Gun : public Img
 				state = 3;
 			else if(Controls::up() && Controls::right() && !Controls::left() && !Controls::down())
 				state = 4;
-			else
-				state = -1;
 
 			switch(state)
 			{
@@ -60,7 +59,6 @@ class Gun : public Img
 				case 2: changeTexture("hunter/shooter5.png"); break;
 				case 3: changeTexture("hunter/shooter2.png"); break;
 				case 4: changeTexture("hunter/shooter4.png"); break;
-				case -1: return;
 			}
 			resize();
 		}
@@ -72,6 +70,35 @@ class Gun : public Img
 
 };
 
+class Fire : public Img
+{
+	public:
+		Fire()
+		{
+			position = Vec2f(GetScreenWidth() / 0.8, GetScreenHeight() / 0.5);
+		}
+
+		bool render;
+
+		void execute(int pos)
+		{
+			switch(pos)	
+			{
+				case 0:	changeTexture("hunter/shoot1.png"); break;
+				case 1: changeTexture("hunter/shoot2.png"); break;
+				case 2: changeTexture("hunter/shoot3.png"); break;
+				case 3: changeTexture("hunter/shoot4.png"); break;
+				case 4: changeTexture("hunter/shoot5.png"); break;
+			}
+			resize();
+		}
+
+		void resize()
+		{
+			resizeImage(Vec2f((float)GetScreenWidth() / 16, (float)GetScreenWidth() / 16));
+		}
+};
+
 class Hunter : public Core
 {
 	public:
@@ -79,16 +106,20 @@ class Hunter : public Core
 			: 	Core(), 
 				background("hunter/village.png"), 
 				car("hunter/car.png", Vec2f((float)GetScreenWidth() / 0.8f, (float)GetScreenHeight() / 0.5f)),
-				gun()
+				gun(),
+				fire()
 		{
 			createSpawns();
 
-			for(int i = 0; i < 5; i++)
-			{
-				spawnEnemy(i);
-			}
+			spawnAll();
 
 			resizeImages();
+		}
+
+		void spawnAll()
+		{
+			for(int i = 0; i < 5; i++)
+				spawnEnemy(i);
 		}
 
 
@@ -113,14 +144,15 @@ class Hunter : public Core
 			}
 
 			enemies.back()->resize();
-			enemies.back()->moveTowardsTarget();
 		}
 
 		void shooting()
 		{
 			if(Controls::space())
 			{
-
+				audio.playSound("gunshow.mp3");
+				fire.execute(gun.state);
+				fire.render = true;
 			}
 		}
 
@@ -132,6 +164,8 @@ class Hunter : public Core
 				resizeImages();
 
 			gun.update();
+
+			shooting();
 
 			// sound effect for current enemy killed
 			for(auto& obj : enemies)
@@ -155,6 +189,11 @@ class Hunter : public Core
 			background.draw();
 			car.draw();
 			gun.draw();
+
+			if(fire.render)
+				fire.draw();
+
+			fire.render = false;
 
 			for(auto& enemy : enemies)
 			{
@@ -181,8 +220,8 @@ class Hunter : public Core
 
 		// pair of position and target
 		std::vector<Vec2f> positions;
-
 		Gun gun;
+		Fire fire;
 
 };
 
