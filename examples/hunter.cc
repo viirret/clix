@@ -7,7 +7,7 @@
 class Enemy : public Entity
 {
 	public:
-		Enemy(std::string path, Vec2f position, std::string sound) : Entity(path, position), sound(sound)
+		Enemy(std::string path, Vec2f position, std::string sound, int pos) : Entity(path, position), sound(sound), pos(pos)
 		{
 			// speed of Entity
 			speed = Vec2f(0.f, 0.1f);
@@ -20,6 +20,7 @@ class Enemy : public Entity
 		}
 
 		std::string sound;
+		int pos;
 
 		void resize()
 		{
@@ -41,25 +42,18 @@ class Gun : public Img
 		void update()
 		{
 			// gun controller logic
-			if(Controls::upOnly())
-				state = 0;
-			else if(Controls::leftOnly())
+			if(Controls::leftOnly())
 				state = 1;
-			else if(Controls::rightOnly())
-				state = 2;
 			else if(Controls::up() && Controls::left() && !Controls::right() && !Controls::down())
+				state = 2;
+			else if(Controls::upOnly())
 				state = 3;
 			else if(Controls::up() && Controls::right() && !Controls::left() && !Controls::down())
 				state = 4;
+			else if(Controls::rightOnly())
+				state = 5;
 
-			switch(state)
-			{
-				case 0: changeTexture("hunter/shooter3.png"); break;
-				case 1: changeTexture("hunter/shooter1.png"); break;
-				case 2: changeTexture("hunter/shooter5.png"); break;
-				case 3: changeTexture("hunter/shooter2.png"); break;
-				case 4: changeTexture("hunter/shooter4.png"); break;
-			}
+			changeTexture("hunter/shooter" + std::to_string(state) + ".png");
 			resize();
 		}
 
@@ -82,14 +76,7 @@ class Fire : public Img
 
 		void execute(int pos)
 		{
-			switch(pos)	
-			{
-				case 0:	changeTexture("hunter/shoot3.png"); break;
-				case 1: changeTexture("hunter/shoot1.png"); break;
-				case 2: changeTexture("hunter/shoot5.png"); break;
-				case 3: changeTexture("hunter/shoot2.png"); break;
-				case 4: changeTexture("hunter/shoot4.png"); break;
-			}
+			changeTexture("hunter/shoot" + std::to_string(pos) + ".png");
 			resize();
 		}
 
@@ -118,20 +105,17 @@ class Hunter : public Core
 
 		void spawnAll()
 		{
-			spawnEnemy(0);
+			for(int i = 1; i < 6; i++)
+				spawnEnemy(i);
 		}
 
 
 		void createSpawns()
 		{
 			positions.push_back(Vec2f((float)GetScreenWidth() / 10, GetScreenHeight() / 0.9));
-
 			positions.push_back(Vec2f((float)GetScreenWidth() / 1.3, GetScreenHeight() / 1.2));
-
 			positions.push_back(Vec2f((float)GetScreenWidth() / 0.7, GetScreenHeight() / 1));
-
 			positions.push_back(Vec2f((float)GetScreenWidth() / 0.47, GetScreenHeight() / 1.15));
-
 			positions.push_back(Vec2f((float)GetScreenWidth() / 0.35, GetScreenWidth() / 1.3));
 		}
 
@@ -139,11 +123,11 @@ class Hunter : public Core
 		{
 			switch(index)
 			{
-				case 0: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", positions[0], "hunter/1.mp3")); break;
-				case 1: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", positions[1], "hunter/2.mp3")); break;
-				case 2: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", positions[2], "hunter/3.mp3")); break;
-				case 3: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", positions[3], "hunter/4.mp3")); break;
-				case 4: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", positions[4], "hunter/5.mp3")); break;
+				case 1: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", positions[0], "hunter/1.mp3", 1)); break;
+				case 2: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", positions[1], "hunter/2.mp3", 2)); break;
+				case 3: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", positions[2], "hunter/3.mp3", 3)); break;
+				case 4: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", positions[3], "hunter/4.mp3", 4)); break;
+				case 5: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", positions[4], "hunter/5.mp3", 5)); break;
 			}
 
 			enemies.back()->resize();
@@ -153,10 +137,17 @@ class Hunter : public Core
 		{
 			if(Controls::space())
 			{
-				//if(gun.state ==)
 				audio.playSound("gunshow.mp3");
 				fire.execute(gun.state);
 				fire.render = true;
+
+				for(auto& enemy : enemies)
+				{
+					if(enemy->pos == gun.state)
+					{
+						audio.playSound(enemy->sound);
+					}
+				}
 			}
 		}
 
@@ -170,18 +161,6 @@ class Hunter : public Core
 			gun.update();
 
 			shooting();
-
-			// sound effect for current enemy killed
-			for(auto& obj : enemies)
-			{
-				if(obj->checkHit(currentClick))
-				{
-					audio.playSound(obj->sound);
-
-
-					// right here kill the enemy
-				}
-			}
 
 			for(auto& enemy : enemies)
 			{
