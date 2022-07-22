@@ -9,6 +9,10 @@ namespace Controls
 	bool right();
 	bool up();
 	bool down();
+	bool leftOnly();
+	bool rightOnly();
+	bool upOnly();
+	bool downOnly();
 	bool space();
 };
 

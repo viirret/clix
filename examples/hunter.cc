@@ -41,11 +41,11 @@ class Gun : public Img
 		void update()
 		{
 			// gun controller logic
-			if(Controls::up() && !Controls::down() && !Controls::left() && !Controls::right())
+			if(Controls::upOnly())
 				state = 0;
-			else if(Controls::left() && !Controls::down() && !Controls::right() && !Controls::up())
+			else if(Controls::leftOnly())
 				state = 1;
-			else if(Controls::right() && !Controls::down() && !Controls::up() && !Controls::left())
+			else if(Controls::rightOnly())
 				state = 2;
 			else if(Controls::up() && Controls::left() && !Controls::right() && !Controls::down())
 				state = 3;
@@ -84,11 +84,11 @@ class Fire : public Img
 		{
 			switch(pos)	
 			{
-				case 0:	changeTexture("hunter/shoot1.png"); break;
-				case 1: changeTexture("hunter/shoot2.png"); break;
-				case 2: changeTexture("hunter/shoot3.png"); break;
-				case 3: changeTexture("hunter/shoot4.png"); break;
-				case 4: changeTexture("hunter/shoot5.png"); break;
+				case 0:	changeTexture("hunter/shoot3.png"); break;
+				case 1: changeTexture("hunter/shoot1.png"); break;
+				case 2: changeTexture("hunter/shoot5.png"); break;
+				case 3: changeTexture("hunter/shoot2.png"); break;
+				case 4: changeTexture("hunter/shoot4.png"); break;
 			}
 			resize();
 		}
@@ -118,17 +118,20 @@ class Hunter : public Core
 
 		void spawnAll()
 		{
-			for(int i = 0; i < 5; i++)
-				spawnEnemy(i);
+			spawnEnemy(0);
 		}
 
 
 		void createSpawns()
 		{
 			positions.push_back(Vec2f((float)GetScreenWidth() / 10, GetScreenHeight() / 0.9));
+
 			positions.push_back(Vec2f((float)GetScreenWidth() / 1.3, GetScreenHeight() / 1.2));
+
 			positions.push_back(Vec2f((float)GetScreenWidth() / 0.7, GetScreenHeight() / 1));
+
 			positions.push_back(Vec2f((float)GetScreenWidth() / 0.47, GetScreenHeight() / 1.15));
+
 			positions.push_back(Vec2f((float)GetScreenWidth() / 0.35, GetScreenWidth() / 1.3));
 		}
 
@@ -150,6 +153,7 @@ class Hunter : public Core
 		{
 			if(Controls::space())
 			{
+				//if(gun.state ==)
 				audio.playSound("gunshow.mp3");
 				fire.execute(gun.state);
 				fire.render = true;
