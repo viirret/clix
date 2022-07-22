@@ -33,6 +33,8 @@ void Core::update()
 
 void Core::start()
 {
+	HideCursor();
+
 	while(!close)
 		update();
 }
