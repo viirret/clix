@@ -21,6 +21,7 @@ class Enemy : public Entity
 
 		std::string sound;
 		int pos;
+		bool alive = true;
 
 		void resize()
 		{
@@ -145,7 +146,11 @@ class Hunter : public Core
 				{
 					if(enemy->pos == gun.state)
 					{
-						audio.playSound(enemy->sound);
+						if(enemy->alive)
+						{
+							audio.playSound(enemy->sound);
+							enemy->alive = false;
+						}
 					}
 				}
 			}
