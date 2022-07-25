@@ -45,3 +45,8 @@ bool Controls::space()
 	return IsKeyDown(KEY_SPACE);
 }
 
+bool Controls::spaceOnce()
+{
+	return IsKeyPressed(KEY_SPACE);
+}
+

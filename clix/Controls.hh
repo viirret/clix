@@ -14,6 +14,7 @@ namespace Controls
 	bool upOnly();
 	bool downOnly();
 	bool space();
+	bool spaceOnce();
 };
 
 #endif

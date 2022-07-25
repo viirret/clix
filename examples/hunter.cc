@@ -35,7 +35,7 @@ class Gun : public Img
 	public:
 		Gun() : Img("hunter/shooter3.png", Vec2f((float)GetScreenWidth() / 0.79, (float)GetScreenHeight() / 0.54))
 		{
-			state = 0;
+			state = 3;
 		}
 
 		int state;
@@ -136,8 +136,9 @@ class Hunter : public Core
 
 		void shooting()
 		{
-			if(Controls::space())
+			if(Controls::spaceOnce())
 			{
+				printf("space pressed\n");
 				audio.playSound("gunshow.mp3");
 				fire.execute(gun.state);
 				fire.render = true;
