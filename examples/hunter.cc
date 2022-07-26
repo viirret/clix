@@ -42,20 +42,26 @@ class Gun : public Img
 
 		void update()
 		{
+			int newState = -1;
+
 			// gun controller logic
 			if(Controls::leftOnly())
-				state = 1;
+				newState = 1;
 			else if(Controls::up() && Controls::left() && !Controls::right() && !Controls::down())
-				state = 2;
+				newState = 2;
 			else if(Controls::upOnly())
-				state = 3;
+				newState = 3;
 			else if(Controls::up() && Controls::right() && !Controls::left() && !Controls::down())
-				state = 4;
+				newState = 4;
 			else if(Controls::rightOnly())
-				state = 5;
+				newState = 5;
 
-			changeTexture("hunter/shooter" + std::to_string(state) + ".png");
-			resize();
+			// only change texture if button is pressed
+			if(newState != -1)
+			{
+				changeTexture("hunter/shooter" + std::to_string(newState) + ".png");
+				resize();
+			}
 		}
 
 		void resize()
@@ -162,9 +168,10 @@ class Hunter : public Core
 			Core::update();
 
 			if(screenResized)
+			{
+				printf("Screen resized\n");
 				resizeImages();
-
-			gun.update();
+			}
 
 			shooting();
 
@@ -172,6 +179,8 @@ class Hunter : public Core
 			{
 				enemy->moveTowardsTarget();
 			}
+
+			gun.update();
 
 
 			// main drawing
