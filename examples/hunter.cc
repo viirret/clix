@@ -59,7 +59,8 @@ class Gun : public Img
 			// only change texture if button is pressed
 			if(newState != -1)
 			{
-				changeTexture("hunter/shooter" + std::to_string(newState) + ".png");
+				state = newState;
+				changeTexture("hunter/shooter" + std::to_string(state) + ".png");
 				resize();
 			}
 		}
@@ -128,15 +129,7 @@ class Hunter : public Core
 
 		void spawnEnemy(int index)
 		{
-			switch(index)
-			{
-				case 1: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", positions[0], "hunter/1.mp3", 1)); break;
-				case 2: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", positions[1], "hunter/2.mp3", 2)); break;
-				case 3: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", positions[2], "hunter/3.mp3", 3)); break;
-				case 4: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", positions[3], "hunter/4.mp3", 4)); break;
-				case 5: enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", positions[4], "hunter/5.mp3", 5)); break;
-			}
-
+			enemies.push_back(std::make_unique<Enemy>("hunter/d1.png", positions[index - 1], "hunter/" + std::to_string(index) + ".mp3", index));
 			enemies.back()->resize();
 		}
 
