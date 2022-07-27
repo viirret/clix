@@ -28,9 +28,9 @@ void Audio::playSound(std::string name)
 		{
 			if(soundFiles[i] == p)
 				PlaySound(sounds.at(i));
-			else
-				addSound(p);
+			return;
 		}
+		addSound(p);
 	}
 }
 
