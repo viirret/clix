@@ -57,7 +57,7 @@ class Gun : public Img
 				newState = 5;
 
 			// only change texture if button is pressed
-			if(newState != -1)
+			if(newState != -1 && state != newState)
 			{
 				state = newState;
 				changeTexture("hunter/shooter" + std::to_string(state) + ".png");
@@ -137,7 +137,6 @@ class Hunter : public Core
 		{
 			if(Controls::spaceOnce())
 			{
-				printf("space pressed\n");
 				audio.playSound("gunshow.mp3");
 				fire.execute(gun.state);
 				fire.render = true;
@@ -149,7 +148,7 @@ class Hunter : public Core
 						if(enemy->alive)
 						{
 							audio.playSound(enemy->sound);
-							enemy->alive = false;
+							//enemy->alive = false;
 						}
 					}
 				}
@@ -166,14 +165,14 @@ class Hunter : public Core
 				resizeImages();
 			}
 
+			gun.update();
+
 			shooting();
 
 			for(auto& enemy : enemies)
 			{
 				enemy->moveTowardsTarget();
 			}
-
-			gun.update();
 
 
 			// main drawing

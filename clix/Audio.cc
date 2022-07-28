@@ -27,8 +27,10 @@ void Audio::playSound(std::string name)
 		for(size_t i = 0; i < (size_t)soundFiles.size(); i++)
 		{
 			if(soundFiles[i] == p)
+			{
 				PlaySound(sounds.at(i));
-			return;
+				return;
+			}
 		}
 		addSound(p);
 	}
