@@ -51,10 +51,15 @@ class Core
 
 		bool screenResized = false;
 
+		double currentTime = 0.0;
+		double delta = 0.0;
+
 	private:
 		// functions running in main loop
 		void events();
 		void raylibDrawing();
+
+		double previousTime = GetTime();
 };
 
 #endif

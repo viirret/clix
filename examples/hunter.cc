@@ -86,6 +86,7 @@ class Fire : public Img
 		{
 			changeTexture("hunter/shoot" + std::to_string(pos) + ".png");
 			resize();
+			render = true;
 		}
 
 		void resize()
@@ -117,7 +118,6 @@ class Hunter : public Core
 				spawnEnemy(i);
 		}
 
-
 		void createSpawns()
 		{
 			positions.push_back(Vec2f((float)GetScreenWidth() / 10, GetScreenHeight() / 0.9));
@@ -139,7 +139,7 @@ class Hunter : public Core
 			{
 				audio.playSound("gunshow.mp3");
 				fire.execute(gun.state);
-				fire.render = true;
+				////fire.render = true;
 
 				for(auto& enemy : enemies)
 				{
@@ -174,7 +174,6 @@ class Hunter : public Core
 				enemy->moveTowardsTarget();
 			}
 
-
 			// main drawing
 			background.draw();
 			car.draw();
@@ -182,8 +181,6 @@ class Hunter : public Core
 
 			if(fire.render)
 				fire.draw();
-
-			fire.render = false;
 
 			for(auto& enemy : enemies)
 			{

@@ -29,6 +29,11 @@ void Core::update()
 {
 	events();
 	raylibDrawing();
+
+	// time controller	
+	currentTime = GetTime();
+	delta = (double)(currentTime / previousTime) / 1000.0;
+	previousTime = currentTime;
 }
 
 void Core::start()
@@ -41,6 +46,9 @@ void Core::start()
 
 void Core::events()
 {
+	// support custom frame control
+	PollInputEvents();
+
 	// default raylib closing
 	if(WindowShouldClose())
 		close = true;
