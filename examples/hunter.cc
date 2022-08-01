@@ -139,7 +139,6 @@ class Hunter : public Core
 			{
 				audio.playSound("gunshow.mp3");
 				fire.execute(gun.state);
-				////fire.render = true;
 
 				for(auto& enemy : enemies)
 				{
@@ -152,6 +151,16 @@ class Hunter : public Core
 						}
 					}
 				}
+
+				double time = 0.0;
+
+				while(time < 300.00)
+				{
+					time += delta;
+					printf("%f \n", time);
+					fire.render = true;
+				}
+				fire.render = false;
 			}
 		}
 
@@ -167,6 +176,9 @@ class Hunter : public Core
 
 			gun.update();
 
+			if(fire.render)
+				fire.draw();
+
 			shooting();
 
 			for(auto& enemy : enemies)
@@ -178,9 +190,6 @@ class Hunter : public Core
 			background.draw();
 			car.draw();
 			gun.draw();
-
-			if(fire.render)
-				fire.draw();
 
 			for(auto& enemy : enemies)
 			{
