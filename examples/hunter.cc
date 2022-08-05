@@ -86,7 +86,6 @@ class Fire : public Img
 		{
 			changeTexture("hunter/shoot" + std::to_string(pos) + ".png");
 			resize();
-			render = true;
 		}
 
 		void resize()
@@ -122,7 +121,7 @@ class Hunter : public Core
 		{
 			positions.push_back(Vec2f((float)GetScreenWidth() / 10, GetScreenHeight() / 0.9));
 			positions.push_back(Vec2f((float)GetScreenWidth() / 1.3, GetScreenHeight() / 1.2));
-			positions.push_back(Vec2f((float)GetScreenWidth() / 0.7, GetScreenHeight() / 1));
+			positions.push_back(Vec2f((float)GetScreenWidth() / 0.7, GetScreenHeight() / 1.0));
 			positions.push_back(Vec2f((float)GetScreenWidth() / 0.47, GetScreenHeight() / 1.15));
 			positions.push_back(Vec2f((float)GetScreenWidth() / 0.35, GetScreenWidth() / 1.3));
 		}
@@ -146,22 +145,21 @@ class Hunter : public Core
 					{
 						if(enemy->alive)
 						{
+							//renderFire(enemy->pos);
 							audio.playSound(enemy->sound);
+							killEnemy(*enemy);
 							//enemy->alive = false;
 						}
 					}
 				}
-
-				double time = 0.0;
-
-				while(time < 300.00)
-				{
-					time += delta;
-					printf("%f \n", time);
-					fire.render = true;
-				}
-				fire.render = false;
 			}
+		}
+
+		void killEnemy(Enemy& enemy)
+		{
+			enemy.speed = Vec2f(0, 0);
+			enemy.alive = false;
+			enemy.changeTexture("hunter/d3.png");
 		}
 
 		void update() override
@@ -176,8 +174,7 @@ class Hunter : public Core
 
 			gun.update();
 
-			if(fire.render)
-				fire.draw();
+			fire.draw();
 
 			shooting();
 
@@ -196,6 +193,13 @@ class Hunter : public Core
 				enemy->draw();
 			}
 
+		}
+
+		// there is something wrong with fire
+		void renderFire(int index)
+		{
+			fire.execute(index);
+			printf("renderfile called\n");
 		}
 
 		void resizeImages()
