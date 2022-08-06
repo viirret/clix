@@ -3,6 +3,7 @@
 #include "../clix/Image.hh"
 #include "../clix/Entity.hh"
 #include "../clix/Controls.cc"
+#include <cmath>
 
 class Enemy : public Entity
 {
@@ -27,7 +28,6 @@ class Enemy : public Entity
 		{
 			resizeImage(Vec2f((float)GetScreenWidth() / 20, (float)GetScreenWidth() / 20));
 		}
-
 };
 
 class Gun : public Img
@@ -105,16 +105,7 @@ class Hunter : public Core
 				fire()
 		{
 			createSpawns();
-
-			spawnAll();
-
 			resizeImages();
-		}
-
-		void spawnAll()
-		{
-			for(int i = 1; i < 6; i++)
-				spawnEnemy(i);
 		}
 
 		void createSpawns()
@@ -148,7 +139,6 @@ class Hunter : public Core
 							//renderFire(enemy->pos);
 							audio.playSound(enemy->sound);
 							killEnemy(*enemy);
-							//enemy->alive = false;
 						}
 					}
 				}
@@ -162,9 +152,22 @@ class Hunter : public Core
 			enemy.changeTexture("hunter/d3.png");
 		}
 
+		void spawner()
+		{
+			if(lastSpawn > spawnRate)
+			{
+				// randomvalue only returns non-integer values
+				spawnEnemy(std::floor(rnd<float>::randomValue(1, 6)));
+				lastSpawn = 0.0;
+			}
+			lastSpawn += delta;
+		}
+
 		void update() override
 		{
 			Core::update();
+
+			spawner();
 
 			if(screenResized)
 			{
@@ -222,7 +225,8 @@ class Hunter : public Core
 		std::vector<Vec2f> positions;
 		Gun gun;
 		Fire fire;
-
+		double lastSpawn = 0.0;
+		double spawnRate = 5.0; 
 };
 
 int main(int argc, char** agrv)
