@@ -72,28 +72,6 @@ class Gun : public Img
 
 };
 
-class Fire : public Img
-{
-	public:
-		Fire()
-		{
-			position = Vec2f(GetScreenWidth() / 0.8, GetScreenHeight() / 0.5);
-		}
-
-		bool render;
-
-		void execute(int pos)
-		{
-			changeTexture("hunter/shoot" + std::to_string(pos) + ".png");
-			resize();
-		}
-
-		void resize()
-		{
-			resizeImage(Vec2f((float)GetScreenWidth() / 16, (float)GetScreenWidth() / 16));
-		}
-};
-
 class Hunter : public Core
 {
 	public:
@@ -101,8 +79,7 @@ class Hunter : public Core
 			: 	Core(), 
 				background("hunter/village.png"), 
 				car("hunter/car.png", Vec2f((float)GetScreenWidth() / 0.8f, (float)GetScreenHeight() / 0.5f)),
-				gun(),
-				fire()
+				gun()
 		{
 			createSpawns();
 			resizeImages();
@@ -128,7 +105,6 @@ class Hunter : public Core
 			if(Controls::spaceOnce())
 			{
 				audio.playSound("gunshow.mp3");
-				fire.execute(gun.state);
 
 				for(auto& enemy : enemies)
 				{
@@ -136,7 +112,6 @@ class Hunter : public Core
 					{
 						if(enemy->alive)
 						{
-							//renderFire(enemy->pos);
 							audio.playSound(enemy->sound);
 							killEnemy(*enemy);
 						}
@@ -177,8 +152,6 @@ class Hunter : public Core
 
 			gun.update();
 
-			fire.draw();
-
 			shooting();
 
 			for(auto& enemy : enemies)
@@ -196,13 +169,6 @@ class Hunter : public Core
 				enemy->draw();
 			}
 
-		}
-
-		// there is something wrong with fire
-		void renderFire(int index)
-		{
-			fire.execute(index);
-			printf("renderfile called\n");
 		}
 
 		void resizeImages()
@@ -224,7 +190,6 @@ class Hunter : public Core
 		// pair of position and target
 		std::vector<Vec2f> positions;
 		Gun gun;
-		Fire fire;
 		double lastSpawn = 0.0;
 		double spawnRate = 5.0; 
 };
