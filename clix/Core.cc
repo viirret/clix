@@ -38,8 +38,6 @@ void Core::update()
 
 void Core::start()
 {
-	HideCursor();
-
 	while(!close)
 		update();
 }
@@ -63,10 +61,10 @@ void Core::events()
 	if(IsMouseButtonReleased(0))
 		currentClick = Vec2f(-1, -1);
 
-	if(IsWindowResized() && !IsWindowFullscreen())
+	if(GetScreenWidth() != Config::WINDOW_WIDTH || GetScreenHeight() != Config::WINDOW_HEIGHT)
 	{
 		Config::WINDOW_WIDTH = GetScreenWidth();
-		Config::WINDOW_WIDTH = GetScreenHeight();
+		Config::WINDOW_HEIGHT = GetScreenHeight();
 		screenResized = true;
 	}
 	else

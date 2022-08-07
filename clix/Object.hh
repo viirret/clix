@@ -34,10 +34,7 @@ class Object
 		void setX(float x);
 		void setY(float y);
 
-		// randomized setters
-		//void setRandomTarget();
 		void setRandomPosition();
-		//void setRandomSpeed();
 
 		// getters
 		Texture getTexture();

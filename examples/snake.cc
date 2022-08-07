@@ -8,12 +8,14 @@ class Snake
 		Snake()
 		{
 			for(int i = 0; i < 3; i++)
-				addBlock();
+			{
+				addBlock(Vec2f(i * blockSize.x, 0));
+			}
 		}
 
-		void addBlock()
+		void addBlock(Vec2f position)
 		{
-			blocks.push_back(blockSize);
+			blocks.push_back(position);
 		}
 
 		double speed = 2.0;
@@ -35,16 +37,14 @@ class Game : public Core
 		{
 			Core::update();
 
-			// TODO check what is wrong with cursor
-			EnableCursor();
-
 			for(auto& b : s.blocks)
 			{
-				drawRectangle(Vec2f(50, 50), blockSize, s.color);
+				drawRectangle(b, blockSize, s.color);
 			}
 
 			if(screenResized)
 				resize();
+
 		}
 
 		void resize()

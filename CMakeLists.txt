@@ -21,6 +21,7 @@ add_library(clix ${clixSources})
 # examples/clickerGame.cc
 # examples/tictactoe.cc
 # examples/hunter.cc
+# example/snake.cc
 
 add_executable(${PROJECT_NAME} examples/snake.cc)
 

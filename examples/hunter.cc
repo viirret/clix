@@ -146,7 +146,6 @@ class Hunter : public Core
 
 			if(screenResized)
 			{
-				printf("Screen resized\n");
 				resizeImages();
 			}
 
