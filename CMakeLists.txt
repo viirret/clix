@@ -22,7 +22,7 @@ add_library(clix ${clixSources})
 # examples/tictactoe.cc
 # examples/hunter.cc
 
-add_executable(${PROJECT_NAME} examples/hunter.cc)
+add_executable(${PROJECT_NAME} examples/snake.cc)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE clix PRIVATE raylib)
 
