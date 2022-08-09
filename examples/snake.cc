@@ -1,13 +1,29 @@
 #include "../clix/Core.hh"
 #include "../clix/Controls.hh"
 
-// blockSize depends on screen's value so it's defined after Core()
+// blockSize depends on screen's value
 Vec2f blockSize;
+const double foodSpawnRate = 15.0;
+
+class Food
+{
+	public:
+		void createFood()
+		{
+			exists = true;
+			coord = Vec2f(rnd<float>::randomValue(GetScreenWidth(), 0), rnd<float>::randomValue(GetScreenHeight(), 0));
+		}
+
+		bool exists = false;
+
+		Vec2f coord;
+		Color color = BLUE;
+};
 
 class Snake
 {
 	public:
-		void initialize()
+		Snake()
 		{
 			for(size_t i = 0; i < (size_t)initialAmount; i++)
 			{
@@ -46,6 +62,19 @@ class Snake
 			}
 		}
 
+		// check if snake hits the food from all directions
+		bool checkFood(Food& f)
+		{
+			// hit from left
+			if(blocks[0].x + blockSize.x > f.coord.x)
+			{
+				//addBlock(Vec2f(blocks.back().y + blockSize.y, blocks.back().x + blockSize.x));
+				f.coord = Vec2f(-blockSize.x, -blockSize.y);
+				return true;
+			}
+			return false;
+		}
+
 		void addBlock(Vec2f position)
 		{
 			blocks.push_back(position);
@@ -55,7 +84,7 @@ class Snake
 		int size = 3;
 		Color color = RED;
 		Color secondColor = BLACK;
-		int initialAmount = 5;
+		int initialAmount = 3;
 
 		// the initial direction of the snake (1..4)
 		int direction = 3;
@@ -66,11 +95,7 @@ class Snake
 class Game : public Core
 {
 	public:
-		Game() : Core()
-		{
-			resize();
-			s.initialize();
-		}
+		Game() : Core(), s(){}
 
 		void update() override
 		{
@@ -78,17 +103,30 @@ class Game : public Core
 
 			s.setDirection();
 
-			if(timer > s.speed)
+			if(s.checkFood(f))
+			{
+				f.exists = false;
+			}
+
+			if(!f.exists)
+			{
+				fTimer > foodSpawnRate ? f.createFood(), fTimer = 0 : fTimer += delta;
+			}
+
+			if(mTimer > s.speed)
 			{
 				s.move();
-				timer = 0.0;
+				mTimer = 0;
 			}
-			timer += delta;
+
+			mTimer += delta;
 
 			for(size_t i = 0; i < (size_t)s.blocks.size(); i++)
 			{
-				drawRectangle(s.blocks[i], blockSize, (i == 0) ? s.secondColor : s.color);
+				drawRectangle(s.blocks[i], blockSize, i == 0 ? s.secondColor : s.color);
 			}
+
+			drawRectangle(f.coord, blockSize, f.color);
 
 			if(screenResized)
 				resize();
@@ -100,7 +138,10 @@ class Game : public Core
 		}
 	private:
 		Snake s;
-		double timer;
+		Food f;
+		double mTimer = 0;
+		double fTimer = 0;
+		bool gameOver = false;
 };
 
 int main(int argc, char** argv)
