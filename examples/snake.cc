@@ -1,9 +1,12 @@
 #include "../clix/Core.hh"
 #include "../clix/Controls.hh"
 
+#define bsx blockSize.x
+#define bsy blockSize.y
+
 // blockSize depends on screen's value
 Vec2f blockSize;
-const double foodSpawnRate = 15.0;
+const double foodSpawnRate = 20;
 
 class Food
 {
@@ -11,11 +14,10 @@ class Food
 		void createFood()
 		{
 			exists = true;
-			coord = Vec2f(rnd<float>::randomValue(GetScreenWidth(), 0), rnd<float>::randomValue(GetScreenHeight(), 0));
+			coord = Vec2f(rnd<float>::randomValue(GetScreenWidth() - bsx, 0), rnd<float>::randomValue(GetScreenHeight() - bsy, 0));
 		}
 
-		bool exists = false;
-
+		bool exists;
 		Vec2f coord;
 		Color color = BLUE;
 };
@@ -27,7 +29,7 @@ class Snake
 		{
 			for(size_t i = 0; i < (size_t)initialAmount; i++)
 			{
-				addBlock(Vec2f(i * blockSize.x + GetScreenWidth(), (float)GetScreenHeight()));
+				addBlock(Vec2f(i * bsx + GetScreenWidth(), (float)GetScreenHeight()));
 			}
 		}
 
@@ -45,10 +47,10 @@ class Snake
 
 			switch(direction)
 			{
-				case 1: blocks[0].y -= blockSize.y; break;
-				case 2: blocks[0].y += blockSize.y; break;
-				case 3: blocks[0].x -= blockSize.x; break;
-				case 4: blocks[0].x += blockSize.x; break;
+				case 1: blocks[0].y -= bsy; break;
+				case 2: blocks[0].y += bsy; break;
+				case 3: blocks[0].x -= bsx; break;
+				case 4: blocks[0].x += bsx; break;
 			}
 
 			for(size_t i = 0; i < (size_t)blocks.size(); i++)
@@ -65,11 +67,12 @@ class Snake
 		// check if snake hits the food from all directions
 		bool checkFood(Food& f)
 		{
-			// hit from left
-			if(blocks[0].x + blockSize.x > f.coord.x)
+			Vec2f hit = blocks[0];
+
+			if(hit.x + bsx > f.coord.x && hit.x < f.coord.x + bsx && hit.y < f.coord.y + bsy && hit.y + bsy > f.coord.y)
 			{
-				//addBlock(Vec2f(blocks.back().y + blockSize.y, blocks.back().x + blockSize.x));
-				f.coord = Vec2f(-blockSize.x, -blockSize.y);
+				addBlock(Vec2f(blocks.back().y + blockSize.y, blocks.back().x + blockSize.x));
+				f.coord = Vec2f(-bsx, -bsy);
 				return true;
 			}
 			return false;
@@ -136,6 +139,7 @@ class Game : public Core
 		{
 			blockSize = Vec2f((float)GetScreenHeight() / 20, (float)GetScreenHeight() / 20);
 		}
+
 	private:
 		Snake s;
 		Food f;
