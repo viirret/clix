@@ -6,21 +6,7 @@
 
 // blockSize depends on screen's value
 Vec2f blockSize;
-const double foodSpawnRate = 20;
-
-class Food
-{
-	public:
-		void createFood()
-		{
-			exists = true;
-			coord = Vec2f(rnd<float>::randomValue(GetScreenWidth() - bsx, 0), rnd<float>::randomValue(GetScreenHeight() - bsy, 0));
-		}
-
-		bool exists;
-		Vec2f coord;
-		Color color = BLUE;
-};
+const double foodSpawnRate = 0;
 
 class Snake
 {
@@ -28,23 +14,22 @@ class Snake
 		Snake()
 		{
 			for(size_t i = 0; i < (size_t)initialAmount; i++)
-			{
 				addBlock(Vec2f(i * bsx + GetScreenWidth(), (float)GetScreenHeight()));
-			}
 		}
 
 		void setDirection()
 		{
-			if(Controls::up()) direction = 1;
-			if(Controls::down()) direction = 2;
-			if(Controls::left()) direction = 3;
-			if(Controls::right()) direction = 4;
+			if(Controls::up() && direction != 2) direction = 1;
+			if(Controls::down() && direction != 1) direction = 2;
+			if(Controls::left() && direction != 4) direction = 3;
+			if(Controls::right() && direction != 3) direction = 4;
 		}
 
 		void move()
 		{
 			Vec2f oldBlock = blocks[0];
 
+			// move the first block
 			switch(direction)
 			{
 				case 1: blocks[0].y -= bsy; break;
@@ -53,6 +38,7 @@ class Snake
 				case 4: blocks[0].x += bsx; break;
 			}
 
+			// move the other blocks
 			for(size_t i = 0; i < (size_t)blocks.size(); i++)
 			{
 				if(i != 0)
@@ -62,18 +48,46 @@ class Snake
 					oldBlock = newBlock;
 				}
 			}
+
+			// snake goes over the edge
+			if(blocks[0].x > GetScreenWidth())
+				blocks[0].x = 0;
+
+			if(blocks[0].y > GetScreenHeight())
+				blocks[0].y = 0;
+
+			if(blocks[0].x < 0)
+				blocks[0].x = GetScreenWidth();
+
+			if(blocks[0].y < 0)
+				blocks[0].y = GetScreenHeight();
 		}
 
 		// check if snake hits the food from all directions
-		bool checkFood(Food& f)
+		bool checkFood(Vec2f t)
 		{
 			Vec2f hit = blocks[0];
 
-			if(hit.x + bsx > f.coord.x && hit.x < f.coord.x + bsx && hit.y < f.coord.y + bsy && hit.y + bsy > f.coord.y)
+			if(hit.x + bsx > t.x && hit.x < t.x + bsx && hit.y < t.y + bsy && hit.y + bsy > t.y)
 			{
-				addBlock(Vec2f(blocks.back().y + blockSize.y, blocks.back().x + blockSize.x));
-				f.coord = Vec2f(-bsx, -bsy);
+				addBlock(Vec2f(blocks.back()));
 				return true;
+			}
+			return false;
+		}
+
+		bool loseGame()
+		{
+			for(size_t i = 0; i < (size_t)blocks.size(); i++)
+			{
+				if(i != 0)
+				{
+					Vec2f f = blocks[0];
+					Vec2f l = blocks[i];
+
+					if(f.x + bsx > l.x && f.x < l.x + bsx && f.y < l.y + bsy && f.y + bsy > l.y)
+						return true;
+				}
 			}
 			return false;
 		}
@@ -95,6 +109,30 @@ class Snake
 		std::vector<Vec2f> blocks;
 };
 
+class Food
+{
+	public:
+		void createFood(Snake& s)
+		{
+			coord = Vec2f(rnd<float>::randomValue(GetScreenWidth() - bsx, 0), rnd<float>::randomValue(GetScreenHeight() - bsy, 0));
+
+			for(int i = 0; i < (int)s.blocks.size(); i++)
+			{
+				if(coord.x + bsx > s.blocks[i].x && coord.x < s.blocks[i].x + bsx && coord.y < s.blocks[i].y + bsy && coord.y + bsy > s.blocks[i].y)
+				{
+					createFood(s);
+				}
+			}
+
+			exists = true;
+		}
+
+		bool exists;
+		Vec2f coord;
+		Color color = BLUE;
+};
+
+
 class Game : public Core
 {
 	public:
@@ -106,14 +144,14 @@ class Game : public Core
 
 			s.setDirection();
 
-			if(s.checkFood(f))
+			if(s.checkFood(f.coord))
 			{
 				f.exists = false;
 			}
 
 			if(!f.exists)
 			{
-				fTimer > foodSpawnRate ? f.createFood(), fTimer = 0 : fTimer += delta;
+				fTimer > foodSpawnRate ? f.createFood(s), fTimer = 0 : fTimer += delta;
 			}
 
 			if(mTimer > s.speed)
@@ -123,6 +161,11 @@ class Game : public Core
 			}
 
 			mTimer += delta;
+
+			if(s.loseGame())
+			{
+				printf("game lost\n");
+			}
 
 			for(size_t i = 0; i < (size_t)s.blocks.size(); i++)
 			{
