@@ -6,7 +6,6 @@
 
 // blockSize depends on screen's value
 Vec2f blockSize;
-const double foodSpawnRate = 0;
 
 class Snake
 {
@@ -109,73 +108,60 @@ class Snake
 		std::vector<Vec2f> blocks;
 };
 
-class Food
-{
-	public:
-		void createFood(Snake& s)
-		{
-			coord = Vec2f(rnd<float>::randomValue(GetScreenWidth() - bsx, 0), rnd<float>::randomValue(GetScreenHeight() - bsy, 0));
-
-			for(int i = 0; i < (int)s.blocks.size(); i++)
-			{
-				if(coord.x + bsx > s.blocks[i].x && coord.x < s.blocks[i].x + bsx && coord.y < s.blocks[i].y + bsy && coord.y + bsy > s.blocks[i].y)
-				{
-					createFood(s);
-				}
-			}
-
-			exists = true;
-		}
-
-		bool exists;
-		Vec2f coord;
-		Color color = BLUE;
-};
-
-
 class Game : public Core
 {
 	public:
-		Game() : Core(), s(){}
+		Game() : Core(), s()
+		{
+			setFood();
+		}
 
 		void update() override
 		{
 			Core::update();
 
+			// set controls
 			s.setDirection();
 
-			if(s.checkFood(f.coord))
-			{
-				f.exists = false;
-			}
-
-			if(!f.exists)
-			{
-				fTimer > foodSpawnRate ? f.createFood(s), fTimer = 0 : fTimer += delta;
-			}
-
+			// snake movement
 			if(mTimer > s.speed)
 			{
 				s.move();
 				mTimer = 0;
 			}
-
 			mTimer += delta;
 
+			// check if snake eats food
+			if(s.checkFood(food))
+				setFood();
+
+			// check if snake hits itself
 			if(s.loseGame())
 			{
 				printf("game lost\n");
 			}
 
+			// render snake
 			for(size_t i = 0; i < (size_t)s.blocks.size(); i++)
 			{
 				drawRectangle(s.blocks[i], blockSize, i == 0 ? s.secondColor : s.color);
 			}
 
-			drawRectangle(f.coord, blockSize, f.color);
+			// render food
+			drawRectangle(food, blockSize, BLUE);
 
 			if(screenResized)
 				resize();
+		}
+
+		void setFood()
+		{
+			food = Vec2f(rnd<float>::randomValue(GetScreenWidth() - bsx, 0), rnd<float>::randomValue(GetScreenHeight() - bsy, 0));
+
+			// food cannot spawn in snake
+			for(auto& b : s.blocks)
+				if(food.x + bsx > b.x && food.x < b.x + bsx && food.y < b.y + bsy && food.y + bsy > b.y)
+					setFood();
 		}
 
 		void resize()
@@ -185,9 +171,8 @@ class Game : public Core
 
 	private:
 		Snake s;
-		Food f;
+		Vec2f food;
 		double mTimer = 0;
-		double fTimer = 0;
 		bool gameOver = false;
 };
 
