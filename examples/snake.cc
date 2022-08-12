@@ -7,6 +7,11 @@
 // blockSize depends on screen's value
 Vec2f blockSize;
 
+bool hitTarget(Vec2f elem, Vec2f target)
+{
+	return elem.x + bsx > target.x && elem.x < target.x + bsx && elem.y < target.y + bsy && elem.y + bsy > target.y;
+}
+
 class Snake
 {
 	public:
@@ -65,9 +70,7 @@ class Snake
 		// check if snake hits the food from all directions
 		bool checkFood(Vec2f t)
 		{
-			Vec2f hit = blocks[0];
-
-			if(hit.x + bsx > t.x && hit.x < t.x + bsx && hit.y < t.y + bsy && hit.y + bsy > t.y)
+			if(hitTarget(blocks[0], t))
 			{
 				addBlock(Vec2f(blocks.back()));
 				return true;
@@ -78,16 +81,9 @@ class Snake
 		bool loseGame()
 		{
 			for(size_t i = 0; i < (size_t)blocks.size(); i++)
-			{
 				if(i != 0)
-				{
-					Vec2f f = blocks[0];
-					Vec2f l = blocks[i];
-
-					if(f.x + bsx > l.x && f.x < l.x + bsx && f.y < l.y + bsy && f.y + bsy > l.y)
+					if(hitTarget(blocks[0], blocks[i]))
 						return true;
-				}
-			}
 			return false;
 		}
 
@@ -111,7 +107,8 @@ class Snake
 class Game : public Core
 {
 	public:
-		Game() : Core(), s()
+		Game() : Core(), s(), 
+		resetButton("play.png", Vec2f((float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2))
 		{
 			setFood();
 		}
@@ -120,35 +117,34 @@ class Game : public Core
 		{
 			Core::update();
 
-			// set controls
-			s.setDirection();
-
-			// snake movement
-			if(mTimer > s.speed)
+			if(!gameOver)
 			{
-				s.move();
-				mTimer = 0;
+				// set controls
+				s.setDirection();
+
+				// snake movement
+				if(mTimer > s.speed)
+				{
+					s.move();
+					mTimer = 0;
+				}
+				mTimer += delta;
+
+				// check if snake eats food
+				if(s.checkFood(food))
+					setFood();
+
+				// render snake
+				for(size_t i = 0; i < (size_t)s.blocks.size(); i++)
+					drawRectangle(s.blocks[i], blockSize, i == 0 ? s.secondColor : s.color);
+
+				// render food
+				drawRectangle(food, blockSize, BLUE);
 			}
-			mTimer += delta;
-
-			// check if snake eats food
-			if(s.checkFood(food))
-				setFood();
-
+		
 			// check if snake hits itself
 			if(s.loseGame())
-			{
-				printf("game lost\n");
-			}
-
-			// render snake
-			for(size_t i = 0; i < (size_t)s.blocks.size(); i++)
-			{
-				drawRectangle(s.blocks[i], blockSize, i == 0 ? s.secondColor : s.color);
-			}
-
-			// render food
-			drawRectangle(food, blockSize, BLUE);
+				endGame();
 
 			if(screenResized)
 				resize();
@@ -160,8 +156,19 @@ class Game : public Core
 
 			// food cannot spawn in snake
 			for(auto& b : s.blocks)
-				if(food.x + bsx > b.x && food.x < b.x + bsx && food.y < b.y + bsy && food.y + bsy > b.y)
+				if(hitTarget(food, b))
 					setFood();
+		}
+
+		void endGame()
+		{
+			resetButton.draw();
+			gameOver = true;
+			if(resetButton.checkHit(currentClick))
+			{
+				gameOver = false;
+				printf("game reset\n");
+			}
 		}
 
 		void resize()
@@ -174,6 +181,7 @@ class Game : public Core
 		Vec2f food;
 		double mTimer = 0;
 		bool gameOver = false;
+		Img resetButton;
 };
 
 int main(int argc, char** argv)

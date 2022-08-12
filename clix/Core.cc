@@ -44,9 +44,6 @@ void Core::start()
 
 void Core::events()
 {
-	// support custom frame control
-	PollInputEvents();
-
 	// default raylib closing
 	if(WindowShouldClose())
 		close = true;
@@ -55,11 +52,16 @@ void Core::events()
 	mousePosition = Vec2f(GetMousePosition().x, GetMousePosition().y);
 
 	// get vector2 on mouse position when clicked
-	if(IsMouseButtonPressed(0))
+	if(IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+	{
 		currentClick = mousePosition;
+		clickReset = 0;
+	}
+	clickReset += delta;
 
-	if(IsMouseButtonReleased(0))
-		currentClick = Vec2f(-1, -1);
+	// currentclick defaults to 0, 0 if no click
+	if(clickReset > 5)
+		currentClick = Vec2f();
 
 	if(GetScreenWidth() != Config::WINDOW_WIDTH || GetScreenHeight() != Config::WINDOW_HEIGHT)
 	{

@@ -60,6 +60,7 @@ class Core
 		void raylibDrawing();
 
 		double previousTime = GetTime();
+		double clickReset = 0;
 };
 
 #endif
