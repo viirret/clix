@@ -17,8 +17,18 @@ class Snake
 	public:
 		Snake()
 		{
-			for(size_t i = 0; i < (size_t)initialAmount; i++)
-				addBlock(Vec2f(i * bsx + GetScreenWidth(), (float)GetScreenHeight()));
+			setSnake();
+		}
+
+		void setSnake()
+		{
+			blocks.clear();
+
+			// add the first block
+			addBlock(Vec2f(rnd<float>::randomValue(GetScreenWidth() - bsx, 0), rnd<float>::randomValue(GetScreenHeight() - bsy, 0)));
+
+			for(size_t i = 0; i < (size_t)initialAmount - 1; i++)
+				addBlock(Vec2f(blocks.back()));
 		}
 
 		void setDirection()
@@ -166,8 +176,9 @@ class Game : public Core
 			gameOver = true;
 			if(resetButton.checkHit(currentClick))
 			{
-				gameOver = false;
 				printf("game reset\n");
+				s.setSnake();
+				gameOver = false;
 			}
 		}
 
