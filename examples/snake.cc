@@ -15,11 +15,6 @@ bool hitTarget(Vec2f elem, Vec2f target)
 class Snake
 {
 	public:
-		Snake()
-		{
-			setSnake();
-		}
-
 		void setSnake()
 		{
 			blocks.clear();
@@ -29,6 +24,8 @@ class Snake
 
 			for(size_t i = 0; i < (size_t)initialAmount - 1; i++)
 				addBlock(Vec2f(blocks.back()));
+
+			snakeMoving = true;
 		}
 
 		void setDirection()
@@ -53,14 +50,11 @@ class Snake
 			}
 
 			// move the other blocks
-			for(size_t i = 0; i < (size_t)blocks.size(); i++)
+			for(size_t i = 1; i < (size_t)blocks.size(); i++)
 			{
-				if(i != 0)
-				{
-					Vec2f newBlock = blocks[i];
-					blocks[i] = oldBlock;
-					oldBlock = newBlock;
-				}
+				Vec2f newBlock = blocks[i];
+				blocks[i] = oldBlock;
+				oldBlock = newBlock;
 			}
 
 			// snake goes over the edge
@@ -90,10 +84,9 @@ class Snake
 
 		bool loseGame()
 		{
-			for(size_t i = 0; i < (size_t)blocks.size(); i++)
-				if(i != 0)
-					if(hitTarget(blocks[0], blocks[i]))
-						return true;
+			for(size_t i = 1; i < (size_t)blocks.size(); i++)
+				if(hitTarget(blocks[0], blocks[i]))
+					return true;
 			return false;
 		}
 
@@ -112,13 +105,15 @@ class Snake
 		int direction = 3;
 
 		std::vector<Vec2f> blocks;
+
+		bool snakeMoving = false;
 };
 
 class Game : public Core
 {
 	public:
-		Game() : Core(), s(), 
-		resetButton("play.png", Vec2f((float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2))
+		Game() : Core(),
+		resetButton("play.png")
 		{
 			setFood();
 		}
@@ -127,7 +122,7 @@ class Game : public Core
 		{
 			Core::update();
 
-			if(!gameOver)
+			if(s.snakeMoving)
 			{
 				// set controls
 				s.setDirection();
@@ -137,6 +132,12 @@ class Game : public Core
 				{
 					s.move();
 					mTimer = 0;
+
+					if(s.loseGame())
+					{
+						s.snakeMoving = false;
+						return;
+					}
 				}
 				mTimer += delta;
 
@@ -151,11 +152,9 @@ class Game : public Core
 				// render food
 				drawRectangle(food, blockSize, BLUE);
 			}
-		
-			// check if snake hits itself
-			if(s.loseGame())
+			else
 				endGame();
-
+		
 			if(screenResized)
 				resize();
 		}
@@ -173,25 +172,23 @@ class Game : public Core
 		void endGame()
 		{
 			resetButton.draw();
-			gameOver = true;
+
 			if(resetButton.checkHit(currentClick))
-			{
-				printf("game reset\n");
 				s.setSnake();
-				gameOver = false;
-			}
 		}
 
 		void resize()
 		{
 			blockSize = Vec2f((float)GetScreenHeight() / 20, (float)GetScreenHeight() / 20);
+
+			// still something up with this
+			resetButton.setPosition(Vec2f((float)GetScreenWidth() / 2 - resetButton.getX(), (float)GetScreenHeight() / 2 - resetButton.getY()));
 		}
 
 	private:
 		Snake s;
 		Vec2f food;
 		double mTimer = 0;
-		bool gameOver = false;
 		Img resetButton;
 };
 
