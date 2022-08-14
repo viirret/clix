@@ -180,9 +180,7 @@ class Game : public Core
 		void resize()
 		{
 			blockSize = Vec2f((float)GetScreenHeight() / 20, (float)GetScreenHeight() / 20);
-
-			// still something up with this
-			resetButton.setPosition(Vec2f((float)GetScreenWidth() / 2 - resetButton.getX(), (float)GetScreenHeight() / 2 - resetButton.getY()));
+			resetButton.setPosition(Vec2f(1.f, 1.f));
 		}
 
 	private:
