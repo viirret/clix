@@ -22,22 +22,22 @@ bool Controls::rightOnce()
 
 bool Controls::up()
 {
-	return IsKeyDown(KEY_W) || IsKeyDown(KEY_UP) || IsKeyDown(KEY_J);
+	return IsKeyDown(KEY_W) || IsKeyDown(KEY_UP) || IsKeyDown(KEY_K);
 }
 
 bool Controls::upOnce()
 {
-	return IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_J);
+	return IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_K);
 }
 
 bool Controls::down()
 {
-	return IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_K);
+	return IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_J);
 }
 
 bool Controls::downOnce()
 {
-	return IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_K);
+	return IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_J);
 }
 
 bool Controls::leftOnly()
