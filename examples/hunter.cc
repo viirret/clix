@@ -5,6 +5,9 @@
 #include "../clix/Controls.cc"
 #include <cmath>
 
+// Simple shooting game, this game currently doesn't have assets
+// I might add them in future
+
 class Enemy : public Entity
 {
 	public:

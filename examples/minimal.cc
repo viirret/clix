@@ -1,5 +1,7 @@
 #include "../clix/Core.hh"
 
+// minimal code required for creating empty white screen
+
 class A : public Core
 {
 	public:

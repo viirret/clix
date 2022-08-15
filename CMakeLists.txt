@@ -24,7 +24,7 @@ add_library(clix ${clixSources})
 # examples/snake.cc
 # examples/coinToss.cc
 
-add_executable(${PROJECT_NAME} examples/coinToss.cc)
+add_executable(${PROJECT_NAME} examples/snake.cc)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE clix PRIVATE raylib)
 
