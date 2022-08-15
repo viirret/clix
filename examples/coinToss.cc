@@ -4,28 +4,25 @@
 class Game : public Core
 {
 	public:
-		Game()
-		// initialize images
+		Game() : heads("heads.png"), tails("tails.png")
 		{
-
+			isHeads = flip();
 		}
+
 		void update() override
 		{
 			Core::update();
+			isHeads ? heads.draw() : tails.draw();
 		}
 
 		bool flip()
 		{
-			if(std::floor(rnd<float>::randomValue(0.f, 1.f)) == 1)
-			{
-				return true;
-			}
-			return false;
+			return std::round(rnd<float>::randomValue(0.f, 1.f)) == 1;
 		}
 
-	private:
-		Img startButton, heads, tails;
-
+		private:
+			Img heads, tails;
+			bool isHeads;
 };
 
 int main(int argc, char** argv)

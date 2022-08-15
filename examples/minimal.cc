@@ -3,7 +3,7 @@
 class A : public Core
 {
 	public:
-		A() : Core() {};
+		A() : Core() {}
 		
 		void update() override
 		{
