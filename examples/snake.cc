@@ -15,6 +15,7 @@ bool hitTarget(Vec2f elem, Vec2f target)
 class Snake
 {
 	public:
+		// reset snake to starting position
 		void setSnake()
 		{
 			blocks.clear();
@@ -28,6 +29,7 @@ class Snake
 			snakeMoving = true;
 		}
 
+		// set the direction of the snake, snake cannot turn 180 degrees
 		void setDirection()
 		{
 			if(Controls::up() && direction != 2) direction = 1;
@@ -82,6 +84,7 @@ class Snake
 			return false;
 		}
 
+		// snake hits itself
 		bool loseGame()
 		{
 			for(size_t i = 1; i < (size_t)blocks.size(); i++)
@@ -96,24 +99,24 @@ class Snake
 		}
 
 		double speed = 2.0;
-		int size = 3;
+		int initialAmount = 3;
+		bool snakeMoving = false;
+
+		// colors of the snake
 		Color color = RED;
 		Color secondColor = BLACK;
-		int initialAmount = 3;
 
 		// the initial direction of the snake (1..4)
 		int direction = 3;
 
+		// vector containing snake parts
 		std::vector<Vec2f> blocks;
-
-		bool snakeMoving = false;
 };
 
 class Game : public Core
 {
 	public:
-		Game() : Core(),
-		resetButton("play.png")
+		Game() : Core(), resetButton("play.png")
 		{
 			setFood();
 		}
@@ -159,6 +162,7 @@ class Game : public Core
 				resize();
 		}
 
+		// spawn food in random position
 		void setFood()
 		{
 			food = Vec2f(rnd<float>::randomValue(GetScreenWidth() - bsx, 0), rnd<float>::randomValue(GetScreenHeight() - bsy, 0));
@@ -173,6 +177,7 @@ class Game : public Core
 		{
 			resetButton.draw();
 
+			// start new game if button is pressed
 			if(resetButton.checkHit(currentClick))
 				s.setSnake();
 		}
