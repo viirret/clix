@@ -1,11 +1,15 @@
 # clix
 Clix is object-oriented 2D framework for creating games.
+
 The goal of this project is to be able to create simple 2D games with little code needed.
+
 This project is not a wrapper library like [raylib-cpp](https://github.com/RobLoach/raylib-cpp), but a framework with bigger abstractions and more object-oriented style.
 
 # Dependencies
 Only dependency for this project is Raylib.
+
 You can get Raylib from [https://www.raylib.com](https://www.raylib.com)
+
 For Arch Linux
 ```
 sudo pacman -S raylib
@@ -20,6 +24,7 @@ and enter it's directory
 cd clix
 ```
 In order to see if everything works try to run the [snake game](https://github.com/viirret/clix/blob/main/examples/snake.cc) that is included in this project.
+
 
 Enter the commands
 ```
