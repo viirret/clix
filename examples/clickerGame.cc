@@ -1,48 +1,47 @@
 #include "../clix/Core.hh"
-#include "../clix/Player.hh"
 #include "../clix/Crosshair.hh"
-#include "../clix/Image.hh"
+#include "../clix/Player.hh"
+#include "../clix/Entity.hh"
 
-class Enemy : public Img
+class Enemy : public Entity
 {
 	public:
-		Enemy(std::string path, Vec2f position) : Img(path, position)
+		Enemy(std::string path, Vec2f position, Vec2f speed, Vec2f target) : Entity(path, position, speed, target)
 		{
-			type = Object::Type::enemy;
+			this->id = "enemy";
 		}
+
 };
 
-class Ammo : public Img
+class Ammo : public Entity
 {
 	public:
-		Ammo(std::string path, Vec2f position) : Img(path, position)
+		Ammo(std::string path, Vec2f position, Vec2f speed, Vec2f target) : Entity(path, position, speed, target)
 		{
-			type = Object::Type::ammo;
+			this->id = "ammo";
 		}
 };
 
 class clickerGame : public Core
 {
 	public:
-		clickerGame() :
-		 	Core(),			// start core
-			crosshair(),	// implement default crosshair
-			player(),		// add player
-			resetButton((Config::ASSETSPATH + "playagain.png").c_str(), Vec2f(1, 1)) // add resetbutton for game over
+		clickerGame() : 
+					Core(),
+				  	crosshair(),
+				  	player(),
+					resetButton((Config::ASSETSPATH + "playagain.png").c_str(), Vec2f(1, 1)) // add resetbutton for game over
 		{
-			resetGame();
-			spawnEnemyRandom("arch.png");
+			enemies.push_back(std::make_unique<Enemy>("arch.png", Vec2f(500, 500), Vec2f(1.1f, 0.1f), Vec2f(600, 600)));
+			enemies.push_back(std::make_unique<Ammo>("ammo.png", Vec2f(100, 100), Vec2f(1.f, 1.f), Vec2f(100, 100)));
+
+			printf("TYPE: %s\n", enemies[0]->id.c_str());
 		}
 
 		void update() override
 		{
 			Core::update();
-			updateGame();
-			draw();
-		}
+			crosshair.updateCrosshair(mousePosition);
 
-		void updateGame()
-		{
 			// setup for game over
 			if(player.gun.getCapacity() <= 0)
 				isGameOver = true;
@@ -50,8 +49,9 @@ class clickerGame : public Core
 			if(isGameOver)
 				gameOver();
 
-			// update crosshair
-			crosshair.updateCrosshair(mousePosition);
+			// render images
+			for(auto& obj : enemies)
+				obj->draw();
 
 			if(IsMouseButtonPressed(0))
 			{
@@ -64,52 +64,39 @@ class clickerGame : public Core
 				}
 			}
 
-			// GAMEPLAY LOGIC	
-			for(size_t i = 0; i < (size_t)objects.size(); i++)
+			for(auto& obj : enemies)
 			{
-				// if enemy is clicked
-				if(objects[i]->checkHit(currentClick))
+				obj->moveTowardsTarget();
+			}
+
+			for(auto& obj : enemies)
+			{
+				if(obj->checkHit(currentClick))
 				{
-					printf("object hit\n");
-					switch(objects[i]->type)
+					if(obj->id == "enemy")
 					{
-						case Object::Type::enemy: 
-							// update amount of killed enemies
-							killedEnemies++;
-							killedString = std::to_string(killedEnemies);
-							break;
-						case Object::Type::ammo:
-							player.gun.restock();
-							break;
-						case Object::Type::object: break;
+						killedEnemies++;
+						killedString = std::to_string(killedEnemies);
 					}
-					
-					// delete clicked element
-					objects.erase(objects.begin() + i);
-
-					// add new enemy 
-					spawnEnemyRandom("arch.png");
-
-					objects[0]->setRandomTarget();
+					if(obj->id == "ammo")
+					{
+						player.gun.restock();
+					}
 				}
 			}
+	
+			crosshair.draw();
 
-			// OBJECT MOVEMENT LOGIC
-			for(auto& obj : objects)
-			{
-				switch(obj->type)
-				{
-					case Object::Type::enemy: 
-						obj->moveTowardsTarget();
-						break;
+			// update ammo count
+			std::string ammoText = player.gun.capacity + " / " + player.gun.magazineSize;
+			DrawText(ammoText.c_str(), GetScreenWidth() - GetScreenWidth() / 4, GetScreenHeight() - GetScreenHeight() / 10, 30, BLUE);
 
-					case Object::Type::ammo: break;
-					case Object::Type::object: break;
-				}
-			}
+			// update killed enemies count
+			DrawText(killedString.c_str(), GetScreenWidth() / 20, GetScreenHeight() / 20, 30, BLACK);
+	
 		}
 
-		void gameOver() 
+		void gameOver()
 		{
 			// reset current click to (0, 0) to avoid instant hit
 			if(!currentHitChanged)
@@ -138,41 +125,24 @@ class clickerGame : public Core
 			player.gun.restock();
 		}
 
-		void draw()
-		{
-			crosshair.draw();
-
-			// render enemies
-			for(auto& obj : objects)
-				obj->draw(WHITE);
-
-			// update ammo count
-			std::string ammoText = player.gun.capacity + " / " + player.gun.magazineSize;
-			DrawText(ammoText.c_str(), GetScreenWidth() - GetScreenWidth() / 4, GetScreenHeight() - GetScreenHeight() / 10, 30, BLUE);
-
-			// update killed enemies count
-			DrawText(killedString.c_str(), GetScreenWidth() / 20, GetScreenHeight() / 20, 30, BLACK);
-		}
-
 	private:
 		// instances of other classes
 		Crosshair crosshair;
 		Player player;
-		Object resetButton;
+		Img resetButton;
 
 		// variables for gameplay
 		int killedEnemies;
 		std::string killedString;
 		bool isGameOver = false;
 		bool currentHitChanged = false;
+
+		std::vector<std::unique_ptr<Entity>> enemies;
 };
 
 int main(int argc, char** argv)
 {
-	clickerGame g;
-	g.start();
-
+	clickerGame c;
+	c.start();
 	return 0;
 }
-
-

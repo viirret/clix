@@ -29,12 +29,15 @@ void Core::update()
 {
 	events();
 	raylibDrawing();
+
+	// time controller	
+	currentTime = GetTime();
+	delta = (double)(currentTime / previousTime) / 1000.0;
+	previousTime = currentTime;
 }
 
 void Core::start()
 {
-	HideCursor();
-
 	while(!close)
 		update();
 }
@@ -49,16 +52,21 @@ void Core::events()
 	mousePosition = Vec2f(GetMousePosition().x, GetMousePosition().y);
 
 	// get vector2 on mouse position when clicked
-	if(IsMouseButtonPressed(0))
+	if(IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+	{
 		currentClick = mousePosition;
+		clickReset = 0;
+	}
+	clickReset += delta;
 
-	if(IsMouseButtonReleased(0))
-		currentClick = Vec2f(-1, -1);
+	// currentclick defaults to 0, 0 if no click
+	if(clickReset > 5)
+		currentClick = Vec2f();
 
-	if(IsWindowResized() && !IsWindowFullscreen())
+	if(GetScreenWidth() != Config::WINDOW_WIDTH || GetScreenHeight() != Config::WINDOW_HEIGHT)
 	{
 		Config::WINDOW_WIDTH = GetScreenWidth();
-		Config::WINDOW_WIDTH = GetScreenHeight();
+		Config::WINDOW_HEIGHT = GetScreenHeight();
 		screenResized = true;
 	}
 	else
@@ -78,7 +86,7 @@ void Core::spawnEnemyRandom(std::string texture)
 	
 	// we need textures size for random position
 	obj->setPosition(getRandomSpawn(obj->getTexture()));
-	obj->setType(Object::Type::enemy);
+	obj->setId("enemy");
 	images.push_back(std::move(obj));
 }
 

@@ -3,7 +3,7 @@
 int Config::WINDOW_WIDTH = 600;
 int Config::WINDOW_HEIGHT = 400;
 
-int Config::MASTER_VOLUME = 5;
+int Config::MASTER_VOLUME = 1;
 
 std::string Config::ASSETSPATH = "../assets/";
 

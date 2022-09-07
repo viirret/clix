@@ -6,8 +6,23 @@
 namespace Controls
 {
 	bool left();
+	bool leftOnce();
 	bool right();
-	bool jump();
+	bool rightOnce();
+	bool up();
+	bool upOnce();
+	bool down();
+	bool downOnce();
+	bool leftOnly();
+	bool leftOnlyOnce();
+	bool rightOnly();
+	bool rightOnlyOnce();
+	bool upOnly();
+	bool upOnlyOnce();
+	bool downOnly();
+	bool downOnlyOnce();
+	bool space();
+	bool spaceOnce();
 };
 
 #endif

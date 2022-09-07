@@ -52,7 +52,7 @@ class clickerGame2 : public Core
 			{
 				if(player.gun.getCapacity() > 0)
 				{
-					audio.playSound("mosin.wav");
+					audio.playSound("gunshow.mp3");
 
 					// update mag size
 					player.gun.fire();

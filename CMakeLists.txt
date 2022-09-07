@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(clix)
+project(x)
 
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD 17)
@@ -12,22 +12,20 @@ set(BUILD_GAMES    OFF CACHE BOOL "" FORCE) # don't build the supplied example g
 FetchContent_Declare(raylib GIT_REPOSITORY https://github.com/raysan5/raylib.git GIT_TAG master)
 FetchContent_MakeAvailable(raylib)
 
+# Adding clix
+include_directories(clix)
+FILE(GLOB clixSources clix/*.cc)
+add_library(clix ${clixSources})
 
-# TODO there has to be a smarter way to do this.
+# for other programs substitute .cc file down below like:
+# examples/clickerGame.cc
+# examples/tictactoe.cc
+# examples/hunter.cc
+# examples/snake.cc
+# examples/coinToss.cc
 
-# for other programs substitute, first .cc file
-# clix/clickerGame.cc
-# clix/clickerGame2.cc
-# clix/tictactoe.cc
-# clix/hunter.cc
+add_executable(${PROJECT_NAME} examples/snake.cc)
 
-add_executable(${PROJECT_NAME} examples/clickerGame2.cc clix/Image.cc clix/Core.cc clix/Ammo.cc clix/Gun.cc clix/Audio.cc clix/Player.cc clix/Object.cc clix/Controls.cc clix/Crosshair.cc clix/Config.cc)
-target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
+target_link_libraries(${PROJECT_NAME} PRIVATE clix PRIVATE raylib)
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-	message("You're on Mac OS !")
-elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	message("You're on Linux !")
-elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-	message("You're on Windows !")
-endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+

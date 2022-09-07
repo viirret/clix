@@ -6,10 +6,10 @@
 #include "Crosshair.hh"
 #include "Object.hh"
 #include "Global.hh"
-#include "Enemy.hh"
 #include "Audio.hh"
 #include "Image.hh"
 #include <memory>
+#include <utility>
 #include <cstdio>
 #include <vector>
 #include <string>
@@ -51,10 +51,16 @@ class Core
 
 		bool screenResized = false;
 
+		double currentTime = 0.0;
+		double delta = 0.0;
+
 	private:
 		// functions running in main loop
 		void events();
 		void raylibDrawing();
+
+		double previousTime = GetTime();
+		double clickReset = 0;
 };
 
 #endif
