@@ -109,7 +109,7 @@ class clickerGame : public Core
 			DrawText("clickerGame Over!", GetScreenWidth() / 3, GetScreenHeight() / 3, 40, BLACK);
 			resetButton.draw(WHITE);
 
-			// is resetbutton is clicked start a new game
+			// is reset button is clicked start a new game
 			if(resetButton.checkHit(currentClick))
 			{
 				currentHitChanged = false;

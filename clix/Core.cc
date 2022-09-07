@@ -27,6 +27,7 @@ Core::~Core()
 
 void Core::update()
 {
+	HideCursor(); // Little tweak added bat
 	events();
 	raylibDrawing();
 
@@ -52,7 +53,7 @@ void Core::events()
 	mousePosition = Vec2f(GetMousePosition().x, GetMousePosition().y);
 
 	// get vector2 on mouse position when clicked
-	if(IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+	if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 	{
 		currentClick = mousePosition;
 		clickReset = 0;
