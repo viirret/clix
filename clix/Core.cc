@@ -60,7 +60,7 @@ void Core::events()
 	}
 	clickReset += delta;
 
-	// currentclick defaults to 0, 0 if no click
+	// current click defaults to 0, 0 if no click
 	if(clickReset > 5)
 		currentClick = Vec2f();
 
