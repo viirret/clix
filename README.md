@@ -51,21 +51,21 @@ The minimal code required to make window looks like
 
 class A : public Core
 {
-	public:
-		A() : Core() {}
+    public:
+        A() : Core() {}
 		
-		void update() override
-		{
-			Core::update();
-		}
+        void update() override
+        {
+            Core::update();
+        }
 };
 
 int main()
 {
-	A a;
-	a.start();
+    A a;
+    a.start();
 	
-	return 0;
+    return 0;
 }
 ```
 
